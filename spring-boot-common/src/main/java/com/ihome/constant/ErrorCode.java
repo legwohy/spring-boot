@@ -1,5 +1,5 @@
 
-package com.xjx.constant;
+package com.ihome.constant;
 
 /**
  * 
@@ -19,7 +19,7 @@ public enum ErrorCode {
 	/**
 	 * 成功
 	 */
-	RISK_SUCESS("200", "操作成功 "),
+	RISK_SUCCESS("200", "操作成功 "),
 	/**
      * 成功
      */

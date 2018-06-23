@@ -1,9 +1,8 @@
 
-package com.xjx.param;
+package com.ihome.param;
 
 import java.io.Serializable;
-
-import static com.xjx.constant.ErrorCode.SUCESS;
+import static com.ihome.constant.ErrorCode.SUCESS;
 
 public class BaseResponse implements Serializable {
 

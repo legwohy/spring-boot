@@ -1,5 +1,5 @@
 
-package com.xjx.service;
+package com.ihome.service;
 
 import java.io.Serializable;
 

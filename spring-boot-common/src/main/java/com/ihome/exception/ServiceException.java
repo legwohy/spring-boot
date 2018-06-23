@@ -1,13 +1,12 @@
-package com.xjx.exception;
-
-import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.JsonProcessingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package com.ihome.exception;
 
 import com.alibaba.fastjson.JSON;
-import com.xjx.constant.ErrorCode;
-import com.xjx.param.BaseResponse;
+
+import com.ihome.constant.ErrorCode;
+import com.ihome.param.BaseResponse;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ServiceException extends RuntimeException {
 	
@@ -32,7 +31,6 @@ public class ServiceException extends RuntimeException {
 	/**
 	 * @param code
 	 * @param msg
-	 * @throws JsonProcessingException
 	 */
 	public ServiceException(String code, String msg) {
 		super(initErrorMessage(code, msg, null));
@@ -42,7 +40,6 @@ public class ServiceException extends RuntimeException {
 	 * @param code
 	 * @param msg
 	 * @param body
-	 * @throws JsonProcessingException
 	 */
 	public ServiceException(String code, String msg, Object body) {
 		super(initErrorMessage(code, msg, body));

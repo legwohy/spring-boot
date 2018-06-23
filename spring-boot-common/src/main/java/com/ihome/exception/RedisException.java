@@ -1,4 +1,4 @@
-package com.xjx.exception;
+package com.ihome.exception;
 
 public class RedisException extends RuntimeException {
 

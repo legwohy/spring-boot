@@ -1,5 +1,5 @@
 
-package com.xjx.mapper;
+package com.ihome.mapper;
 
 import java.io.Serializable;
 

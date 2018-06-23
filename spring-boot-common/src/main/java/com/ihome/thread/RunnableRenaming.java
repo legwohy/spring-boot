@@ -1,4 +1,4 @@
-package com.xjx.thread;
+package com.ihome.thread;
 
 /**
  * 线程命名类，用于对执行runnable的线程命名

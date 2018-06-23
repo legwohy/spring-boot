@@ -1,7 +1,7 @@
 package com.ihome.web;
 
 import com.ihome.entirty.UserFile;
-import com.ihome.FileUtilsBean;
+import com.ihome.util.FileUtilsBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

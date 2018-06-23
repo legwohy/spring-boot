@@ -1,19 +1,18 @@
 
-package com.xjx.service;
+package com.ihome.service;
 
-import static com.xjx.constant.ErrorCode.ERROR;
+import com.ihome.exception.ServiceException;
+import com.ihome.mapper.BaseMapper;
+import com.ihome.util.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Date;
+import com.ihome.util.UUidGenIdUtils;
+import static com.ihome.constant.ErrorCode.ERROR;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.xjx.exception.ServiceException;
-import com.xjx.mapper.BaseMapper;
-import com.xjx.utils.DateUtils;
-import com.xjx.utils.UUidGenIdUtil;
 
 public abstract class BaseServiceImpl<T, ID extends Serializable> implements BaseService<T, ID>
 {
@@ -21,21 +20,18 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements Bas
 
     private BaseMapper<T, ID> baseMapper;
 
-    // @Autowired
     public void setBaseMapper(BaseMapper<T, ID> baseMapper)
     {
         this.baseMapper = baseMapper;
     }
 
     @Override
-    public int deleteByPrimaryKey(ID id)
-    {
+    public int deleteByPrimaryKey(ID id) {
         return baseMapper.deleteByPrimaryKey(id);
     }
 
     @Override
-    public int insertSelective(T record)
-    {
+    public int insertSelective(T record) {
         insertModelInitial(record);
         return baseMapper.insertSelective(record);
     }
@@ -47,22 +43,19 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements Bas
     }
 
     @Override
-    public int updateByPrimaryKeySelective(T record)
-    {
+    public int updateByPrimaryKeySelective(T record) {
         updateModelInitial(record);
         return baseMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
-    public int updateByPrimaryKey(T record)
-    {
+    public int updateByPrimaryKey(T record) {
         updateModelInitial(record);
         return baseMapper.updateByPrimaryKey(record);
     }
 
     @Override
-    public int insert(T record)
-    {
+    public int insert(T record) {
         insertModelInitial(record);
         return baseMapper.insert(record);
     }
@@ -78,7 +71,7 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements Bas
             if (id == null && "java.lang.String".equals(getId.getReturnType().getName()))
             {
                 Method setId = clazz.getMethod("setId", getId.getReturnType());
-                setId.invoke(record, UUidGenIdUtil.genId32AndDate());
+                setId.invoke(record, UUidGenIdUtils.genId32AndDate());
             }
         }
         catch (Exception e)

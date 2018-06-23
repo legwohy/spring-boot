@@ -1,4 +1,4 @@
-package com.xjx;
+package com.ihome;
 
 /**
  * Hello world!

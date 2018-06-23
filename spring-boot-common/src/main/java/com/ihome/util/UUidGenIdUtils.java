@@ -1,14 +1,13 @@
 
-package com.xjx.utils;
+package com.ihome.util;
+
+import com.ihome.exception.ServiceException;
+import org.apache.commons.lang.RandomStringUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
-
-import org.apache.commons.lang.RandomStringUtils;
-
-import com.xjx.exception.ServiceException;
 
 /**
  * 自定义UUID生成ID 功能描述: TODO 增加描述代码功能
@@ -23,7 +22,7 @@ import com.xjx.exception.ServiceException;
  * @版本 TODO 填写版本
  * @修改历史 TODO 新建的时候留空
  */
-public class UUidGenIdUtil {
+public class UUidGenIdUtils {
 
 	/**
 	 * 所有数字加大小写英文字母
@@ -38,7 +37,7 @@ public class UUidGenIdUtil {
 	 */
 	public static final String NUMBER_CHAR = "0123456789";
 
-	private UUidGenIdUtil() {
+	private UUidGenIdUtils() {
 
 	}
 

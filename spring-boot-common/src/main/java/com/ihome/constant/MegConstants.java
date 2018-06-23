@@ -1,4 +1,4 @@
-package com.xjx.constant;
+package com.ihome.constant;
 
 /**
  * Created by xuehan on 2017/8/26.

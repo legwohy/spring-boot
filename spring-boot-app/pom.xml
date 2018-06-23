@@ -11,5 +11,14 @@
 
     <artifactId>spring-boot-app</artifactId>
 
+    <dependencies>
+        <!-- 必须引入公共项目-->
+        <dependency>
+            <groupId>com.ihome</groupId>
+            <artifactId>spring-boot-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 
 </project>
