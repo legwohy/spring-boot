@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring-boot-service</artifactId>
+    <artifactId>spring-boot-back</artifactId>
 
     <dependencies>
         <dependency>
@@ -18,5 +18,47 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <!-- 指定xml的位置 注意mybatis需要指定xml-->
+        <resources>
+            <resource>
+                <directory>src/main/resources/com/piggy/app/mapper</directory>
+                <includes>
+                    <include>*.xml</include>
+                </includes>
+
+                <!-- 打包的位置-->
+                <targetPath>./com/piggy/app/mapper</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*.xml</include>
+                    <include>*.yml</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <!-- 打包插件-->          <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.piggy.Application</mainClass>
+                    <executable>true</executable>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+        <finalName>piggy-basic-auth</finalName>
+    </build>
 
 </project>

@@ -8,7 +8,7 @@
     <artifactId>spring-boot</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>spring-boot-service</module>
+        <module>spring-boot-back</module>
         <module>spring-boot-common</module>
         <module>spring-boot-app</module>
     </modules>
@@ -29,6 +29,7 @@
         <commons-lang.version>2.6</commons-lang.version>
         <commons-lang3.version>3.4</commons-lang3.version>
         <commons-beanutils.version>1.9.2</commons-beanutils.version>
+        <commons-io.version>2.4</commons-io.version>
 
     </properties>
 
@@ -45,7 +46,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!-- 配置连接mysql数据库-->
-        <!-- MYSQL -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -148,11 +148,10 @@
         </dependency>
 
         <!--apache commons -->
-        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.4</version>
+            <version>${commons-io.version}</version>
         </dependency>
 
         <dependency>
