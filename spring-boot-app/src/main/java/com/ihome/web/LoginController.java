@@ -55,17 +55,18 @@ public class LoginController
 
            // 签名
            String privateKey = null;
-           JSONObject signature = new JSONObject();
+           String sign = null;
+           //JSONObject signature = new JSONObject();
            try
            {
                privateKey = RSAEncrypt.loadPrivateKeyByFile(TokenConstant.keyPath);
-               String sign = RSASignature.sign(encodeHeader.concat(".").concat(encodePayLoad),privateKey);
-               signature.put("signature",sign);
+               sign = RSASignature.sign(encodeHeader.concat(".").concat(encodePayLoad),privateKey);
+               //signature.put("signature",sign);
            } catch (Exception e)
            {
                e.printStackTrace();
            }
-           String encodeSignature = Base64.encodeBase64String(signature.toJSONString().getBytes());
+           String encodeSignature = Base64.encodeBase64String(sign.getBytes());
 
           return encodeHeader.concat(".")
                              .concat(encodePayLoad).concat(".")

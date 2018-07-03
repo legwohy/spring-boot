@@ -35,7 +35,7 @@ public class IdentifiedFilter implements Filter
         // 白名单
         String uri = request.getRequestURI();
         System.out.println("--------->白名单的地址:"+uri);
-        if("/api/img/upload".equals(uri)){
+        if("/api/user/login".equals(uri)){
 
             filterChain.doFilter(request,response);
             return;
@@ -65,13 +65,16 @@ public class IdentifiedFilter implements Filter
            String header = new String(Base64.decodeBase64(arr[0]));
            String signature = new String(Base64.decodeBase64(arr[2]));
            String publicKey = RSAEncrypt.loadPublicKeyByFile(TokenConstant.keyPath);
-           boolean flag = RSASignature.doCheck(header.concat(payLoad),signature,publicKey);
-           if(!flag){
-               write((HttpServletResponse) servletResponse);
+           boolean flag = RSASignature.doCheck(arr[0].concat(".").concat(arr[1]),signature,publicKey);
+           System.out.println("----->flag="+flag);
+           if(flag){
+               filterChain.doFilter(request,response);
+
                return;
            }
 
-           filterChain.doFilter(request,response);
+            write(response);
+
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -83,7 +86,7 @@ public class IdentifiedFilter implements Filter
         response.setHeader("Content-type","application/json;charset=utf-8");
         try
         {
-            response.getWriter().print("傻逼");
+            response.getOutputStream().print("sbbbbbbbbxxxxxxxyy");
         } catch (IOException e)
         {
             e.printStackTrace();
