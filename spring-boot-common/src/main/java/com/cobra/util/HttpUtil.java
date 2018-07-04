@@ -1,4 +1,4 @@
-package com.ihome.util;
+package com.cobra.util;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;

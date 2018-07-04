@@ -1,4 +1,4 @@
-package com.ihome.config;
+package com.cobra.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

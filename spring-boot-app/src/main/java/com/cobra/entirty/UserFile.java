@@ -1,4 +1,4 @@
-package com.ihome.entirty;
+package com.cobra.entirty;
 
 import lombok.Data;
 

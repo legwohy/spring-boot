@@ -1,8 +1,8 @@
-package com.ihome.service;
+package com.cobra.service;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.ihome.util.HttpUtil;
+import com.cobra.util.HttpUtil;
 import okhttp3.*;
 import org.junit.Test;
 import org.slf4j.Logger;

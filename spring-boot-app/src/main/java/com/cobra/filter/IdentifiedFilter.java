@@ -1,28 +1,42 @@
-package com.ihome.filter;
+package com.cobra.filter;
 
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.ihome.constants.TokenConstant;
-import com.ihome.util.rsa.RSAEncrypt;
-import com.ihome.util.rsa.RSASignature;
+import com.cobra.constants.TokenConstant;
+import com.cobra.util.rsa.RSAEncrypt;
+import com.cobra.util.rsa.RSASignature;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.*;
 
+@Component
 @Order(1)
 @WebFilter(urlPatterns = "/api/*")
 public class IdentifiedFilter implements Filter
 {
 
+    @Value("${strWhite}") private String strWhite;
+    List<String> whitelist = new ArrayList<>();
     @Override
     public void init(FilterConfig filterConfig) throws ServletException
     {
+        String[] whites = strWhite.split(";");
+        for (String white:whites){
+            if(!StringUtils.isEmpty(white)){
+                whitelist.add(white);
+            }
+
+        }
 
     }
 
@@ -33,13 +47,11 @@ public class IdentifiedFilter implements Filter
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         // 白名单
-        String uri = request.getRequestURI();
-        System.out.println("--------->白名单的地址:"+uri);
-        if("/api/user/login".equals(uri)){
-
+        if(whitelist.contains(request.getRequestURI())){
             filterChain.doFilter(request,response);
             return;
         }
+
 
         String token = request.getHeader(TokenConstant.token);
         // 解析
@@ -62,7 +74,6 @@ public class IdentifiedFilter implements Filter
         // 验签
         try
         {
-           String header = new String(Base64.decodeBase64(arr[0]));
            String signature = new String(Base64.decodeBase64(arr[2]));
            String publicKey = RSAEncrypt.loadPublicKeyByFile(TokenConstant.keyPath);
            boolean flag = RSASignature.doCheck(arr[0].concat(".").concat(arr[1]),signature,publicKey);
@@ -86,7 +97,10 @@ public class IdentifiedFilter implements Filter
         response.setHeader("Content-type","application/json;charset=utf-8");
         try
         {
-            response.getOutputStream().print("sbbbbbbbbxxxxxxxyy");
+            Map<String,Object> map = new HashMap<>();
+            map.put("code",400);
+            map.put("msg","傻逼");
+            response.getOutputStream().write(JSON.toJSONString(map).getBytes("UTF-8"));
         } catch (IOException e)
         {
             e.printStackTrace();

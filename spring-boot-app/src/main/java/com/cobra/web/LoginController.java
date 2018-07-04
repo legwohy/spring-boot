@@ -1,11 +1,15 @@
-package com.ihome.web;
+package com.cobra.web;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ihome.constants.TokenConstant;
-import com.ihome.entirty.UserInfo;
-import com.ihome.util.DateUtils;
-import com.ihome.util.rsa.RSAEncrypt;
-import com.ihome.util.rsa.RSASignature;
+import com.cobra.constants.CobraCode;
+import com.cobra.entirty.UserInfo;
+import com.cobra.constants.TokenConstant;
+import com.cobra.exception.CobraException;
+import com.cobra.param.BaseResponse;
+import com.cobra.util.DateUtils;
+import com.cobra.util.ResponseUtil;
+import com.cobra.util.rsa.RSAEncrypt;
+import com.cobra.util.rsa.RSASignature;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.binary.Base64;
@@ -27,17 +31,20 @@ public class LoginController
 
     @ApiOperation(value = "登陆",notes = "登陆")
     @PostMapping("/login")
-    public String login(@RequestBody UserInfo userInfo){
-        logger.info("---------------------->有人登陆了");
+    public BaseResponse login(@RequestBody UserInfo userInfo){
+
        if(StringUtils.isEmpty(userInfo.getUserName())) {
-           return "用户名不能为空";
+           throw new CobraException(CobraCode.MISSING_REQUIED_PARAM,"userName");
        }
 
        if(StringUtils.isEmpty(userInfo.getPassword())){
-           return "密码不能为空";
+           throw new CobraException(CobraCode.MISSING_REQUIED_PARAM,"userName");
        }
 
-       if("jack".equals(userInfo.getUserName()) && "rose".equals(userInfo.getPassword())){
+       if(!"jack".equals(userInfo.getUserName()) && !"rose".equals(userInfo.getPassword())){
+           throw new CobraException(CobraCode.WRONG_NAME_PASSWORD,CobraCode.WRONG_NAME_PASSWORD.getMsg());
+       }
+
            // 生成token
            JSONObject header = new JSONObject();
            header.put("alg","RSA");
@@ -68,12 +75,11 @@ public class LoginController
            }
            String encodeSignature = Base64.encodeBase64String(sign.getBytes());
 
-          return encodeHeader.concat(".")
-                             .concat(encodePayLoad).concat(".")
-                             .concat(encodeSignature);
+           String token = encodeHeader.concat(".").concat(encodePayLoad).concat(".").concat(encodeSignature);
 
-       }
-       return null;
+           return ResponseUtil.success(token);
+
+
 
 
     }
