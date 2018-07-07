@@ -33,3 +33,4 @@ hs_err_pid*
 /cobra-app/src/test/
 /cobra-app/target/
 /cobra-common/src/test/
+/cobra-back/cobra-back.iml

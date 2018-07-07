@@ -14,13 +14,13 @@ import java.util.List;
 public class SysConfigServiceImpl implements SysConfigService{
     @Autowired private SysConfigMapper sysConfigMapper;
 
-    @Cacheable(value = "sysConfigs")
+
     public List<SysConfig> select(SysConfig sysConfig){
         return sysConfigMapper.select(sysConfig);
     }
 
 
-
+    @Cacheable(value = "sysConfigs")
     public SysConfig selectByPrimaryKey(SysConfig sysConfig){
         return sysConfigMapper.selectByPrimaryKey(sysConfig);
     }
