@@ -1,0 +1,56 @@
+#url 服务器
+server:
+    tomcat:
+        max-threads: 1000
+        min-spare-threads: 30
+    port: 8090
+
+
+#spring
+spring:
+  #thymeleaf模板
+  thymeleaf:
+    #cache: false
+    prefix: classpath:/com.ihome.web.templates/
+    suffix: .html
+    encoding: UTF-8
+    content-type: text/html
+    mode: HTML5
+
+  #druid数据源
+  datasource:
+    name: druidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    #url: jdbc:mysql://116.62.146.185:3306/hxjt_test_01?useUnicode=true&characterEncoding=UTF-8
+    #username: root
+    #password: huoxinjihuatest
+    url: jdbc:mysql://localhost:3306/shiro?useUnicode=true&CharacterEncoding=UTF-8&useSSL=false
+    username: root
+    password: 123
+
+
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  mvc:
+    view:
+      prefix: /WEB-INF/
+      suffix: .jsp
+strWhite: /api/user/login;
+# mybaits 配置文件
+
+
+
+
+

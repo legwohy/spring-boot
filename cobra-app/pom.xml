@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>cobra</artifactId>
+        <groupId>com.ihome</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <!-- 必须加此路径方可使用 spring-boot-common-->
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>cobra-app</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- 必须引入公共项目-->
+        <dependency>
+            <groupId>com.ihome</groupId>
+            <artifactId>cobra-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+
+</project>

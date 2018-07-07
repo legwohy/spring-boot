@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ihome</groupId>
-    <artifactId>spring-boot</artifactId>
+    <artifactId>cobra</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>spring-boot-back</module>
-        <module>spring-boot-common</module>
-        <module>spring-boot-app</module>
+        <module>cobra-back</module>
+        <module>cobra-common</module>
+        <module>cobra-app</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -46,6 +46,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!-- cache缓存 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
         <!-- 配置连接mysql数据库-->
         <dependency>
             <groupId>mysql</groupId>
