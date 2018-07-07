@@ -34,11 +34,11 @@ public class LoginController
     public BaseResponse login(@RequestBody UserInfo userInfo){
 
        if(StringUtils.isEmpty(userInfo.getUserName())) {
-           throw new CobraException(CobraCode.MISSING_REQUIED_PARAM,"userName");
+           throw new CobraException(CobraCode.MISSING_REQUIRED_PARAM,"userName");
        }
 
        if(StringUtils.isEmpty(userInfo.getPassword())){
-           throw new CobraException(CobraCode.MISSING_REQUIED_PARAM,"userName");
+           throw new CobraException(CobraCode.MISSING_REQUIRED_PARAM,"userName");
        }
 
        if(!"jack".equals(userInfo.getUserName()) && !"rose".equals(userInfo.getPassword())){
