@@ -1,13 +1,17 @@
 package com.cobra.runner;
 
+import com.cobra.service.UserInfoFromService;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class IitialzingService implements InitializingBean {
+    @Autowired private UserInfoFromService userInfoFromService;
+
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("初始化bean 可以使用依赖注入");
+        System.out.println("初始化bean 可以使用依赖注入:"+userInfoFromService.selectByPrimaryKey(1).getRealName());
     }
 }
