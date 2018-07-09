@@ -1,15 +1,12 @@
-package com.ihome.runner;
+package com.cobra.runner;
 
-import com.cobra.constants.BackConfigParam;
-import com.ihome.constant.BackConfig;
-import com.ihome.pojo.SysConfig;
-import com.ihome.service.SysConfigService;
-import org.springframework.beans.factory.InitializingBean;
+import com.cobra.constant.BackConfig;
+import com.cobra.pojo.SysConfig;
+import com.cobra.service.SysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
 
 

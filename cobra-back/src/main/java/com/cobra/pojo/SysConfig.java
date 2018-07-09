@@ -1,4 +1,4 @@
-package com.ihome.pojo;
+package com.cobra.pojo;
 
 import lombok.Data;
 

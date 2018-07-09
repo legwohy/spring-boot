@@ -1,7 +1,7 @@
-package com.ihome.constant;
+package com.cobra.constant;
 
 
-import com.ihome.pojo.SysConfig;
+import com.cobra.pojo.SysConfig;
 
 import java.util.List;
 

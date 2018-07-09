@@ -1,7 +1,7 @@
-package com.ihome.service;
+package com.cobra.service;
 
 
-import com.ihome.pojo.SysConfig;
+import com.cobra.pojo.SysConfig;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
-package com.ihome.service.impl;
+package com.cobra.service.impl;
 
 
-import com.ihome.dao.SysConfigMapper;
-import com.ihome.pojo.SysConfig;
-import com.ihome.service.SysConfigService;
+import com.cobra.dao.SysConfigMapper;
+import com.cobra.pojo.SysConfig;
+import com.cobra.service.SysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

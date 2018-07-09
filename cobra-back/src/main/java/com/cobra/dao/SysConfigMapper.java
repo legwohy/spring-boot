@@ -1,7 +1,7 @@
-package com.ihome.dao;
+package com.cobra.dao;
 
 import com.cobra.util.MyMapper;
-import com.ihome.pojo.SysConfig;
+import com.cobra.pojo.SysConfig;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
