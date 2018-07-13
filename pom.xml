@@ -11,6 +11,7 @@
         <module>cobra-back</module>
         <module>cobra-common</module>
         <module>cobra-app</module>
+        <module>cobra-learning</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -31,6 +32,7 @@
         <commons-beanutils.version>1.9.2</commons-beanutils.version>
         <commons-io.version>2.4</commons-io.version>
         <lombok.version>1.16.20</lombok.version>
+        <oss.version>2.6.1</oss.version>
 
     </properties>
 
@@ -206,6 +208,13 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- 阿里云OSS对象存储SDK -->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>${oss.version}</version>
         </dependency>
 
 
