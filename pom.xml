@@ -223,13 +223,23 @@
 
     <build>
         <plugins>
-            <!-- java编译版本设置-->
+            <!-- maven 打包编译插件 [mvn install ]编译需要用到此插件-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <!-- 一般而言，target与source是保持一致的，但是，有时候为了让程序能在其他版本的jdk中运行(对于低版本目标jdk，
+                    源代码中需要没有使用低版本jdk中不支持的语法)，会存在target不同于source的情况 -->
+                    <source>1.8</source>    <!-- 源码使用的开发版本-->
+                    <target>1.8</target>    <!-- 需要生成目标class文件的版本-->
+
+                    <encoding>UTF-8</encoding>
+                    <debug>true</debug>     <!-- 打印日志-->
+                    <!-- 这个选项用来传递编译器自身不包含但是却支持的参数选项 -->
+                    <compilerArguments>
+                        <verbose />
+                        <bootclasspath>${env.JAVA_HOME}/jre/lib/rt.jar${path.separator}${env.JAVA_HOME}/jre/lib/jce.jar</bootclasspath>
+                    </compilerArguments>
                 </configuration>
             </plugin>
 
