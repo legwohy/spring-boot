@@ -1,0 +1,44 @@
+##############################################
+##################  tomcat  #################
+##############################################
+server:
+    tomcat:
+        max-threads: 1000
+        min-spare-threads: 30
+    port: 8092
+
+
+##############################################
+##################  spring  #################
+##############################################
+spring:
+
+  #druid数据源
+  datasource:
+    name: druidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://116.62.146.185:3306/hxjt_test_01?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: huoxinjihuatest
+
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+
+
+
+
+
+
+
