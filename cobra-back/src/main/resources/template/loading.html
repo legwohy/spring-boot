@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>loading</title>
+  <link rel="stylesheet" type="text/css" href="../static/css/loading.css"/>
+</head>
+<body>
+  <!-- loading -->
+   <!-- 全屏遮罩层 -->
+  <div id="loading" class="spark-loading-mask is-fullscreen is-show" >
+      <div class="spark-loading-spinner">
+        <svg viewBox="25 25 50 50" class="circular">
+          <circle cx="50" cy="50" r="20" fill="none" class="path"></circle>
+        </svg>
+        <div class="spark-loading-text">加载中</div>
+      </div>
+    </div>
+<h1>
+
+  <a href="javascript:void(0)" onclick="loading()">详情</a>
+</h1>
+
+</body>
+  <script type="text/javascript" src="../static/js/jquery-1.7.2.js"></script>
+  <script th:inline="javascript">
+      function loading() {
+          $("#loading").show();
+          window.location.href = "www.baidu.com";
+
+    }
+
+    
+    $(function () {
+        $("#loading").hide();
+    })
+  </script>
+</html>

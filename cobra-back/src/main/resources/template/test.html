@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<a href="https://www.baidu.com/s?word=翠花" id="test">
+    百度翠花儿
+</a>
+
+</body>
+
+<script type="text/javascript" src="../static/js/jquery-1.7.2.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#test").click(function () {
+            alert("测试----------->")
+        });
+    })
+
+    $(document).ready(function(){
+        $.extend({
+            show:function(){
+                alert("ready");
+            }
+        });
+        setInterval("show()",3000);
+    });
+</script>
+
+</html>
