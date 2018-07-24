@@ -1,4 +1,4 @@
-package com.cobra.runner;
+package com.cobra.init;
 
 import com.cobra.service.UserInfoFromService;
 import org.springframework.beans.factory.InitializingBean;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class IitialzingService implements InitializingBean {
+public class InitialzingService implements InitializingBean {
     @Autowired private UserInfoFromService userInfoFromService;
 
     @Override

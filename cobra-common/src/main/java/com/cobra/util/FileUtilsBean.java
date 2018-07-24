@@ -133,7 +133,7 @@ public class FileUtilsBean {
         File zipFile = null;
         ZipOutputStream zipOut = null;
         File localFile = null;
-        String rootPath = getRootPath();
+        String rootPath = com.cobra.util.FileUtils.getRootPath();
         String localFileName = FILEPATH +"/IMG"+  Uploader.getQuickPathnameNew(suffix);// 带后缀的全
 
         try {
@@ -170,31 +170,6 @@ public class FileUtilsBean {
 
         return null;
     }
-
-
-    /**
-     * 获取当前项目根目录 
-     * @author Administrator
-     * @date 2018年3月22日
-     * @return
-     */
-    public String getRootPath() {
-        String classPath = FileUtilsBean.class.getClassLoader().getResource("").getPath();
-        String rootPath = "";
-        //windows下
-        if ("\\".equals(File.separator))
-        {
-            rootPath = classPath.replace("/", "\\");
-        }
-        //linux下
-        if ("/".equals(File.separator))
-        {
-            rootPath = classPath.replace("\\", "/");
-        }
-        return rootPath;
-    }
-
-
 
 
 

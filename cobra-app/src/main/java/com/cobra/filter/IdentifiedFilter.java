@@ -4,6 +4,7 @@ package com.cobra.filter;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.cobra.constants.TokenConstant;
+import com.cobra.util.FileUtils;
 import com.cobra.util.rsa.RSAEncrypt;
 import com.cobra.util.rsa.RSASignature;
 import org.apache.commons.codec.binary.Base64;
@@ -75,7 +76,7 @@ public class IdentifiedFilter implements Filter
         try
         {
            String signature = new String(Base64.decodeBase64(arr[2]));
-           String publicKey = RSAEncrypt.loadPublicKeyByFile(TokenConstant.keyPath);
+           String publicKey = RSAEncrypt.loadPublicKeyByFile(FileUtils.getRootPath()+"/keys");
            boolean flag = RSASignature.doCheck(arr[0].concat(".").concat(arr[1]),signature,publicKey);
            System.out.println("----->flag="+flag);
            if(flag){

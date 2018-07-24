@@ -7,6 +7,8 @@ import com.cobra.constants.TokenConstant;
 import com.cobra.exception.CobraException;
 import com.cobra.param.BaseResponse;
 import com.cobra.util.DateUtils;
+import com.cobra.util.FileUtils;
+import com.cobra.util.FileUtilsBean;
 import com.cobra.util.ResponseUtil;
 import com.cobra.util.rsa.RSAEncrypt;
 import com.cobra.util.rsa.RSASignature;
@@ -16,6 +18,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -66,7 +69,7 @@ public class LoginController
            //JSONObject signature = new JSONObject();
            try
            {
-               privateKey = RSAEncrypt.loadPrivateKeyByFile(TokenConstant.keyPath);
+               privateKey = RSAEncrypt.loadPrivateKeyByFile(FileUtils.getRootPath()+"/keys");
                sign = RSASignature.sign(encodeHeader.concat(".").concat(encodePayLoad),privateKey);
                //signature.put("signature",sign);
            } catch (Exception e)

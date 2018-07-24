@@ -1,4 +1,4 @@
-package com.cobra.runner;
+package com.cobra.init;
 
 import com.cobra.constant.BackConfig;
 import com.cobra.pojo.SysConfig;
