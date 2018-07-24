@@ -2,7 +2,7 @@ package com.cobra.config;
 
 
 import com.cobra.iterceptor.AdminInterceptor;
-import com.cobra.iterceptor.SysInterceptor;
+import com.cobra.iterceptor.LogInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -19,7 +19,7 @@ import java.util.List;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer{
     @Autowired private AdminInterceptor adminInterceptor;
-    @Autowired private SysInterceptor sysInterceptor;
+    @Autowired private LogInterceptor logInterceptor;
     /**
      * 注册拦截器
      * @param registry
@@ -29,7 +29,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
         registry.addInterceptor(adminInterceptor)
                 .addPathPatterns("/sysConfig/*");
 
-        registry.addInterceptor(sysInterceptor)
+        registry.addInterceptor(logInterceptor)
                 .addPathPatterns("/sysCache/*");
 
     }
