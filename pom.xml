@@ -33,6 +33,7 @@
         <commons-io.version>2.4</commons-io.version>
         <lombok.version>1.16.20</lombok.version>
         <oss.version>2.6.1</oss.version>
+        <aspectj.version>1.8.5</aspectj.version>
 
     </properties>
 
@@ -215,6 +216,12 @@
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>${oss.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
         </dependency>
 
 
