@@ -23,7 +23,7 @@ public class LogInterceptor implements HandlerInterceptor{
 
         }
 
-        return false;
+        return true;
     }
 
     @Override

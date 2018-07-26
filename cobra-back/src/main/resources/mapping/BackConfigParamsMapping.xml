@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cobra.dao.BackConfigParamsMapper">
+  <resultMap id="BaseResultMap" type="com.cobra.pojo.BackConfigParams">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sys_name" jdbcType="VARCHAR" property="sysName" />
+    <result column="sys_value" jdbcType="VARCHAR" property="sysValue" />
+    <result column="sys_key" jdbcType="VARCHAR" property="sysKey" />
+    <result column="sys_type" jdbcType="VARCHAR" property="sysType" />
+    <result column="input_type" jdbcType="CHAR" property="inputType" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="limit_code" jdbcType="VARCHAR" property="limitCode" />
+    <result column="sort_field" jdbcType="VARCHAR" property="sortField" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, sys_name, sys_value, sys_key, sys_type, input_type, remark, limit_code, sort_field
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from back_config_params
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from back_config_params
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.piggy.app.domain.BackConfigParams">
+    insert into back_config_params (id, sys_name, sys_value,
+      sys_key, sys_type, input_type,
+      remark, limit_code, sort_field,
+      sys_value_big)
+    values (#{id,jdbcType=INTEGER}, #{sysName,jdbcType=VARCHAR}, #{sysValue,jdbcType=VARCHAR},
+      #{sysKey,jdbcType=VARCHAR}, #{sysType,jdbcType=VARCHAR}, #{inputType,jdbcType=CHAR},
+      #{remark,jdbcType=VARCHAR}, #{limitCode,jdbcType=VARCHAR}, #{sortField,jdbcType=VARCHAR},
+      #{sysValueBig,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.piggy.app.domain.BackConfigParams">
+    insert into back_config_params
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sysName != null">
+        sys_name,
+      </if>
+      <if test="sysValue != null">
+        sys_value,
+      </if>
+      <if test="sysKey != null">
+        sys_key,
+      </if>
+      <if test="sysType != null">
+        sys_type,
+      </if>
+      <if test="inputType != null">
+        input_type,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="limitCode != null">
+        limit_code,
+      </if>
+      <if test="sortField != null">
+        sort_field,
+      </if>
+      <if test="sysValueBig != null">
+        sys_value_big,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sysName != null">
+        #{sysName,jdbcType=VARCHAR},
+      </if>
+      <if test="sysValue != null">
+        #{sysValue,jdbcType=VARCHAR},
+      </if>
+      <if test="sysKey != null">
+        #{sysKey,jdbcType=VARCHAR},
+      </if>
+      <if test="sysType != null">
+        #{sysType,jdbcType=VARCHAR},
+      </if>
+      <if test="inputType != null">
+        #{inputType,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="limitCode != null">
+        #{limitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sortField != null">
+        #{sortField,jdbcType=VARCHAR},
+      </if>
+      <if test="sysValueBig != null">
+        #{sysValueBig,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.piggy.app.domain.BackConfigParams">
+    update back_config_params
+    <set>
+      <if test="sysName != null">
+        sys_name = #{sysName,jdbcType=VARCHAR},
+      </if>
+      <if test="sysValue != null">
+        sys_value = #{sysValue,jdbcType=VARCHAR},
+      </if>
+      <if test="sysKey != null">
+        sys_key = #{sysKey,jdbcType=VARCHAR},
+      </if>
+      <if test="sysType != null">
+        sys_type = #{sysType,jdbcType=VARCHAR},
+      </if>
+      <if test="inputType != null">
+        input_type = #{inputType,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="limitCode != null">
+        limit_code = #{limitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sortField != null">
+        sort_field = #{sortField,jdbcType=VARCHAR},
+      </if>
+      <if test="sysValueBig != null">
+        sys_value_big = #{sysValueBig,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <update id="updateByPrimaryKey" parameterType="com.piggy.app.domain.BackConfigParams">
+    update back_config_params
+    set sys_name = #{sysName,jdbcType=VARCHAR},
+      sys_value = #{sysValue,jdbcType=VARCHAR},
+      sys_key = #{sysKey,jdbcType=VARCHAR},
+      sys_type = #{sysType,jdbcType=VARCHAR},
+      input_type = #{inputType,jdbcType=CHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      limit_code = #{limitCode,jdbcType=VARCHAR},
+      sort_field = #{sortField,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,10 +1,10 @@
 package com.cobra.constant;
 
 
-import com.cobra.pojo.SysConfig;
+import com.cobra.pojo.BackConfigParams;
 
 import java.util.List;
 
 public class BackConfig {
-    public static List<SysConfig> sysConfigList;
+    public static List<BackConfigParams> sysConfigList;
 }

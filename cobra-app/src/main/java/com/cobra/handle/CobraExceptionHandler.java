@@ -17,6 +17,16 @@ public class CobraExceptionHandler
 
     @ExceptionHandler(CobraException.class)
     @ResponseBody
+    public BaseResponse handelCobraException(CobraException ce)
+    {
+
+        logger.info("--------->拦截到异常");
+        return ResponseUtil.error(ce.getCode(),ce.getMessage());
+
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
     public BaseResponse handelException(CobraException ce)
     {
 
