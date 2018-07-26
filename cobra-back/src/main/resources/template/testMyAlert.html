@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+        <button type="submit">提交</button>
+</body>
+
+<script type="text/javascript" src="../static/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="../static/js/myAlert.js"></script>
+<script type="text/javascript">
+    $("button").click(function(){
+        myAlert("是否跳转到百度页面?",function(f){
+            if(f){
+                return;
+
+            }
+            window.open("http://www.baidu.com");
+        },false);
+    })
+</script>
+</html>
