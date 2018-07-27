@@ -34,6 +34,7 @@
         <lombok.version>1.16.20</lombok.version>
         <oss.version>2.6.1</oss.version>
         <aspectj.version>1.8.5</aspectj.version>
+        <slf4j.version>1.7.25</slf4j.version>
 
     </properties>
 
@@ -224,6 +225,11 @@
             <version>${aspectj.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
 
 
     </dependencies>

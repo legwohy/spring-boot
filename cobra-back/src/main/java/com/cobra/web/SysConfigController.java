@@ -19,7 +19,11 @@ public class SysConfigController {
     @Autowired private BackConfigParamsService backConfigParamsService;
     @GetMapping(value = "/get")
     public String get(){
+        log.info("----------->info");
         BackConfig.sysConfigList = backConfigParamsService.select(new BackConfigParams());
+        log.debug("----------->debug");
+        log.trace("----------->trace");
+        log.error("----------->error");
         return Arrays.toString(BackConfig.sysConfigList.toArray());
     }
 }

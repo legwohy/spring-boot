@@ -44,11 +44,12 @@ spring:
     testOnReturn: false
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
-  mvc:
-    view:
-      prefix: /WEB-INF/
-      suffix: .jsp
-
+########################################################
+### logback 配置
+########################################################
+logging:
+  level: debug
+  config: classpath:logback.xml
 
 
 

@@ -35,7 +35,12 @@ spring:
     testOnReturn: false
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
-
+########################################################
+### logback 配置
+########################################################
+logging:
+  level: debug
+  config: classpath:logback.xml
 
 
 

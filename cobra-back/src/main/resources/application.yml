@@ -14,13 +14,7 @@ strWhite: /api/user/login;
 mybatis:
   mapper-locations: classpath:mapping/*.xml
 
-##############################################
-##################  log  #################
-##############################################
-logging:
-  file: classpath:logs/spring-boot-logging.logs
-  level:
-    root: debug
+
 
 
 
