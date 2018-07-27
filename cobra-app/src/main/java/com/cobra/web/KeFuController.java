@@ -1,10 +1,13 @@
 package com.cobra.web;
 
+import com.cobra.constants.QiyuConstant;
 import com.cobra.constants.TokenConstant;
+import com.cobra.dto.QiyuMessageDto;
 import com.cobra.param.BaseResponse;
 import com.cobra.util.*;
 import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,14 +42,30 @@ public class KeFuController
 
          *
          */
-        String md5 = MD5.md5(content);
         long time = DateUtils.getUTCTime();
-        String url = "https://qiyukf.com/openapi/event/applyStaff?"
-                .concat("appKey="+TokenConstant.QIYU_APP_KEY)
-                .concat("&time="+ time).concat("&checksum="+ QiyuPushCheckSum.encode(TokenConstant.QIYU_APP_SECRET,md5,time));
+        String url = QiyuConstant.URL_APPLY_STAFF
+                .concat("appKey="+QiyuConstant.QIYU_APP_KEY)
+                .concat("&time="+ time).concat("&checksum="+ QiyuPushCheckSum.encode(QiyuConstant.QIYU_APP_SECRET, MD5.md5(content),time));
         String rs = OkHttpUtil.post(url,content);
 
 
         return ResponseUtil.success(rs);
+    }
+
+
+    @RequestMapping("/sendMessage")
+    public BaseResponse sendMessage(@RequestBody QiyuMessageDto qiyuMessageDto){
+
+      String content = qiyuMessageDto.toString();
+      long time = DateUtils.getUTCTime();
+
+        String url = QiyuConstant.URL_SEND_MESSAGE
+                .concat("appKey="+ QiyuConstant.QIYU_APP_KEY)
+                .concat("&time="+ time)
+                .concat("&checksum="+ QiyuPushCheckSum.encode(QiyuConstant.QIYU_APP_SECRET, MD5.md5(content),time));
+        String rs = OkHttpUtil.post(url,content);
+
+        return ResponseUtil.success(rs);
+
     }
 }
