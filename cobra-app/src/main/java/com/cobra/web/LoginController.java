@@ -59,7 +59,7 @@ public class LoginController
            payLoad.put("iss","test_app");
            payLoad.put("aud","test_api");
            payLoad.put("claim","purpose");
-           payLoad.put("exp", DateUtils.addMinute(new Date(),1).getTime()+"");
+           payLoad.put("exp", DateUtils.addMinute(new Date(),30).getTime()+"");
 
            String encodePayLoad = Base64.encodeBase64String(payLoad.toJSONString().getBytes());
 
