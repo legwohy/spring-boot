@@ -39,7 +39,7 @@ spring:
 ### logback 配置
 ########################################################
 logging:
-  level: debug
+  level: error
   config: classpath:logback.xml
 
 

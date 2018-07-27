@@ -4,6 +4,7 @@ import com.cobra.constants.BackConfigParam;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cache.annotation.EnableCaching;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.Map;
  */
 @SpringBootApplication //必须标注该注解才能扫描程序里面的注解组件
 @EnableCaching // 支持缓存
+@ServletComponentScan // 支持@WebFilter注解 代替写注册bean
 public class Application implements CommandLineRunner{
 
     public static void main(String[] args){

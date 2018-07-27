@@ -41,7 +41,7 @@ public class LoginController
        }
 
        if(StringUtils.isEmpty(userInfo.getPassword())){
-           throw new CobraException(CobraCode.MISSING_REQUIRED_PARAM,"userName");
+           throw new CobraException(CobraCode.MISSING_REQUIRED_PARAM,"password");
        }
 
        if(!"jack".equals(userInfo.getUserName()) && !"rose".equals(userInfo.getPassword())){

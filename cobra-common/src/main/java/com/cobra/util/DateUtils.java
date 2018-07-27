@@ -251,4 +251,13 @@ public class DateUtils
         calendar.add(Calendar.MINUTE, minute);
         return calendar.getTime();
     }
+
+    /**
+     * 返回的就是UTC时间
+     */
+    public static long getUTCTime(){
+        Calendar cal = Calendar.getInstance();
+        return cal.getTimeInMillis() / 1000;
+    }
+
 }

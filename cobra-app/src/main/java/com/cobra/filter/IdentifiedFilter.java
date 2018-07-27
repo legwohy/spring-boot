@@ -7,6 +7,7 @@ import com.cobra.constants.TokenConstant;
 import com.cobra.util.FileUtils;
 import com.cobra.util.rsa.RSAEncrypt;
 import com.cobra.util.rsa.RSASignature;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,9 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
+@Slf4j
 @Component
 @Order(1)
-@WebFilter(urlPatterns = "/api/*")
+@WebFilter(urlPatterns = "/api/*") // 没有拦截到kefu/distribute
 public class IdentifiedFilter implements Filter
 {
 
@@ -60,6 +62,10 @@ public class IdentifiedFilter implements Filter
             token = request.getParameter(TokenConstant.token);
         }
 
+        if(StringUtils.isEmpty(token)){
+            write(response,"token不能为空");
+            return;
+        }
 
         String[] arr = token.split("\\.");
 
@@ -68,7 +74,7 @@ public class IdentifiedFilter implements Filter
 
         long expiredTime = jsonPayLoad.getString("exp") == null?0:Long.parseLong(jsonPayLoad.getString("exp"));
         if(System.currentTimeMillis() > expiredTime){
-            write(response);
+            write(response,"token失效，请重新认证");
             return;
         }
 
@@ -78,14 +84,13 @@ public class IdentifiedFilter implements Filter
            String signature = new String(Base64.decodeBase64(arr[2]));
            String publicKey = RSAEncrypt.loadPublicKeyByFile(FileUtils.getRootPath()+"/keys");
            boolean flag = RSASignature.doCheck(arr[0].concat(".").concat(arr[1]),signature,publicKey);
-           System.out.println("----->flag="+flag);
+           log.debug("----->flag="+flag);
            if(flag){
                filterChain.doFilter(request,response);
-
                return;
            }
 
-            write(response);
+            write(response,"签名错误");
 
         } catch (Exception e)
         {
@@ -94,13 +99,13 @@ public class IdentifiedFilter implements Filter
 
     }
 
-    private void write(HttpServletResponse response){
+    private void write(HttpServletResponse response,String message){
         response.setHeader("Content-type","application/json;charset=utf-8");
         try
         {
             Map<String,Object> map = new HashMap<>();
             map.put("code",400);
-            map.put("msg","傻逼");
+            map.put("msg",message);
             response.getOutputStream().write(JSON.toJSONString(map).getBytes("UTF-8"));
         } catch (IOException e)
         {
