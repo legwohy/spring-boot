@@ -5,6 +5,7 @@ import com.cobra.pojo.BackConfigParams;
 
 import java.util.List;
 
-public class BackConfig {
-    public static List<BackConfigParams> sysConfigList;
+public final class BackConfig {
+    private BackConfig(){throw new AssertionError("No com.cobra.constant.BackConfig instances for you!");}
+    public static  List<BackConfigParams> sysConfigList;
 }
