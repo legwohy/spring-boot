@@ -3,7 +3,7 @@ package com.cobra.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.cobra.constants.TokenConstant;
+import com.cobra.constants.Constant;
 import com.cobra.util.FileUtils;
 import com.cobra.util.rsa.RSAEncrypt;
 import com.cobra.util.rsa.RSASignature;
@@ -56,10 +56,10 @@ public class IdentifiedFilter implements Filter
         }
 
 
-        String token = request.getHeader(TokenConstant.token);
+        String token = request.getHeader(Constant.token);
         // 解析
         if(StringUtils.isEmpty(token)){
-            token = request.getParameter(TokenConstant.token);
+            token = request.getParameter(Constant.token);
         }
 
         if(StringUtils.isEmpty(token)){

@@ -5,6 +5,8 @@ import java.util.Map;
 
 /**
  * 常量类建议final(继承) private(实例化)
+ *
+ * @author admin
  */
 public final class BackConfigParam {
     private BackConfigParam(){

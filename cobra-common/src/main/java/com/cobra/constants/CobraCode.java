@@ -1,8 +1,14 @@
 package com.cobra.constants;
 
-
+/**
+ * 前端返回字段描述枚举
+ * @author admin
+ */
 public enum  CobraCode {
 
+    /**
+     * 访问接口返回的状态
+     */
     SUCCESS("success","操作成功"),
     ERROR("error","发生错误"),
     MISSING_REQUIRED_PARAM("missing_required_param","缺少必要参数"),

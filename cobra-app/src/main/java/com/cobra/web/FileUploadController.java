@@ -3,8 +3,7 @@ package com.cobra.web;
 import com.cobra.exception.CobraException;
 import com.cobra.param.BaseResponse;
 import com.cobra.util.FileUtilsBean;
-import com.cobra.constants.TokenConstant;
-import com.cobra.util.FileUtilsBean;
+import com.cobra.constants.Constant;
 import com.cobra.util.ResponseUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +25,7 @@ public class FileUploadController
     @ApiOperation(value = "上传文件",notes = "上传文件")
     @PostMapping("/upload")
     public BaseResponse fileUpload(MultipartHttpServletRequest request) {
-        String token = request.getHeader(TokenConstant.token);
+        String token = request.getHeader(Constant.token);
         if(StringUtils.isEmpty(token))
         {
            throw new CobraException("400","缺头");

@@ -3,11 +3,14 @@ package com.cobra.param;
 
 import com.cobra.constants.CobraCode;
 
+/**
+ * @author admin
+ */
 public class BaseResponse
 {
     private String code;
     private String msg;
-    private String data;
+    private Object data;
 
     public BaseResponse() {}
 
@@ -16,7 +19,7 @@ public class BaseResponse
         this.msg = msg;
     }
 
-    public BaseResponse(String code, String msg, String data)
+    public BaseResponse(String code, String msg, Object data)
     {
         this.code = code;
         this.msg = msg;
@@ -27,7 +30,7 @@ public class BaseResponse
      * 请求成功
      * @param data
      */
-    public BaseResponse(String data){
+    public BaseResponse(Object data){
         this.code = CobraCode.SUCCESS.getCode();
         this.msg = CobraCode.SUCCESS.getMsg();
         this.data = data;
@@ -43,8 +46,24 @@ public class BaseResponse
         return msg;
     }
 
-    public String getData()
+    public Object getData()
     {
         return data;
     }
+
+    public void setMsg(String msg)
+    {
+        this.msg = msg;
+    }
+
+    public void setData(Object data)
+    {
+        this.data = data;
+    }
+
+    public void setCode(String code)
+    {
+        this.code = code;
+    }
+
 }

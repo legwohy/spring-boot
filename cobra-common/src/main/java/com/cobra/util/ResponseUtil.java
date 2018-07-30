@@ -4,10 +4,13 @@ package com.cobra.util;
 import com.cobra.constants.CobraCode;
 import com.cobra.param.BaseResponse;
 
+/**
+ * @author  admin
+ */
 public class ResponseUtil
 {
     public static BaseResponse error(){
-        return new BaseResponse(CobraCode.ERROR.getCode(),CobraCode.SUCCESS.getMsg());
+        return new BaseResponse(CobraCode.ERROR.getCode(),CobraCode.ERROR.getMsg());
     }
 
     public static BaseResponse error(String code,String msg){

@@ -1,6 +1,5 @@
 package com.cobra.test;
 
-import com.cobra.constants.TokenConstant;
 import com.cobra.util.FileUtils;
 import com.cobra.util.rsa.RSAEncrypt;
 import com.cobra.util.rsa.RSASignature;
