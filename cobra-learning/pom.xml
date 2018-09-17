@@ -22,5 +22,48 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <!-- 指定xml的位置 注意mybatis需要指定xml-->
+        <resources>
+            <resource>
+                <directory>src/main/resources/com/ihome/dao</directory>
+                <includes>
+                    <include>*.xml</include>
+                </includes>
+
+                <!-- 打包的位置-->
+                <targetPath>./com/cobra/dao</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*.xml</include>
+                    <include>*.yml</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <!-- 打包插件-->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.cobra.Application</mainClass>
+                    <executable>true</executable>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+        <finalName>cobra-learning</finalName>
+    </build>
+
 
 </project>
