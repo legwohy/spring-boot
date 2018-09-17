@@ -23,7 +23,7 @@
         <!-- 指定xml的位置 注意mybatis需要指定xml-->
         <resources>
             <resource>
-                <directory>src/main/resources/com/ihome/dao</directory>
+                <directory>src/main/resources/com/cobra/dao</directory>
                 <includes>
                     <include>*.xml</include>
                 </includes>
