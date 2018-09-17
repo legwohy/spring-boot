@@ -24,7 +24,7 @@
         <druid.version>1.1.6</druid.version>
         <junit.version>4.12</junit.version>
         <swagger.version>2.6.1</swagger.version>
-        <jstl.version>1.2</jstl.version>
+       <!-- <jstl.version>1.2</jstl.version>-->
         <fastjson.version>1.1.16</fastjson.version>
         <okhttp.version>3.2.0</okhttp.version>
         <commons-lang.version>2.6</commons-lang.version>
@@ -148,12 +148,12 @@
         </dependency>
         <!-- ===============shiro end========================-->
 
-        <dependency>
+       <!-- <dependency>
             <groupId>javax.servlet.jsp.jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>${jstl.version}</version>
         </dependency>
-
+-->
         <!--apache commons -->
         <dependency>
             <groupId>commons-io</groupId>
@@ -231,41 +231,6 @@
             <version>${slf4j.version}</version>
         </dependency>
 
-        <!-- 解决jstl包的问题-->
-        <dependency>
-            <groupId>javax.servlet.jsp.jstl</groupId>
-            <artifactId>jstl-api</artifactId>
-            <version>1.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet.jsp</groupId>
-                    <artifactId>jsp-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>jstl-impl</artifactId>
-            <version>1.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet.jsp</groupId>
-                    <artifactId>jsp-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet.jsp.jstl</groupId>
-                    <artifactId>jstl-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
 
 
