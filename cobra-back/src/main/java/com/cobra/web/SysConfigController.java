@@ -26,4 +26,10 @@ public class SysConfigController {
         log.error("----------->error");
         return Arrays.toString(BackConfig.sysConfigList.toArray());
     }
+
+    @RequestMapping("/visit")
+    public String visit(){
+
+        return "v2/refund/refundDetail";
+    }
 }
