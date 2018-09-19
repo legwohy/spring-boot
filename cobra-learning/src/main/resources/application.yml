@@ -58,7 +58,7 @@ mybatis:
 #com.mycompany.mavenspringboot.controller 日志 WARN级别输出
 logging:
   level: debug
-  config: classpath:config/logback.xml
+  config: classpath:logback.xml
 
 
 

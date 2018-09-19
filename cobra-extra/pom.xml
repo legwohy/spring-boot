@@ -22,8 +22,8 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <!-- 指定xml的位置 注意mybatis需要指定xml-->
+  <!--  <build>
+        &lt;!&ndash; 指定xml的位置 注意mybatis需要指定xml&ndash;&gt;
         <resources>
             <resource>
                 <directory>src/main/resources/com/cobra/dao</directory>
@@ -31,7 +31,7 @@
                     <include>*.xml</include>
                 </includes>
 
-                <!-- 打包的位置-->
+                &lt;!&ndash; 打包的位置&ndash;&gt;
                 <targetPath>./com/cobra/dao</targetPath>
             </resource>
             <resource>
@@ -45,7 +45,7 @@
 
         <plugins>
             <plugin>
-                <!-- 打包插件-->
+                &lt;!&ndash; 打包插件&ndash;&gt;
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -63,7 +63,7 @@
 
         </plugins>
         <finalName>cobra-extra</finalName>
-    </build>
+    </build>-->
 
 
 </project>

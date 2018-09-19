@@ -1,4 +1,4 @@
-package com.cobra.config;
+package com.cobra.configuration;
 
 import javax.servlet.ServletContext;
 

@@ -1,4 +1,4 @@
-package com.cobra.config;
+package com.cobra.configuration;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
@@ -8,6 +8,11 @@ import javax.servlet.ServletRegistration;
  */
 public class MyWebParameter implements WebParameter
 {
+    /**
+     * 每个基于servlet的web应用 均有一个s servletContext 对象保存上下文信息
+     * 包括初始化参数 filter listener 以及容器信息
+     * @param servletContext
+     */
     @Override
     public void loadOnStartup(ServletContext servletContext)
     {

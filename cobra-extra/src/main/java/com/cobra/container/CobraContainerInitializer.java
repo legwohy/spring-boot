@@ -1,6 +1,7 @@
-package com.cobra.init;
+package com.cobra.container;
 
-import com.cobra.config.WebParameter;
+import com.cobra.configuration.WebParameter;
+import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
