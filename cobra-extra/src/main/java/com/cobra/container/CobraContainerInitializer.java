@@ -14,6 +14,7 @@ import java.util.Set;
 /**
  * 自定义容器会扫
  * 使用 @HandlesTypes 将WebParameter 做为参数传递给onStartup
+ * 必须放在外置容器中方可扫描到 springBoot内置容器是不能扫描的(jar包)
  */
 @HandlesTypes({WebParameter.class})
 public class CobraContainerInitializer implements ServletContainerInitializer

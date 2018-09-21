@@ -13,6 +13,7 @@
         <module>cobra-app</module>
         <module>cobra-learning</module>
         <module>cobra-extra</module>
+        <module>cobra-war</module>
     </modules>
 
     <packaging>pom</packaging>
