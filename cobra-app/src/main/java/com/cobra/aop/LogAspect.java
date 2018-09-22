@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 public class LogAspect {
 
-    @Pointcut("execution(public * com.cobra.web.*.*(..))")
+    @Pointcut("execution(public * com.cobra.controller.*.*(..))")
     public void logForController(){}
 
     @Before("logForController()")

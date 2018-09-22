@@ -14,6 +14,7 @@
         <module>cobra-learning</module>
         <module>cobra-extra</module>
         <module>cobra-war</module>
+        <module>cobra-wechat</module>
     </modules>
 
     <packaging>pom</packaging>

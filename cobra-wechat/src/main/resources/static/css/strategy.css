@@ -1,0 +1,614 @@
+@charset "utf-8";
+
+/* CSS Document */
+html {
+    font-size: 40px;
+}
+
+/**解决页面因网络问题放大问题**/
+@media screen (max-width:
+
+319px
+
+) {
+    html {
+        font-size: 17px
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 335px) {
+    html {
+        font-size: 18px
+    }
+}
+
+@media screen and (min-width: 336px) and (max-width: 351px) {
+    html {
+        font-size: 19px
+    }
+}
+
+@media screen and (min-width: 352px) and (max-width: 367px) {
+    html {
+        font-size: 20px
+    }
+}
+
+@media screen and (min-width: 368px) and (max-width: 383px) {
+    html {
+        font-size: 21px
+    }
+}
+
+@media screen and (min-width: 384px) and (max-width: 399px) {
+    html {
+        font-size: 22px
+    }
+}
+
+@media screen and (min-width: 400px) and (max-width: 415px) {
+    html {
+        font-size: 23px
+    }
+}
+
+@media screen and (min-width: 416px) and (max-width: 431px) {
+    html {
+        font-size: 24px
+    }
+}
+
+@media screen and (min-width: 432px) and (max-width: 447px) {
+    html {
+        font-size: 25px
+    }
+}
+
+@media screen and (min-width: 448px) and (max-width: 463px) {
+    html {
+        font-size: 26px
+    }
+}
+
+@media screen and (min-width: 464px) and (max-width: 479px) {
+    html {
+        font-size: 27px
+    }
+}
+
+@media screen and (min-width: 480px) and (max-width: 495px) {
+    html {
+        font-size: 28px
+    }
+}
+
+@media screen and (min-width: 496px) and (max-width: 511px) {
+    html {
+        font-size: 29px
+    }
+}
+
+@media screen and (min-width: 512px) and (max-width: 527px) {
+    html {
+        font-size: 30px
+    }
+}
+
+@media screen and (min-width: 528px) and (max-width: 543px) {
+    html {
+        font-size: 31px
+    }
+}
+
+@media screen and (min-width: 544px) and (max-width: 559px) {
+    html {
+        font-size: 32px
+    }
+}
+
+@media screen and (min-width: 560px) and (max-width: 575px) {
+    html {
+        font-size: 33px
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 591px) {
+    html {
+        font-size: 34px
+    }
+}
+
+@media screen and (min-width: 592px) and (max-width: 607px) {
+    html {
+        font-size: 35px
+    }
+}
+
+@media screen and (min-width: 608px) and (max-width: 623px) {
+    html {
+        font-size: 36px
+    }
+}
+
+@media screen and (min-width: 624px) and (max-width: 639px) {
+    html {
+        font-size: 37px
+    }
+}
+
+@media screen and (min-width: 640px) and (max-width: 655px) {
+    html {
+        font-size: 38px
+    }
+}
+
+@media screen and (min-width: 656px) and (max-width: 700px) {
+    html {
+        font-size: 39px
+    }
+}
+
+@media screen (max-width:
+
+750px
+
+) {
+    html {
+        font-size: 40px
+    }
+}
+
+body {
+    width: 100%;
+    margin: 0 auto;
+    font-weight: 300;
+    text-shadow: none !important;
+    background-color: #f4f4f4;
+}
+
+.ui-mobile .ui-page {
+    margin: 0 auto;
+    max-width: 750px;
+    min-width: 320px;
+    position: relative;
+}
+
+.page {
+    max-width: 750px;
+    min-width: 320px;
+    width: 100%;
+    margin: 0 auto;
+    background: #f4f4f4;
+}
+
+.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {
+    background-color: #f4f4f4;
+}
+
+.ui-corner-all {
+    border-radius: 0;
+}
+
+/* 公用btn */
+.com_btn {
+    width: 14.5rem;
+    height: 2.2rem;
+    display: block;
+    background-color: #ea4149;
+    font-size: 0.85rem;
+    line-height: 2.2rem;
+    text-align: center;
+    color: #fff !important;
+    border-radius: 0.2rem;
+    margin: 0 auto;
+}
+
+/* 公用btn */
+
+/* 公用top */
+.header {
+    height: 2.2rem;
+    line-height: 2.2rem;
+    position: relative;
+    background: #fb4747;
+    padding-top: 0.55rem;
+    box-sizing: border-box;
+    border-bottom: 1px solid #cccccc;
+}
+
+.header .back_arr {
+    position: absolute;
+    left: 0.75rem;
+    top: 0.6rem;
+    width: 0.6rem;
+    height: 0.95rem;
+    background: url(../images/icon_back.png) no-repeat left center;
+    -webkit-background-size: 0.6rem auto;
+    background-size: 0.6rem auto;
+    display: block;
+}
+
+.header h1 {
+    line-height: 1.1rem;
+    text-align: left;
+    font-size: 0.9rem;
+    font-weight: 300;
+    text-shadow: none;
+    color: #fff;
+    text-align: center;
+}
+
+.header i {
+    width: 0.975rem;
+    position: absolute;
+    display: block;
+    height: auto;
+    right: 0.75rem;
+    top: 0;
+}
+
+.header i img {
+    width: 100%;
+    height: auto;
+}
+
+/* 头部固定 */
+.header_fixed {
+    position: fixed;
+    top: 0;
+    max-width: 750px;
+    min-width: 320px;
+    width: 100%;
+    z-index: 10000;
+}
+
+/* 公用top */
+
+/* 公用footer */
+.footer {
+    position: fixed;
+    bottom: 0;
+    line-height: 2.4rem;
+    height: 2.4rem;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    max-width: 750px;
+    min-width: 320px;
+    width: 100%;
+    background: #fff;
+}
+
+.footer ul {
+    height: 2.425rem;
+}
+
+.footer li {
+    width: 25%;
+    float: left;
+    text-align: center;
+}
+
+.footer li a {
+    display: block;
+    height: 2.425rem;
+}
+
+.footer li a span {
+    text-align: center;
+    font-size: 0.55rem;
+    color: #333;
+    font-weight: 300;
+    display: block;
+    text-align: center;
+    line-height: 0.55rem;
+}
+
+.footer li a i {
+    display: block;
+    width: 1.075rem;
+    height: 1rem;
+    background: url(../images/icon_footer1.png) no-repeat center center;
+    -webkit-background-size: 1.075rem auto;
+    background-size: 1.075rem auto;
+    margin: 0.35rem auto 0.25rem;
+}
+
+.footer li a i.one1 {
+    background: url(../images/icon_footer2.png) no-repeat center center;
+    -webkit-background-size: 1.1rem auto;
+    background-size: 1.1rem auto;
+}
+
+.footer li a i.one2 {
+    background: url(../images/icon_footer3.png) no-repeat center center;
+    -webkit-background-size: 0.975rem auto;
+    background-size: 0.975rem auto;
+}
+
+.footer li a i.one3 {
+    background: url(../images/icon_footer4.png) no-repeat center center;
+    -webkit-background-size: 0.95rem auto;
+    background-size: 0.95rem auto;
+}
+
+.footer li.current a span {
+    color: #e8343d;
+}
+
+.footer li.current a i {
+    background: url(../images/icon_footer5.png) no-repeat center center;
+    -webkit-background-size: 1.075rem auto;
+    background-size: 1.075rem auto;
+}
+
+.footer li.current a i.one1 {
+    background: url(../images/icon_footer6.png) no-repeat center center;
+    -webkit-background-size: 1.1rem auto;
+    background-size: 1.1rem auto;
+}
+
+.footer li.current a i.one2 {
+    background: url(../images/icon_footer7.png) no-repeat center center;
+    -webkit-background-size: 0.975rem auto;
+    background-size: 0.975rem auto;
+}
+
+.footer li.current a i.one3 {
+    background: url(../images/icon_footer8.png) no-repeat center center;
+    -webkit-background-size: 0.95rem auto;
+    background-size: 0.95rem auto;
+}
+
+/* 公用footer */
+
+/* 遮罩层 */
+.cover {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.5;
+}
+
+/* main */
+.wrapper {
+    padding: 0.5rem 0.75rem 1rem;
+}
+
+.promo-info {
+    font-size: 0.6rem;
+    padding-bottom: 2.25rem;
+}
+
+.promo-info h2 {
+    color: #333;
+}
+
+.promo-info span {
+    color: #666;
+    line-height: 0.9rem;
+}
+
+.promo-info p {
+    color: #666;
+    line-height: 0.9rem;
+    margin-bottom: 0.9rem;
+}
+
+.contact-info {
+    border-top: 1px solid #cfcfcf;
+    padding: 1.25rem 0 0;
+}
+
+.contact-info p {
+    font-size: 0.7rem;
+    line-height: 0.7rem;
+    color: #888;
+    margin-bottom: 0.85rem;
+}
+
+.contact-info p span {
+    color: #eba221;
+}
+
+/* 2016-10-25 */
+
+/* 帮助中心 */
+.wrapper-ts {
+    padding: 0;
+}
+
+.question-list {
+    margin-top: 0.25rem;
+    background-color: #fff;
+}
+
+.question-list .question-title {
+    padding: 0.65rem 0.75rem;
+    font-size: 0.7rem;
+    line-height: 0.9rem;
+    color: #666666;
+    overflow: hidden;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.question-list .question-title span {
+    float: left;
+    width: 80%;
+}
+
+.question-list .question-title img {
+    width: 0.7rem;
+    float: right;
+    margin-top: 0.25rem;
+    transition: all .5s;
+}
+
+.question-list li .current img {
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.question-list .question-info {
+    padding: 0.75rem;
+    font-size: 0.65rem;
+    color: #666666;
+    line-height: 1rem;
+    background-color: #fff6f6;
+    display: none;
+}
+
+/* 贷款攻略 */
+.loan-list {
+    background-color: #fff;
+}
+
+.loan-list li a {
+    display: block;
+    padding: 0.5rem;
+    overflow: hidden;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.loan-list li img {
+    float: left;
+    width: 3.25rem;
+    height: 3.25rem;
+}
+
+.loan-list li .loan-info {
+    width: 77%;
+    float: right;
+    margin-left: 0.5rem;
+}
+
+.loan-list li .loan-info h3 {
+    font-size: 0.7rem;
+    color: #3b3b3b;
+    line-height: 0.7rem;
+    padding: 0.35rem 0 0.45rem;
+}
+
+.loan-list li .loan-info p {
+    font-size: 0.6rem;
+    color: #999;
+    line-height: 0.85rem;
+}
+
+/* 贷款攻略详情 */
+.raiders-details {
+    background-color: #fff;
+    font-size: 0.7rem;
+    line-height: 1rem;
+    color: #333;
+    padding: 1rem 0.75rem;
+    word-wrap: break-word;
+}
+
+.raiders-details h1 {
+    font-size: 0.85rem;
+    line-height: 0.9rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.raiders-details h2 {
+    font-size: 0.65rem;
+    line-height: 0.7rem;
+    color: #999;
+    display: block;
+    text-align: center;
+    margin-bottom: 0.9rem;
+}
+
+.raiders-details h3 {
+    font-size: 0.75rem;
+    color: #333;
+    line-height: 1rem;
+}
+
+.raiders-details h4 {
+    font-size: 0.7rem;
+    color: #333;
+    line-height: 1rem;
+}
+
+.raiders-details pre {
+    font-size: 0.7rem;
+    font-size: 12px;
+    color: #999;
+    line-height: 1rem;
+    word-break: break-word;
+}
+
+.raiders-details strong, .raiders-details b {
+    font-weight: bold;
+    color: #333;
+}
+
+.raiders-details img {
+    margin: 0.25rem auto;
+}
+
+.raiders-details em, .raiders-details i {
+    font-style: italic;
+}
+
+.loan-list li .loan-info h3 {
+    font-size: 0.7rem;
+    color: #3b3b3b;
+    line-height: 0.7rem;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0.35rem 0 0.45rem;
+}
+
+.loan-list li .loan-info p {
+    font-size: 0.6rem;
+    color: #999;
+    line-height: 0.85rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+/* 协议 */
+.agreement-box {
+    background-color: #fff;
+    padding: 0.75rem;
+    font-size: 0.6rem;
+    line-height: 1rem;
+    color: #555;
+}
+
+.agreement-box h2 {
+    font-size: 0.9rem;
+    text-align: center;
+    color: #333;
+    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.agreement-box p {
+    font-size: 0.6rem;
+}
+
+.agreement-box h3 {
+    font-size: 0.65rem;
+    margin: 0.25rem 0 0.5rem;
+    color: #333;
+    line-height: 1rem;
+}
+
+.agreement-box h4 {
+    font-size: 0.8rem;
+    color: #333;
+    margin: 0.5rem 0 0.1rem;
+}
+
+

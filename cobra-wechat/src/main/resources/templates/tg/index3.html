@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>凭身份证借1万元</title>
+    <meta name="keywords" content="身份证，1分钟认证，20分钟到账，无抵押，纯信用贷"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="#7CD88E"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/tg/general.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/tg/common.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/tg/landing_page2.css}" />
+    <script type="text/javascript"  th:src='@{/js/tg/jquery.min.js}'></script>
+    <script type="text/javascript"  th:src='@{/js/tg/common.js}'></script>
+    <script type="text/javascript"  th:src='@{/js/tg/m-layouts.js}'></script>
+    <script type="text/javascript"  th:src='@{/js/tg/sonic.js}'></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- //用于阻止 chrome表单自动填充的占位符 -->
+        <input class="_hidden" type="text" />
+        <input class="_hidden" type="password"/>
+        <!-- //用于阻止 chrome表单自动填充的占位符 -->
+<div id="landing_page7_1_wraper">
+    <img class="bg" width="100%" th:src="@{/images/tg/bg3.png}"/>
+    <div>
+        <div class="p_relative" style="margin-top: 30%;">
+        </div>
+        <div class="_input m_center ">
+            <input type="text" name="channelCode" id="channelCode" th:value="${channelCode}" hidden="hidden" />
+            <input type="text" name="RCaptchaKey" id="RCaptchaKey" th:value="${RCaptchaKey}" hidden="hidden" />
+            <input type="text" name="type" id="type" th:value="${type}" hidden="hidden" />
+            <input class="em_1" type="tel" name="userPhone" id="userPhone" maxlength="11" oninput="justInt(this);" onkeyup="justInt(this);" placeholder="请输入手机号码" />
+        </div>
+        
+          <input type="hidden" id="captcha-img"/>
+        <div class="_input">
+            <input class="f_left em_1" type="text" id="pictCode" maxlength="6" placeholder="请输入图片验证码" />
+            <div class="clear"></div>
+        </div>
+        <div class="_input">
+             <img th:src="@{/captcha.svl?(RCaptchaKey=${RCaptchaKey})}" id="captchaBtn" onclick="this.src = ('/captcha.svl?RCaptchaKey='+$('#RCaptchaKey').val()+'&amp;d=' + new Date() * 1)" />
+        </div>
+        
+        <input type="hidden" id="captcha"/>
+        <div class="_input">
+            <input class="f_left em_1" type="text" id="code" maxLength="20" minLength="6" oninput="justInt(this);" onkeyup="justInt(this);" placeholder="请输入短信验证码" />
+            <div class="clear"></div>
+        </div>
+        <div class="_input">
+            <!-- <span class="f_right a_center get_code" id="btn">点击获取</span> -->
+            <input type="button" class="f_right a_center get_code" value="获取验证码" readonly="true" unselectable='on' id="btn" />
+        </div>
+        <div class="_input m_center ">
+            <input class="em_1" type="password" id="password" maxlength="16" placeholder="密码为6-16位数字或字母" />
+        </div>
+        
+        <input type="hidden" id="captcha"/>
+     <!--    <div class=" a_center" style="overflow:hidden;">
+            <span class="agree" style="display:inline-block;"><img style="width:0.95rem;height:0.95rem;vertical-align:text-top;" src="img/agree.png"></span>
+            <a href="/credit/web/credit-web/safe-login-txt" style="color:#f9e551;text-decoration:underline;display:inline-block;">同意用户注册协议</a>
+        </div> -->
+        <div class="_btn m_center a_center fff sq-btn" onclick="_czc.push(['_trackEvent', 'app注册', 'app注册', 'app注册'])" style="height: 2.175rem;">点击注册</div>
+        
+        <div class="bottom_con a_center ffef8c em__11" style="padding-top: 13%;">
+            <p >深圳市易网联科技有限公司</p>
+            <p>粤ICP备 17002348号-2</p>
+            <p style="font-size:0.5rem;">市场有风险，选择需谨慎</p>
+            <p style="font-size:0.5rem;">借款是否成功因人而异</p>
+        </div>
+    </div>
+</div>
+
+<!-- 弹窗 -->
+<div class="dialog dialog-show" id="showDialog" style="display:none;">
+  <div class="dialog-main">
+    <div class="dialog-text" id="msgText">账号已注册，是否继续下载APP</div>
+    <div class="btn-group">
+      <a href="javascript:;" class="dialog-btn" onclick="goDownUrl();" style="width:100%">确定</a>
+      <!-- <a href="javascript:;" class="dialog-btn" onclick="cancel();">取消</a> -->
+    </div>
+  </div>
+  <div class="mask" onclick="cancel();"></div>
+</div>
+
+<div class="share-wrap" style="
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1001;display:none;">
+  <img th:src="@{/images/tg/wx_download.png}" onclick="hideWrap();" alt="" style="width: 100%;height: 100%;" />
+</div>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+/***隐藏wrap***/
+
+function hideWrap(){
+	$(".share-wrap").hide();
+}
+//判断数组中是否包含某字符串  
+Array.prototype.contains = function(needle) {  
+    for (i in this) {  
+        if (this[i].indexOf(needle) > 0)  
+            return i;  
+    }  
+    return -1;  
+}
+var u = navigator.userAgent;
+window.browser = {};
+window.browser.wx = u.match(/MicroMessenger/);
+window.browser.qq = u.match(/QQBrowser/);
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+var model = "";
+
+var href=[[${downUrl}]];
+if (isAndroid) {
+	var sss = u.split(";");  
+    var i = sss.contains("Build/");
+    if (i > -1) {  
+        model = sss[i].substring(0, sss[i].indexOf("Build/")).toLowerCase();
+        if(model.indexOf("vivo")>-1){
+        	href=[[${android_vivo_down_url}]];
+        }else if(model.indexOf("mz")>-1||model.indexOf("mx")>-1){
+        	href=[[${android_mz_down_url}]];
+        }else if(model.indexOf("oppo")>-1){
+        	href=[[${android_oppo_down_url}]];
+        }else if(model.indexOf("sm")>-1){
+        	href=[[${android_sm_down_url}]];
+        }else if(model.indexOf("huawei")>-1){
+        	href=[[${android_huawei_down_url}]];
+        }else{
+        	href=[[${android_down_url}]]; 
+        }
+    }else{
+    	href=[[${android_down_url}]]; 
+    } 
+} else if(isiOS){
+	href=[[${ios_down_url}]];
+}else{
+	href=[[${android_down_url}]];
+}
+  var wait=60;  
+  function time(o) {  
+        if (wait == 0) {  
+            o.removeAttribute("disabled");        
+            o.value="获取短信验证码";  
+            wait = 60;
+        } else {
+            o.setAttribute("disabled", true);  
+            o.value=wait + "s后重试";  
+            wait--;  
+            setTimeout(function() {  
+                time(o)  
+            },  
+            1000)  
+        }  
+   }
+  window.onload = function(){
+	    var clientHeight = document.documentElement.clientHeight; 
+	    var timer = null; 
+	    var isTop = true;
+
+	    window.onscroll = function(){
+	        var osTop = document.documentElement.scrollTop || document.body.scrollTop; 
+	        if(!isTop){
+	            clearInterval(timer);
+	        }
+	        isTop = false;
+
+	    }
+	   
+	}
+ // document.getElementById("btn").onclick=function(){time(this);}  
+  $(function(){
+	  $(".sq-btn").click(function(){
+		  $(".err-msg").text("");
+		  var userPhone=$("#userPhone").val();
+		  var captcha=$("#pictCode").val();
+		  var password=$("#password").val();
+		  var smsCode=$("#code").val();
+		  
+		  if(!userPhone){
+			  $("#msgText").text("请输入手机号码");
+			  $("#showDialog").show();
+			  /* showExDialog('请输入手机号码','确定'); */
+			  return;
+		  }
+		  
+		  var re = /^1\d{10}$/
+		  if (!re.test(userPhone)) {
+			  $("#msgText").text("请输入正确手机号码");
+			  $("#showDialog").show();
+			  /* showExDialog("请输入正确的手机号码"); */
+			  return;
+		  }
+		  
+		  if(!captcha){
+			  showExDialog('请输入图形验证码','确定');
+			  return;
+		  }
+		  if(!password){
+			  showExDialog('请输入密码','确定');
+			  return;
+		  }
+		  if(!smsCode){
+			  showExDialog('请输入短信验证码','确定');
+			  return;
+		  }
+		  var reg = new RegExp(/^[a-zA-Z0-9]+$/);
+		  /* var reg = new RegExp(/^(?![^a-zA-Z]+$)(?!\D+$)/); */
+  	      if (!reg.test(password)||password.length>20){
+  	    	showExDialog('密码为20位内字母或数字','确定');
+  			return;
+  	      }
+  	      
+  	      var channelCode=$("#channelCode").val();
+  	      
+  	     $.ajax({
+            type   : "post",
+            async:false,
+            data   : {userPhone: userPhone,password: password,smsCode: smsCode,channelCode: channelCode},
+            url    : [[@{/borrowUser/tgRedister}]],
+            success: function (resp) {
+          	  var date = eval('(' + resp + ')');
+          	  if(date.code==1){
+          		$("#msgText").text("您已注册，立即登录APP查询额度");
+       		    $("#showDialog").show();
+       	      }else if(date.code=='-1'){
+	      		showExDialog(date.message,'确定');
+	      	  }else if(date.code=='0'){
+	      		$("#msgText").text("恭喜您！已注册成功！立即下载APP查询具体额度");
+      		    $("#showDialog").show();
+	      		/* $("#msgText").text("账号注册成功，是否下载APP?");
+       		    $("#showDialog").show(); */
+	      		  /* location.href=[[@{/borrowUser/goDown?(type=${type})}]]; */
+	      	  }
+          	  
+            }
+        }); 
+		  
+		  
+	  });
+	  var urlHref=[[@{/borrowUser/goDown?(type=${type})}]];
+	  $("#btn").click(function(){
+		  var userPhone=$("#userPhone").val();
+		  if(!userPhone){
+			  $("#msgText").text("请输入手机号码");
+			  $("#showDialog").show();
+			  /* showExDialog('请输入手机号码','确定'); */
+			  return;
+		  }
+		  
+		  var re = /^1\d{10}$/
+		  if (!re.test(userPhone)) {
+			  $("#msgText").text("请输入正确手机号码");
+			  $("#showDialog").show();
+			  /* showExDialog('请输入正确的手机号码','确定'); */
+			  return;
+		  }
+
+		  var captcha=$("#pictCode").val();
+		  var RCaptchaKey=$("#RCaptchaKey").val();
+		 /*  if(!captcha){
+			  showExDialog('请先输入图形验证码','确定');
+			  return;
+		  } */
+		  
+		  var isSuccess=false;
+		  $.ajax({
+              type   : "post",
+              async:false,
+              data   : {userPhone: userPhone,captcha: captcha,RCaptchaKey: RCaptchaKey},
+              url    : [[@{/sms/getSmsCodeCaptcha}]],
+              success: function (resp) {
+            	  var date = eval('(' + resp + ')');
+            	  if(date.code==1){
+            		  $("#msgText").text("您已注册，立即登录APP查询额度");
+            		  $("#showDialog").show();
+            	  }else{
+	            	  showExDialog(date.message,'确定');
+            	  }
+            	  if(parseInt(date.code)<0){
+            		  if(date.code=='-2'){
+            			  $("#captchaBtn").click();
+            			  $("#pictCode").val("");
+            		  }
+            	  }else{
+	            	  isSuccess=true;
+            	  }
+              }
+          }); 
+		  
+		  if(isSuccess){
+			  time(this);
+		  }
+		  
+	  });
+  }); 
+  
+//去下载
+  function goDownUrl(){
+	 /*  if (window.browser.wx||window.browser.qq) {
+			$(".share-wrap").show();
+			return;
+	  } */
+	  location.href=href;
+	  $("#showDialog").hide();
+  }
+  
+  //取消
+  function cancel(){
+	  $("#showDialog").hide();
+  }
+  /*]]>*/
+  </script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?15c6e4500d03aab516d3ae04155660f7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+   <script type="text/javascript"  th:src='@{/js/tg/landing_page2.js}'></script>
+</div>
+</body>
+</html>

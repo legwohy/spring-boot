@@ -1,0 +1,324 @@
+﻿
+.my_top {
+    position: relative;
+    background: url(../images/my1.png) no-repeat center;
+    height: 11.75rem;
+    width: 100%;
+    background-size: 100% auto;
+}
+
+.my_top ul li {
+    position: absolute;
+    color: #fff;
+    font-size: 2.5rem;
+    width: 100%;
+    text-align: center;
+    top: 3rem;
+}
+
+.my_top ul li span {
+    font-size: 0.9rem;
+}
+
+.my_ft {
+    position: relative;
+    background: url(../images/my2.png) no-repeat center;
+    height: 18.35rem;
+    width: 100%;
+    background-size: 100% auto;
+}
+
+.my_y {
+    height: 3.7rem;
+    border-bottom: 1px solid #f0f0f0;
+    margin: 0 0.75rem;
+}
+
+.my_y h2 {
+    padding: 0 1rem;
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 3.7rem;
+}
+
+.my_y h2 i {
+    float: left;
+    margin-top: 0.45rem;
+    margin-right: 0.5rem;
+    background: url(../images/my_y.png) no-repeat center;
+    width: 2.875rem;
+    height: 2.875rem;
+    background-size: 2.875rem auto;
+}
+
+.my_d {
+    height: 5.6rem;
+    border-bottom: 1px solid #f0f0f0;
+    margin: 0 0.75rem;
+}
+
+.my_d a {
+    display: block;
+    margin-bottom: 0.1rem;
+}
+
+.my_dd {
+    padding: 0.6rem 1rem 0;
+    position: relative;
+    height: 3.2rem;
+}
+
+.my_dd ul li {
+    float: left;
+}
+
+.my_dd ul li i {
+    float: left;
+    margin: 0.2rem 0.5rem 0.2rem 0;
+    background: url(../images/my_d.png) no-repeat center;
+    width: 2.875rem;
+    height: 2.875rem;
+    background-size: 2.875rem auto;
+}
+
+.my_dd ul li .jt {
+    position: absolute;
+    background: url(../images/jt-r.png) no-repeat center;
+    width: 0.425rem;
+    height: 0.625rem;
+    background-size: 0.425rem auto;
+    right: 1rem;
+    top: 1.95rem;
+}
+
+.my_dd ul li span {
+    font-size: 0.9rem;
+    color: #3b3b3b;
+}
+
+.my_dd ul li p {
+    font-size: 0.75rem;
+    color: #999;
+}
+
+.my_dd ul li p em {
+    font-size: 0.75rem;
+    color: #fda02c;
+}
+
+.my_d .my_j {
+    font-size: 0.75rem;
+    color: #999;
+    padding: 0 1rem;
+}
+
+.my_d .my_j i {
+    margin-left: 1rem;
+}
+
+.my_d .my_j span {
+    font-size: 0.8rem;
+    color: #fb4747;
+}
+
+.my_q {
+    padding: 1rem;
+}
+
+.my_q h3 {
+    color: #fff;
+    font-size: 0.6rem;
+}
+
+.my_top1 {
+    position: relative;
+    background: url(../images/my_11.png) no-repeat center;
+    height: 11.75rem;
+    width: 100%;
+    background-size: 100% auto;
+}
+
+.my_ft1 {
+    position: relative;
+    background: url(../images/my2.png) no-repeat center;
+    height: auto;
+    width: 100%;
+    background-size: 100% auto;
+}
+
+.my_age {
+    margin: 0 0.75rem;
+    height: 15.2rem;
+    background-color: #fff;
+    border-radius: 0 0 0.3rem 0.3rem;
+}
+
+.my_age h4 {
+    padding: 0 1rem;
+    font-size: 0.7rem;
+    color: #333;
+}
+
+.my_in {
+    margin: 2.5rem 0;
+}
+
+.my_in li {
+    text-align: center;
+}
+
+.my_in li input {
+    display: inline-block;
+    width: 9.5rem;
+    padding: 0 0.5rem;
+    height: 2rem;
+    line-height: 2rem;
+    border: 1px solid #fb4747;
+    border-radius: 0.3rem;
+    font-size: 0.7rem;
+    color: #cfcfcf;
+}
+
+.my_in li span {
+    font-size: 0.7rem;
+    color: #333;
+    margin-left: 0.5rem;
+}
+
+.butt1 {
+    width: 100%;
+    text-align: center;
+}
+
+.butt1 a {
+    display: inline-block;
+    width: 12.1rem;
+    font-size: 0.75rem;
+    background: #fb4747;
+    height: 2.2rem;
+    line-height: 2.2rem;
+    color: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 1px 1px 1px 2px #d83d3d
+}
+
+.but2 {
+    margin-top: 1rem;
+}
+
+.wor {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.wor h6 {
+    font-size: 0.55rem;
+    color: #666;
+}
+
+.wor h5 {
+    font-size: 0.55rem;
+    color: #f00;
+    margin-bottom: 0.5rem;
+}
+
+.wor ul {
+    margin: 0 auto;
+    width: 12.1rem;
+    height: 0.3rem;
+    background-color: #dcdcdc;
+    border-radius: 0.2rem;
+    margin-top: 0.5rem;
+}
+
+.wor ul li {
+    width: 10%;
+    background-color: #fb4747;
+    height: 0.3rem;
+    border-radius: 0.2rem;
+}
+
+.my_top2 {
+    position: relative;
+    background: url(../images/my_22.png) no-repeat center;
+    height: 11.75rem;
+    width: 100%;
+    background-size: 100% auto;
+}
+
+.my_ft2 {
+    position: relative;
+    background: url(../images/my_221.png) no-repeat center;
+    height: 18.35rem;
+    width: 100%;
+    background-size: 100% auto;
+}
+
+.my_tt {
+    position: absolute;
+    top: -1rem;
+    width: 100%;
+}
+
+.my_tt ul {
+    background-color: #fff;
+    height: 4.5rem;
+    margin: 0 0.75rem 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 1px 1px 1px 1px #f0f0f0;
+}
+
+.my_tt ul li {
+    float: left;
+}
+
+.my_tt ul li img {
+    width: 2.6rem;
+    height: 2.6rem;
+    padding: 0.95rem 0.5rem;
+}
+
+.my_tt ul li b {
+    font-size: 0.7rem;
+    color: #3b3b3b;
+    display: block;
+    font-weight: normal;
+    margin-top: 0.65rem;
+}
+
+.my_tt ul li span {
+    font-size: 0.65rem;
+    color: #999;
+    display: block;
+}
+
+.my_tt ul li i {
+    font-size: 0.55rem;
+    color: #999;
+    display: block;
+}
+
+.my_tt ul li i em {
+    font-size: 0.55rem;
+    color: #fda02c;
+}
+
+.my_tt ul .fl-r {
+    float: right;
+    width: 4.5rem;
+    text-align: center;
+}
+
+.my_tt ul .fl-r a {
+    display: block;
+    background-color: #fb4747;
+    height: 4.5rem;
+    color: #fff;
+    font-size: 0.9rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.my_tt ul .fl-r a p {
+    line-height: 1.2rem;
+    padding: 1.05rem;
+}

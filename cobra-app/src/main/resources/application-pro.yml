@@ -17,9 +17,9 @@ spring:
   datasource:
     name: druidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://116.62.146.185:3306/hxjt_test_01?useUnicode=true&characterEncoding=UTF-8
-    username: root
-    password: huoxinjihuatest
+    url: jdbc:mysql://xxoo?useUnicode=true&characterEncoding=UTF-8
+    username: xx
+    password: xx
 
     type: com.alibaba.druid.pool.DruidDataSource
     filters: stat

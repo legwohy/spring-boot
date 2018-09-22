@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8"/>
+	<title>花生宝</title>
+	<meta http-equiv="Expires" content="-1"/>               
+	<meta http-equiv="Pragma" content="no-cache"/>
+	<meta http-equiv="Cache-Control" content="no-cache"/> 
+	<meta name="format-detection" content="telephone=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/tg/index.css}" />
+	<script type="text/javascript" th:src="@{/js/base.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-1.7.1.js}"></script>
+    <script type="text/javascript" th:src="@{/js/global-1.1.0.min.js}"></script>
+	<script type="text/javascript"  th:src='@{/js/tg/index.js}'></script>
+</head>
+<body>
+<script type="text/javascript">
+/*<![CDATA[*/
+var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1274175082'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1274175082' type='text/javascript'%3E%3C/script%3E"));
+$("#cnzz_stat_icon_1274175082").hide();
+/*]]>*/
+</script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+//判断数组中是否包含某字符串  
+   Array.prototype.contains = function(needle) {  
+       for (i in this) {  
+           if (this[i].indexOf(needle) > 0)  
+               return i;  
+       }  
+       return -1;  
+   }
+var u = navigator.userAgent;
+var u = navigator.userAgent;
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+var model = "";
+ if (isAndroid) {
+	var sss = u.split(";");  
+    var i = sss.contains("Build/");
+    if (i > -1) {
+        model = sss[i].substring(0, sss[i].indexOf("Build/")).toLowerCase();
+        if(model.indexOf("vivo")>-1){
+        	window.location.href=[[${android_vivo_down_url}]];
+        }else if(model.indexOf("mz")>-1||model.indexOf("mx")>-1){
+        	window.location.href=[[${android_mz_down_url}]];
+        }else if(model.indexOf("oppo")>-1){
+        	window.location.href=[[${android_oppo_down_url}]];
+        }else if(model.indexOf("sm")>-1){
+        	window.location.href=[[${android_sm_down_url}]];
+        }else if(model.indexOf("huawei")>-1){
+        	window.location.href=[[${android_huawei_down_url}]];
+        }else{
+        	window.location.href=[[${android_down_url}]]; 
+        }
+    }else{
+    	window.location.href=[[${android_down_url}]];
+    }
+} else if(isiOS){
+	window.location.href=[[${ios_down_url}]]; 
+}else{
+	window.location.href=[[${android_down_url}]];
+}
+/*]]>*/
+</script>
+
+</body>
+</html>

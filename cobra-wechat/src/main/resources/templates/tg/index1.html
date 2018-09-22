@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8"/>
+	<title>推拿</title>
+	<meta http-equiv="Expires" content="-1"/>               
+	<meta http-equiv="Pragma" content="no-cache"/>
+	<meta http-equiv="Cache-Control" content="no-cache"/> 
+	<meta name="format-detection" content="telephone=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/reg1/css/index.css}" />
+	<link rel="shortcut icon" type="image/x-icon" th:href="@{/reg1/images/favicon.ico}"/>
+	<script type="text/javascript" th:src="@{/js/base.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-1.7.1.js}"></script>
+<!--     <script type="text/javascript" th:src="@{/js/jquery.mobile-1.4.2.min.js}"></script> -->
+    <script type="text/javascript" th:src="@{/js/global-1.1.0.min.js}"></script>
+	<script type="text/javascript"  th:src='@{/reg1/js/index.js}'></script>
+	
+</head>
+<body>
+
+<div class="page">
+<form id="registerForm" action="#">
+   <input type="text" name="channelCode" id="channelCode" th:value="${channelCode}" hidden="hidden" />
+   <input type="text" name="RCaptchaKey" id="RCaptchaKey" th:value="${RCaptchaKey}" hidden="hidden" />
+  <div class="spread">
+   <img th:src="@{/reg1/images/banner.png}" class="banner" />
+        <div class="list">
+            	<div class="item">
+                    <div class="input-c">
+                        <input type="tel" placeholder="注册手机号" maxLength="11" name="userPhone" id="userPhone"/>
+                        <i class="icon-close"></i>
+                    </div>
+                </div>
+                
+                <div class="item yz-code img-code">
+                    <div class="input-c">
+                        <input type="text"  name="captcha" id="captcha" placeholder="请输入图形验证码" maxLength="4" />
+                        <i class="icon-close"></i>
+                    </div>
+                    <div class="yzm">
+                        <img th:src="@{/captcha.svl?(RCaptchaKey=${RCaptchaKey})}" id="captchaBtn" onclick="this.src = ('/captcha.svl?RCaptchaKey='+$('#RCaptchaKey').val()+'&amp;d=' + new Date() * 1)"/>
+                    </div>
+                </div>
+                <div class="item psd">
+                    <div class="input-c">
+                        <input type="password" placeholder="请输入6-20位登录密码" maxLength="20" id="password" />
+                        <i class="icon-close"></i>
+                    </div>
+                </div>
+                <div class="item yz-code">
+                    <div class="input-c">
+                        <input name="smsCode" type="text" placeholder="手机验证码" maxLength="20" minLength="6" id="smsCode" />
+                        <i class="icon-close"></i>
+                    </div>
+                    <div class="yzm" id="btn">
+                                                       点击获取
+                    </div>
+                </div>
+                
+            <a href="javascript:void(0);" class="btn active" id="sq-btn">马上拿钱</a>
+        </div>
+        
+        <div class="copyright">@2018 花生宝版权所有</div>
+  </div>
+  </form>
+</div>
+
+<!-- 弹窗 -->
+<div class="dialog dialog-show" id="showDialog" style="display:none;">
+  <div class="dialog-main">
+    <div class="dialog-text" id="msgText">账号已注册，是否继续下载APP</div>
+    <div class="btn-group">
+     <a href="javascript:;" class="dialog-btn" onclick="goDownUrl();" style="width:100%">确定</a>
+      <!-- <a href="javascript:;" class="dialog-btn" onclick="cancel();">取消</a> -->
+    </div>
+  </div>
+  <div class="mask" onclick="cancel();"></div>
+</div>
+<div class="share-wrap" style="
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1001;display:none;">
+  <img th:src="@{/images/tg/wx_download.png}" onclick="hideWrap();" alt="" style="width: 100%;height: 100%;" />
+</div>
+<script th:inline="javascript">
+/*<![CDATA[*/
+/***隐藏wrap***/
+function hideWrap(){
+	$(".share-wrap").hide();
+}
+//判断数组中是否包含某字符串  
+Array.prototype.contains = function(needle) {  
+    for (i in this) {  
+        if (this[i].indexOf(needle) > 0)  
+            return i;  
+    }  
+    return -1; 
+}
+var u = navigator.userAgent;
+window.browser = {};
+window.browser.wx = u.match(/MicroMessenger/);
+window.browser.qq = u.match(/QQBrowser/);
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+var model = "";
+
+var href=[[${downUrl}]];
+if (isAndroid) {
+	var sss = u.split(";");
+    var i = sss.contains("Build/");
+    if (i > -1) {  
+        model = sss[i].substring(0, sss[i].indexOf("Build/")).toLowerCase();
+        if(model.indexOf("vivo")>-1){
+        	href=[[${android_vivo_down_url}]];
+        }else if(model.indexOf("mz")>-1||model.indexOf("mx")>-1){
+        	href=[[${android_mz_down_url}]];
+        }else if(model.indexOf("oppo")>-1){
+        	href=[[${android_oppo_down_url}]];
+        }else if(model.indexOf("sm")>-1){
+        	href=[[${android_sm_down_url}]];
+        }else if(model.indexOf("huawei")>-1){
+        	href=[[${android_huawei_down_url}]];
+        }else{
+        	href=[[${android_down_url}]]; 
+        }
+    }else{
+    	href=[[${android_down_url}]]; 
+    } 
+} else if(isiOS){
+	href=[[${ios_down_url}]];
+}else{
+	href=[[${android_down_url}]];
+}
+
+// 消息提示
+function showMsg(info,time){
+  var e_time = 2000;
+  if (time) {
+     e_time = time
+  }
+  var divElement = $("<div id='msg' style='position: fixed;left: 0; top: 0;right: 0;bottom: 0;z-index: 1000;text-align: center;z-index: 100;background-color: rgba(0, 0, 0, .1);'><div style='display: inline-block;padding: 0.4rem 0.5rem;font-size: 0.75rem;line-height: 1rem;color: #fff;border-radius: 0.2rem;text-align: center;position: relative;top: 30%;background-color: rgba(0, 0, 0, .5);'>"+info+"</div></div>");
+  $("body").append(divElement);
+setTimeout(function(){
+  $("#msg").remove();
+}, e_time);
+}
+
+// 倒计时
+	var wait=60;
+	var flag = true;
+	var interval = null;
+	
+	function time() {
+	  interval = setInterval(function() {
+	      if (wait == 0) {
+	          clearInterval(interval);
+	          $("#btn").text("点击获取");
+	          wait = 60;
+	          flag = true;
+	      } else {
+	          $("#btn").text(wait + "s");
+	          wait--;
+	      }
+	  }, 1000);
+	
+	}
+  window.onload = function(){
+	    var clientHeight = document.documentElement.clientHeight; 
+	    var timer = null; 
+	    var isTop = true;
+
+	    window.onscroll = function(){
+	        var osTop = document.documentElement.scrollTop || document.body.scrollTop; 
+	        if(!isTop){
+	            clearInterval(timer);
+	        }
+	        isTop = false;
+
+	    }
+	   
+	}
+ // document.getElementById("btn").onclick=function(){time(this);}  
+  $(function(){
+	  $("#sq-btn").click(function(){
+		  $(".err-msg").text("");
+		  var userPhone=$("#userPhone").val();
+		  var captcha=$("#captcha").val();
+		  var password=$("#password").val();
+		  var smsCode=$("#smsCode").val();
+		  
+		  if(!userPhone){
+			  /* $(".err-msg").text("请输入手机号码"); */
+		 	  $("#msgText").text("请输入手机号码");
+			  $("#showDialog").show(); 
+			  return;
+		  }
+		  
+		  var re = /^1\d{10}$/
+		  if (!re.test(userPhone)) {
+			  $("#msgText").text("请输入正确的手机号码");
+			  $("#showDialog").show();
+			  /* $(".err-msg").text("请输入正确的手机号码"); */
+			  return;
+		  }
+		 
+		  if(!password){
+			  $("#msgText").text("请输入密码");
+			  $("#showDialog").show();
+			 
+			  return;
+		  }
+		  if(!smsCode){
+			  $("#msgText").text("请输入短信验证码");
+			  $("#showDialog").show();
+			  
+			  return;
+		  }
+		  
+  	      var reg = new RegExp(/^[a-zA-Z0-9]+$/);
+		  /* var reg = new RegExp(/^(?![^a-zA-Z]+$)(?!\D+$)/); */
+	      if (!reg.test(password)||password.length>20){
+	    	  /* $(".err-msg").text("密码为20位内字母或数字"); */
+	    	  showMsg("密码为20位内字母或数字",1000);
+	    	 /*  $("#msgText").text("请输入短信验证码");
+			  $("#showDialog").show(); */
+			return;
+	      }
+  	      
+  	      var channelCode=$("#channelCode").val();
+  	      
+  	     $.ajax({
+            type   : "post",
+            async:false,
+            data   : {userPhone: userPhone,password: password,smsCode: smsCode,channelCode: channelCode},
+            url    : [[@{/borrowUser/tgRedister}]],
+            success: function (resp) {
+          	  var date = eval('(' + resp + ')');
+          	  if(date.code==1){
+          		    $("#msgText").text("账号已注册，是否继续下载APP?");
+        		    $("#showDialog").show();
+        	  }else if(date.code=='-1'){
+        		  showMsg(date.message,1000);
+	      	  }else if(date.code=='0'){
+	      		 $("#msgText").text("账号注册成功，下载APP");
+      		     $("#showDialog").show();
+	      	  }
+          	  
+            }
+        }); 
+		  
+		  
+	  });
+	  
+	  
+	  $("#btn").click(function(){
+        if (!flag) {
+          return;
+    	};
+		  var userPhone=$("#userPhone").val();
+		  if(!userPhone){
+			  /* $(".err-msg").text("请输入手机号码"); */
+			  $("#msgText").text("请输入手机号码");
+			  $("#showDialog").show();
+			  return;
+		  }
+		  
+		  var re = /^1\d{10}$/
+		  if (!re.test(userPhone)) {
+			  /* $(".err-msg").text("请输入正确的手机号码"); */
+			  $("#msgText").text("请输入正确的手机号码");
+			  $("#showDialog").show();
+			  return;
+		  }
+
+		  var captcha=$("#captcha").val();
+		  if(!captcha){
+			  $("#msgText").text("请先输入图形验证码");
+			  $("#showDialog").show();
+			  return;
+		  } 
+		  var RCaptchaKey=$("#RCaptchaKey").val();
+		  
+          flag = false;
+		  var isSuccess=false;
+		  $.ajax({
+              type   : "post",
+              async:false,
+              data   : {userPhone: userPhone,captcha: captcha,RCaptchaKey: RCaptchaKey},
+              url    : [[@{/sms/getSmsCodeCaptcha}]],
+              success: function (resp) {
+            	  var date = eval('(' + resp + ')');
+            	  if(date.code==1){
+            		  $("#msgText").text("账号已注册，是否继续下载APP?");
+            		  $("#showDialog").show();
+            	  }else{
+        			  /* $("#showDialog").show(); */
+        			  showMsg(date.message,1000);
+            	  }
+            	  if(parseInt(date.code)<0){
+	           		  if(date.code=='-2'){
+	           			  $("#captchaBtn").click();
+	           			  $("#captcha").val("");
+	           			  $("#captcha").focus();
+	           		  }
+            	  }else{
+            		  time();
+            	  }
+              }
+          }); 
+		  
+	  });
+	  
+  }); 
+  
+//去下载
+  function goDownUrl(){
+	 /*  if (window.browser.qq) {
+			$(".share-wrap").show();
+			return;
+	  }  */
+		location.href=href;
+	  $("#showDialog").hide();
+  }
+  
+  //取消
+  function cancel(){
+	  $("#showDialog").hide();
+  }
+  /*]]>*/
+  </script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?323d349c977076997b1037c50833ee7a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</body>
+</html>

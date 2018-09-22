@@ -1,0 +1,162 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>注册</title>
+    <meta http-equiv="Expires" content="-1"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <!--
+    <link rel="stylesheet" type="text/css" th:href="styles.css">
+    -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/jquery.mobile-1.4.2.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/basic.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+
+    <script type="text/javascript" th:src="@{/js/base.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-1.7.1.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.mobile-1.4.2.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/global-1.1.0.min.js}"></script>
+</head>
+<body>
+<form method="POST" id="registerForm">
+    <div class="ui-page ui-page-theme-a ui-page-active" data-role="page">
+        <!-- main start -->
+
+        <div class="wrapper" style="padding:0;">
+            <div class="register-wrap">
+                <img th:src="@{/images/n_04.png}" alt="" class="register-banner"/>
+                <ul class="register-list">
+                    <input type="hidden" id="sre" name="sre" th:value="${sre}"/>
+                    <li><input type="text" data-role="none" id="userPhone" name="userPhone" placeholder="输入手机号"/></li>
+                    <li class="gain-yzm">
+                        <input type="text" data-role="none" id="smsCode" name="smsCode" placeholder="请输入验证码"/>
+                        <div class="yzm" id="sendcode">获取验证码</div>
+                    </li>
+                    <li><input type="password" data-role="none" id="passWord" name="passWord" placeholder="请输入密码"/></li>
+                </ul>
+                <h3>密码由6-20位，数字、字母、符号组成。</h3>
+                <a href="javascript:nextStep();" class="register-btn"><span>快速领取借款</span></a>
+                <dl class="register-step">
+                    <li><img th:src="@{/images/n_06.png}" alt=""/></li>
+                    <li><img th:src="@{/images/n_07.png}" alt=""/></li>
+                    <li><img th:src="@{/images/n_08.png}" alt=""/></li>
+                </dl>
+            </div>
+        </div>
+
+        <!-- main end -->
+    </div>
+</form>
+<script type="text/javascript" th:inline="javascript">
+    var phonePattern = /(^(([0\+]\d{2,3}-)?(0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$)|(^(([0\+]\d{2,3})?(0\d{2,3}))(\d{7,8})((\d{3,}))?$)|(^0{0,1}1[3|4|5|6|7|8|9][0-9]{9}$)/;
+    function nextStep() {//点击注册的时候
+        var userPhone = $("#userPhone").val();
+        var smsCode = $("#smsCode").val();
+        var passWord = $("#passWord").val();
+        var sre = $("#sre").val();
+
+        if (!checkVar(userPhone)) {
+            showLoader('请输入手机号码');
+            return;
+        } else if (phonePattern.test(userPhone) == false) {
+            showLoader('手机号格式不对');
+            return;
+        } else if (!checkVar(smsCode)) {
+            showLoader('请输入手机验证码');
+            return;
+        } else if (!checkVar(passWord)) {
+            showLoader('请输入密码');
+            return;
+        }
+        var url = [[@{/web/registerNew}]];
+        var param = {
+            userPhone: userPhone,
+            smsCode  : smsCode,
+            passWord : passWord,
+            sre      : sre
+        };
+        $.ajax({
+            type    : "POST",
+            async   : false,
+            url     : url,
+            data    : param,
+            dataType: "json",
+            success : function (ret) {
+                if (ret.code == '0') {
+                    showLoader("注册成功");
+                    setTimeout(function () {
+                        window.location.href = [[@{/web/registerSuccs ? from = 1}]];
+                    }, 1 * 1000);
+                } else {
+                    $("#passWord").val("");//密码置为空
+                    showLoader(ret.message);
+                }
+            }
+        });
+    }
+
+    jQuery(document).ready(function ($) {
+        //倒计时
+        var wait = 60;
+        $('#sendcode').click(function (event) {
+            var userPhone = $("#userPhone").val();
+            if (wait != 60) {
+                return;
+            }
+            var data = {
+                'userPhone': userPhone,
+                'isExist'  : 1
+            };
+            var sendSmsCodeUrl = [[@{/web/sendSmsCode}]];
+            openAjax(sendSmsCodeUrl, data, checksendSmsCallBack, false);
+        });
+
+        function checksendSmsCallBack(data) {
+            var userPhone = $("#userPhone").val();
+            if (!checkVar(userPhone)) {
+                showLoader('请输入手机号码');
+                return;
+            } else if (phonePattern.test(userPhone) == false) {
+                showLoader('手机号格式不对');
+                return;
+            } else {
+                if (data.code == '0') {
+                    showLoader("短信已发送");
+                    time();
+                } else {
+                    showLoader(data.message);
+                }
+            }
+        }
+
+        function time() {
+            if (wait == 0) {
+                $('#sendcode').text('获取验证码');
+                $('#sendcode').removeClass('yzm-c');
+                wait = 60;
+            } else {
+                $('#sendcode').text(wait + '秒后重试');
+                $('#sendcode').addClass('yzm-c');
+                wait--;
+                setTimeout(function () {
+                    time();
+                }, 1000);
+            }
+        }
+
+    });
+
+
+    //判断变量是否为空
+    function checkVar(param) {
+        if (param == '' || param == undefined || param == null) {
+            return false;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>

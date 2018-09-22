@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Expires" content="-1"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/jquery.mobile-1.4.2.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/basic.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/swiper.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}"/>
+    <link rel="stylesheet" th:href="@{/css/other.css}"/>
+
+    <script type="text/javascript" th:src="@{/js/base.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-1.9.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.mobile-1.4.2.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/swiper-3.3.1.jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+</head>
+<body>
+<div class="ui-page ui-page-theme-a ui-page-active" data-role="page" style="background:#f4f4f6;">
+    <!--<div class="header"style="background:#f4f4f6;">
+        <a class="back_arr blue-arrow" href="javascript:void(0);"></a>
+        <h1 style="color:#333;">贷款攻略</h1>
+    </div>-->
+    <!-- main start -->
+    <div class="wrapper loan-strategy-wrap">
+        <h2>目录</h2>
+        <ul class="loan-strategy-new">
+            <li>
+                <div class="title">
+                    <span>1、趣回购是什么？<i></i></span>
+                </div>
+                <div class="strategy-info">
+                    <p>
+                        趣回购是一款智能贷款搜索信息服务平台，致力于为广大上班族、个体户、大学生等推荐适合的贷款产品、提供贴心的金融贷款服务。依托先进的大数据和智能匹配技术，趣回购已帮助上百万借款用户解决借款难题，为其提供额度高、费率低、放款快的贷款解决方案，轻松满足各种贷款需求。</p>
+                </div>
+            </li>
+            <li>
+                <div class="title">
+                    <span>2、如何选择合适的贷款产品？<i></i></span>
+                </div>
+                <div class="strategy-info">
+                    <p>
+                        打开趣回购APP，可根据您的贷款需求，在首页选择金额范围点击确认借款按钮进入相应金额的产品列表，或在首页热门推荐选择贷款产品。也可点击贷款超市进入产品列表后，根据产品类别、金额等选择适合您的贷款产品。</p>
+                </div>
+            </li>
+            <li>
+                <div class="title">
+                    <span>3、贷款额度是多少？<i></i></span>
+                </div>
+                <div class="strategy-info">
+                    <p>
+                        趣回购APP有不同额度区间的多款贷款产品可供借款人选择。根据不同借款人的个人资质，贷款产品的额度也不同。建议您在申请时确保个人信息填写正确、完整，对贷款机构要求验证的材料尽量充分验证，有助于额度的提升。</p>
+                </div>
+            </li>
+            <li>
+                <div class="title">
+                    <span>4、如何提高通过率？<i></i></span>
+                </div>
+                <div class="strategy-info">
+                    <p>
+                        （1）请确保您填写的个人信息真实、完整。如果一开始，你提供的就是虚假信息，被拒也是正常的。但是有些人说，我提供的就是真实信息呀！那就很有可能，是你申请的贷款查征信，而你提供的信息与征信报告上的不符合。所以，你可以看看你的征信上面的信息是什么样的，然后就照着填吧。</p>
+
+                    <p>（2）找对贷款产品。贷款平台有很多家，每家的贷款产品、门槛都是不一样的。因此，借款人选择贷款产品时，应根据自己的资质情况逐一对比，看看哪款产品与自身条件最为匹配，这样才能提高获贷率。</p>
+
+                    <p>
+                        （3）确定好贷款额度。在申请信用贷款的时候，很多人存在误区，认为额度越高越好，其实不然，信用贷款额度适合最重要。一所以，申请信用贷款的时候，借款人一定要根据自己的实际情况确定好贷款额度，以免难以获批。</p>
+
+                    <p>
+                        （4）确定贷款期限。申请信用贷款的时候，借款人不要一味地追求长期限，因为贷款期限越长，你需要支出的贷款利息越多，这样就增加了贷款成本，而且增大了还款压力。因此，在选择信用贷款的时候，要结合自己的实际需要选择贷款期限，这样对自己来说才是最划算的。</p>
+                </div>
+            </li>
+            <li>
+                <div class="title">
+                    <span>5、申请一笔贷款需多长时间？<i></i></span>
+                </div>
+                <div class="strategy-info">
+                    <p>因不同产品的审核时间有所差异，您提供的信息越完整，审核速度就越快。趣回购APP上众多的贷款产品从申请到最终放款最快5分钟完成。</p>
+                </div>
+            </li>
+            <li>
+                <div class="title">
+                    <span>6、审批通过后，到放款需要多长时间？<i></i></span>
+                </div>
+                <div class="strategy-info">
+                    <p>如果审批已通过，从申请通过到放款，一般在3个工作日内，具体到账时间已相关贷款机构通知为准。</p>
+                </div>
+            </li>
+            <li>
+                <div class="title">
+                    <span>7、如何取消贷款申请？<i></i></span>
+                </div>
+                <div class="strategy-info">
+                    <p>贷款申请一经提交一般无法取消，建议您在申请时谨慎考虑再行操作。若在审核过程中不再有资金需求，建议您可拨打相应平台的客服电话寻求帮助或审核通过后请不要进行放款确认。</p>
+                </div>
+            </li>
+            <li>
+                <div class="title">
+                    <span>8、借款后如何还款？<i></i></span>
+                </div>
+                <div class="strategy-info">
+                    <p>
+                        根据贷款机构不同，还款方式也不同。常见还款方式有两种，自动还款：贷款机构从您所绑定的借记卡中按期扣除应还金额；主动还款：还款日当天登陆自己在借款机构的账户，自行使用银行卡进行还款。机构放款前会与您确认，请提前确认还款日期，以免造成逾期影响您的信用记录。若还款遇到问题，请及时拨打相关贷款机构客服电话寻求帮助。</p>
+                </div>
+            </li>
+            <li>
+                <div class="title">
+                    <span>9、贷款没通过审核怎么办？<i></i></span>
+                </div>
+                <div class="strategy-info">
+                    <p>建议您可以多申请一些贷款产品，填写正确信息，提供更多验证材料，有注意提高您的贷款审核通过率。</p>
+                </div>
+            </li>
+            <li>
+                <div class="title">
+                    <span>10、如何联系客服？<i></i></span>
+                </div>
+                <div class="strategy-info">
+                    <p>趣回购客服电话及客服QQ可在个人中心---关于我们中查看，人工客服繁忙时电话可能占线，请耐心等待。</p>
+                </div>
+            </li>
+            <li>
+                <div class="title">
+                    <span>11、短信验证码没收到怎么办？<i></i></span>
+                </div>
+                <div class="strategy-info">
+
+                    <p>（1）请查看您手机安全软件的短信拦截与黑名单设置，确认验证码短信是否被拦截或标识为垃圾短信。</p>
+                    <p>（2）请确认您的号码是否欠费或网络通信状况不佳，若由于网络或地域问题导致验证信息延迟，建议您等待一分钟后重试。</p>
+                    <p>（3）若非以上问题，您可点击注册信息下方的语音验证码申请电话通知验证信息。</p>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+    <!-- main end -->
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.loan-strategy-new .title').click(function (event) {
+            $(this).toggleClass('current');
+            $(this).next().stop().slideToggle();
+        });
+    });
+</script>
+</body>
+</html>
