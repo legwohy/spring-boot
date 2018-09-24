@@ -26,4 +26,20 @@ public class FileUtils {
         return rootPath;
     }
 
+    /**
+     * 创建图片路径
+     * @param path
+     */
+    public static void mkdirsFile(String path){
+        try {
+            path =  path.replaceAll("\\\\", "/");
+            File file = new File(path);
+            if(!file.exists()){
+                file.mkdirs();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }

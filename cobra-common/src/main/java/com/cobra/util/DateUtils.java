@@ -260,4 +260,15 @@ public class DateUtils
         return cal.getTimeInMillis() / 1000;
     }
 
+    /**
+     * 把当前日期格式化成yyyy-MM-dd
+     * @return
+     */
+    public static String format(){
+        Date date = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String time = df.format(date);
+        return time;
+    }
+
 }
