@@ -38,9 +38,11 @@ public class UserController {
 
         String userPhone = request.getParameter("userPhone");
         String password = request.getParameter("password");
+
+        System.out.println("password:"+password);
         boolean flag = userInfoService.login(userPhone,password);
         if(flag){
-            // 跳转页面
+            return "zm/zmSuccess";
         }
 
         return "tg/index1";
