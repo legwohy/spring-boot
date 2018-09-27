@@ -12,34 +12,22 @@ spring:
   thymeleaf:
       cache: false
 
-  #druid数据源
+   # h2 嵌入式数据库
+  jpa:
+    database: H2
+    show-sql: true
+    hibernate:
+      ddl-auto: update
   datasource:
-    name: druidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/shiro?useUnicode=true&CharacterEncoding=UTF-8&useSSL=false
-    username: root
-    password: 123
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:~/test
+    username: sa
+  # 不使用redis存储则需要配置为none
+  session:
+    store-type: none
+    #schema: classpath:/db/data.sql
 
 
-    type: com.alibaba.druid.pool.DruidDataSource
-    filters: stat
-    maxActive: 20
-    initialSize: 1
-    maxWait: 60000
-    minIdle: 1
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: select 'x'
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    maxOpenPreparedStatements: 20
-  mvc:
-    view:
-      prefix: /WEB-INF/
-      suffix: .jsp
-strWhite: /api/user/login;
 
 # mybaits 配置文件
 mybatis:
