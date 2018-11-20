@@ -1,85 +1,54 @@
 package com.cobra.pojo;
 
+import lombok.Data;
+
 import java.util.Date;
 
-public class UserInfo {
-    private Integer id;
+@Data
+public class UserInfo
+{
+    /**
+     *  用户的唯一标识
+     */
+    private String openid;
 
-    private String userName;
+    /**
+     * 用户昵称
+     */
+    private String nickname;
 
-    private String userPhone;
+    /**
+     * 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
+     */
+    private Integer sex;
 
-    private String gender;
+    /**
+     * 用户个人资料填写的省份
+     */
+    private String province;
 
-    private Date birthday;
+    /**
+     * 普通用户个人资料填写的城市
+     */
+    private String city;
 
-    private Integer status;
+    /**
+     * 国家，如中国为CN
+     */
+    private String country;
 
-    private String address;
+    /**
+     *     用户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头像），用户没有头像时该项为空。若用户更换头像，原有头像URL将失效。
+     */
+    private String headimgurl;
 
-    private String password;
+    /**
+     * 用户特权信息，json 数组，如微信沃卡用户为（chinaunicom）
+     */
+    private String privilege;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
-
-    public String getUserPhone() {
-        return userPhone;
-    }
-
-    public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone == null ? null : userPhone.trim();
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender == null ? null : gender.trim();
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
+    /**
+     * 有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。
+     */
+    private String unionid;
 }
