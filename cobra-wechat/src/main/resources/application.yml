@@ -2,6 +2,9 @@
 ### spring 相关配置
 ########################################################
 spring:
+  # 暂不设置缓存
+  session:
+    store-type: none
 
   ############################# ###########################
   ### datasource
@@ -37,6 +40,8 @@ spring:
 # thymeleaf 相关配置
   thymeleaf:
     cache: false
+  application:
+    name: test
 
 
 
@@ -62,7 +67,7 @@ logging:
 
 server:
   context-path: /
-  port: 80
+  port: 8087
   tomcat.max-threads: 0
   compression.enabled: true
   undertow.accesslog.enabled: true
