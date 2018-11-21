@@ -11,9 +11,9 @@ spring:
   ########################################################
   datasource :
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://xxx?characterEncoding=UTF-8&allowMultiQueries=true
-    username: xx
-    password: xx
+    url: jdbc:mysql://47.101.174.172:3306/test?characterEncoding=UTF-8&allowMultiQueries=true
+    username: root
+    password: J4rFd6ibNIartmi3
     
     # 初始化大小，最小，最大
     max-idle: 500
