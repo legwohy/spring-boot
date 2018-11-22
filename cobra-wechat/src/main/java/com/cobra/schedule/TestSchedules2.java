@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 /**
  * 单任务 多时间
  */
-@Configuration
-@EnableScheduling
+//@Configuration
+//@EnableScheduling
 @Slf4j
 public class TestSchedules2 implements SchedulingConfigurer
 {
