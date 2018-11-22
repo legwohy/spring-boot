@@ -26,9 +26,9 @@ import java.util.List;
 /**
  * 多任务
  */
-@Component
+//@Component
 @Slf4j
-@EnableScheduling
+//@EnableScheduling
 public class TestSchedules implements SchedulingConfigurer
 {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

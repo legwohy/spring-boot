@@ -12,6 +12,7 @@ public class SysTask
     private String methodName;
     private String cron;
     private String taskName;
+    private String remark;
     private Date updateTime;
     private Date createTime;
 }

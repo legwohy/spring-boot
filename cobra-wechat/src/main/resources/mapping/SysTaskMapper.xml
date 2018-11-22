@@ -7,12 +7,13 @@
     <result column="class_name" jdbcType="VARCHAR" property="className" />
     <result column="method_name" jdbcType="VARCHAR" property="methodName" />
     <result column="cron" jdbcType="VARCHAR" property="cron" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, task_name, class_name, method_name, cron, update_time, create_time
+    id, task_name, class_name, method_name, cron,remark, update_time, create_time
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -29,10 +30,10 @@
 
   <insert id="insert" parameterType="com.cobra.pojo.SysTask">
     insert into sys_task (id, task_name, class_name, 
-      method_name, cron, update_time, 
+      method_name, cron,remark, update_time,
       create_time)
     values (#{id,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, 
-      #{methodName,jdbcType=VARCHAR}, #{cron,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{methodName,jdbcType=VARCHAR}, #{cron,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
 
@@ -53,6 +54,9 @@
       </if>
       <if test="cron != null">
         cron,
+      </if>
+      <if test="remark != null">
+        remark,
       </if>
       <if test="updateTime != null">
         update_time,
@@ -76,6 +80,9 @@
       </if>
       <if test="cron != null">
         #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
@@ -101,6 +108,9 @@
       <if test="cron != null">
         cron = #{cron,jdbcType=VARCHAR},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
@@ -117,6 +127,7 @@
       class_name = #{className,jdbcType=VARCHAR},
       method_name = #{methodName,jdbcType=VARCHAR},
       cron = #{cron,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
