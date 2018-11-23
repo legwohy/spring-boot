@@ -22,7 +22,7 @@ public class WechatInterceptor implements HandlerInterceptor
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception
     {
 
-        String code = request.getParameter("code");
+       /* String code = request.getParameter("code");
         if(StringUtils.isEmpty(code))
         {
             // 1、获取code
@@ -61,11 +61,11 @@ public class WechatInterceptor implements HandlerInterceptor
 
 
 
+*/
 
 
 
-
-        return false;
+        return true;
     }
 
     @Override

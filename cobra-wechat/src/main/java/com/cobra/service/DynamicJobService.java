@@ -41,8 +41,8 @@ public class DynamicJobService
     public JobDataMap getJobDataMap(SysTask job)
     {
         JobDataMap map = new JobDataMap();
-        map.put("name", job.getName());
-        map.put("group", job.getGroup());
+        map.put("taskName", job.getTaskName());
+        map.put("taskGroup", job.getTaskGroup());
         map.put("cronExpression", job.getCron());
         map.put("parameter", job.getParameter());
         map.put("JobDescription", job.getDescription());
@@ -57,7 +57,7 @@ public class DynamicJobService
      * 获取JobDetail,JobDetail是任务的定义,而Job是任务的执行逻辑,JobDetail里会引用一个Job Class来定义
      * @param jobKey
      * @param description
-     * @param map
+     * @param map job参数
      * @return
      */
     public JobDetail geJobDetail(JobKey jobKey, String description, JobDataMap map)
@@ -72,13 +72,13 @@ public class DynamicJobService
 
     /**
      * 获取Trigger (Job的触发器,执行规则)
-     * @param job
+     * @param job  设置 cron表达式
      * @return
      */
     public Trigger getTrigger(SysTask job)
     {
         return TriggerBuilder.newTrigger()
-                        .withIdentity(job.getName(), job.getGroup())
+                        .withIdentity(job.getTaskName(), job.getTaskGroup())
                         .withSchedule(CronScheduleBuilder.cronSchedule(job.getCron()))
                         .build();
     }
@@ -90,6 +90,6 @@ public class DynamicJobService
      */
     public JobKey getJobKey(SysTask job)
     {
-        return JobKey.jobKey(job.getName(), job.getGroup());
+        return JobKey.jobKey(job.getTaskName(), job.getTaskGroup());
     }
 }

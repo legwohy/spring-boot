@@ -4,16 +4,19 @@
   <resultMap id="BaseResultMap" type="com.cobra.pojo.SysTask">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+    <result column="task_group" jdbcType="VARCHAR" property="taskGroup" />
+    <result column="cron" jdbcType="VARCHAR" property="cron" />
     <result column="class_name" jdbcType="VARCHAR" property="className" />
     <result column="method_name" jdbcType="VARCHAR" property="methodName" />
-    <result column="cron" jdbcType="VARCHAR" property="cron" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="parameter" jdbcType="VARCHAR" property="parameter" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
-
   <sql id="Base_Column_List">
-    id, task_name, class_name, method_name, cron,remark, update_time, create_time
+    id, task_name, task_group, cron, class_name, method_name, parameter, description, status, update_time,
+    create_time
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -29,12 +32,14 @@
   </delete>
 
   <insert id="insert" parameterType="com.cobra.pojo.SysTask">
-    insert into sys_task (id, task_name, class_name, 
-      method_name, cron,remark, update_time,
-      create_time)
-    values (#{id,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, 
-      #{methodName,jdbcType=VARCHAR}, #{cron,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
-      #{createTime,jdbcType=TIMESTAMP})
+    insert into sys_task (id, task_name, task_group,
+      cron, class_name, method_name, 
+      parameter, description, status, 
+      update_time, create_time)
+    values (#{id,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR}, #{taskGroup,jdbcType=VARCHAR},
+      #{cron,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{methodName,jdbcType=VARCHAR}, 
+      #{parameter,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
 
   <insert id="insertSelective" parameterType="com.cobra.pojo.SysTask">
@@ -46,17 +51,26 @@
       <if test="taskName != null">
         task_name,
       </if>
+      <if test="taskGroup != null">
+        task_group,
+      </if>
+      <if test="cron != null">
+        cron,
+      </if>
       <if test="className != null">
         class_name,
       </if>
       <if test="methodName != null">
         method_name,
       </if>
-      <if test="cron != null">
-        cron,
+      <if test="parameter != null">
+        parameter,
       </if>
-      <if test="remark != null">
-        remark,
+      <if test="description != null">
+        description,
+      </if>
+      <if test="status != null">
+        status,
       </if>
       <if test="updateTime != null">
         update_time,
@@ -72,17 +86,26 @@
       <if test="taskName != null">
         #{taskName,jdbcType=VARCHAR},
       </if>
+      <if test="taskGroup != null">
+        #{taskGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="cron != null">
+        #{cron,jdbcType=VARCHAR},
+      </if>
       <if test="className != null">
         #{className,jdbcType=VARCHAR},
       </if>
       <if test="methodName != null">
         #{methodName,jdbcType=VARCHAR},
       </if>
-      <if test="cron != null">
-        #{cron,jdbcType=VARCHAR},
+      <if test="parameter != null">
+        #{parameter,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
@@ -99,17 +122,26 @@
       <if test="taskName != null">
         task_name = #{taskName,jdbcType=VARCHAR},
       </if>
+      <if test="taskGroup != null">
+        task_group = #{taskGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="cron != null">
+        cron = #{cron,jdbcType=VARCHAR},
+      </if>
       <if test="className != null">
         class_name = #{className,jdbcType=VARCHAR},
       </if>
       <if test="methodName != null">
         method_name = #{methodName,jdbcType=VARCHAR},
       </if>
-      <if test="cron != null">
-        cron = #{cron,jdbcType=VARCHAR},
+      <if test="parameter != null">
+        parameter = #{parameter,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -124,10 +156,13 @@
   <update id="updateByPrimaryKey" parameterType="com.cobra.pojo.SysTask">
     update sys_task
     set task_name = #{taskName,jdbcType=VARCHAR},
+      task_group = #{taskGroup,jdbcType=VARCHAR},
+      cron = #{cron,jdbcType=VARCHAR},
       class_name = #{className,jdbcType=VARCHAR},
       method_name = #{methodName,jdbcType=VARCHAR},
-      cron = #{cron,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
+      parameter = #{parameter,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
@@ -136,5 +171,4 @@
   <select id="selectAll" resultMap="BaseResultMap">
     SELECT *FROM sys_task
   </select>
-
 </mapper>

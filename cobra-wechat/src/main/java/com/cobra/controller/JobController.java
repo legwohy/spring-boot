@@ -21,7 +21,7 @@ import java.util.Set;
 /**
  * Created by EalenXie on 2018/6/4 16:12
  */
-@Controller
+//@Controller
 public class JobController
 {
 
@@ -39,7 +39,7 @@ public class JobController
     /**
      * 初始化启动所有的Job
      */
-    @PostConstruct
+    //@PostConstruct
     public void initialize()
     {
         try
@@ -70,7 +70,7 @@ public class JobController
         {
             return "error: id is not exist ";
         }
-        TriggerKey triggerKey = new TriggerKey(entity.getName(), entity.getGroup());
+        TriggerKey triggerKey = new TriggerKey(entity.getTaskName(), entity.getTaskGroup());
         JobKey jobKey = jobService.getJobKey(entity);
         Scheduler scheduler = factory.getScheduler();
         try
@@ -81,12 +81,13 @@ public class JobController
             JobDetail jobDetail = jobService.geJobDetail(jobKey, entity.getDescription(), map);
             if (entity.getStatus().equals("OPEN"))
             {
+                // 添加任务
                 scheduler.scheduleJob(jobDetail, jobService.getTrigger(entity));
-                result = "Refresh Job : " + entity.getName() + " success !";
+                result = "Refresh Job : " + entity.getTaskName() + " success !";
             }
             else
             {
-                result = "Refresh Job : " + entity.getName() + " failed ! , " +
+                result = "Refresh Job : " + entity.getTaskName() + " failed ! , " +
                                 "Because the Job status is " + entity.getStatus();
             }
         }
@@ -131,7 +132,7 @@ public class JobController
         }
         for (SysTask job : jobService.loadJobs())
         {
-            logger.info("Job register name : {} , group : {} , cron : {}", job.getName(), job.getGroup(), job.getCron());
+            logger.info("Job register name : {} , group : {} , cron : {}", job.getTaskName(), job.getTaskGroup(), job.getCron());
             JobDataMap map = jobService.getJobDataMap(job);
             JobKey jobKey = jobService.getJobKey(job);
             JobDetail jobDetail = jobService.geJobDetail(jobKey, job.getDescription(), map);
@@ -141,7 +142,7 @@ public class JobController
             }
             else
             {
-                logger.info("Job jump name : {} , Because {} status is {}", job.getName(), job.getName(), job.getStatus());
+                logger.info("Job jump name : {} , Because {} status is {}", job.getTaskName(), job.getClassName(), job.getStatus());
             }
         }
     }

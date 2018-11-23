@@ -19,7 +19,7 @@ import java.util.Properties;
 /**
  * quartz 配置文件
  */
-@Configuration
+//@Configuration
 public class QuartzConfigure
 {
 
@@ -36,6 +36,7 @@ public class QuartzConfigure
     }
 
     /**
+     * SchedulerFactoryBean 暴露 Scheduler 非 SchedulerFactoryBean
      * SchedulerFactoryBean这个类的真正作用提供了对org.quartz.Scheduler的创建与配置，并且会管理它的生命周期与Spring同步。
      * org.quartz.Scheduler: 调度器。所有的调度都是由它控制。
      * @param dataSource 为SchedulerFactory配置数据源
