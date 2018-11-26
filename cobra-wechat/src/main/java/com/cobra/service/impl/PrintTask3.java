@@ -1,6 +1,6 @@
-package com.cobra.task.impl;
+package com.cobra.service.impl;
 
-import com.cobra.task.MyTask;
+import com.cobra.service.MyTask;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -8,12 +8,12 @@ import java.time.LocalDateTime;
 
 @Service
 @Slf4j
-public class PrintTask1 implements MyTask
+public class PrintTask3 implements MyTask
 {
     @Override
     public void excute()
     {
-        log.info("执行定时任务1:"+ LocalDateTime.now().toLocalTime());
+        log.info("执行定时任务3:"+ LocalDateTime.now().toLocalTime());
 
     }
 }
