@@ -1,5 +1,6 @@
 package com.cobra.job;
 
+import com.cobra.util.SpringContextHolder;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,9 +47,10 @@ public class DynamicJob implements Job
         try
         {
             // 执行定时任务
-            Class clazz = Class.forName(map.getString("className"));
+            Object bean = SpringContextHolder.getBean(toLowerCaseFirstOne(map.getString("className")));
+            Class clazz = bean.getClass();
             Method method = clazz.getMethod(map.getString("methodName"), null);
-            method.invoke(clazz.newInstance(), null);
+            method.invoke(bean, null);
         }
         catch (Exception e)
         {
@@ -58,6 +60,16 @@ public class DynamicJob implements Job
 
         long endTime = System.currentTimeMillis();
         logger.info(">>>>>>>>>>>>> Running Job has been completed , cost time :  " + (endTime - startTime) + "ms\n");
+    }
+
+    private static String toLowerCaseFirstOne(String s){
+        if(Character.isLowerCase(s.charAt(0)))
+        {
+            return s;
+        }else
+        {
+            return (new StringBuilder()).append(Character.toLowerCase(s.charAt(0))).append(s.substring(1)).toString();
+        }
     }
 
 }

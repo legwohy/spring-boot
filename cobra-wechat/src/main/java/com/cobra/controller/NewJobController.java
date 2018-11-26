@@ -2,10 +2,8 @@ package com.cobra.controller;
 
 import com.cobra.pojo.SysTask;
 import com.cobra.service.SysTaskService;
-import com.cobra.tmp.JobParameter;
 import com.cobra.tmp.JobService;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
