@@ -5,6 +5,7 @@ import com.cobra.service.SysTaskService;
 import com.cobra.tmp.JobParameter;
 import com.cobra.tmp.JobService;
 import lombok.extern.slf4j.Slf4j;
+import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -29,62 +32,6 @@ public class NewJobController
     public void init(){
         startAll();
         log.info("初始化启动所有=========================");
-    }
-
-    @RequestMapping("/add/{id}")
-    @ResponseBody
-    public String start(@PathVariable Integer id){
-        SysTask sysTask = sysTaskService.selectByPrimaryKey(id);
-
-        //JobParameter jobParameter = new JobParameter("task1","task","*/10 * * * * ?","每10秒钟执行一次");
-        Scheduler scheduler = factoryBean.getScheduler();
-        try
-        {
-            log.info("====================添加{}任务",sysTask.getTaskName());
-            if(sysTask.getStatus().equals(1))
-            {
-                // 删除
-                scheduler.deleteJob(JobKey.jobKey(sysTask.getTaskName(),sysTask.getTaskGroup()));
-
-                // 增加
-                scheduler.scheduleJob(jobService.getJobDetail(sysTask),jobService.getTrigger(sysTask));
-
-            }
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return "开始执行";
-    }
-
-    @RequestMapping("/delete/{id}")
-    @ResponseBody
-    public String stop(@PathVariable Integer id){
-        SysTask sysTask = sysTaskService.selectByPrimaryKey(id);
-        //JobParameter jobParameter = new JobParameter("task1","task","*/10 * * * * ?","每10秒钟执行一次");
-
-        Scheduler scheduler = factoryBean.getScheduler();
-        try
-        {
-            log.info("====================删除{}任务",sysTask.getTaskName());
-
-            // 删除任务
-            scheduler.deleteJob(JobKey.jobKey(sysTask.getTaskName(),sysTask.getTaskGroup()));
-
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return "任务停止";
-    }
-
-    @RequestMapping("/delete/all")
-    public String stopAll()
-    {
-        deleteAll();
-
-        return "停止所有";
-
     }
 
 
@@ -107,25 +54,51 @@ public class NewJobController
 
     }
 
-    private void deleteAll(){
-        List<SysTask> sysTasks = sysTaskService.selectAll();
+
+    @RequestMapping("/refresh/{id}")
+    @ResponseBody
+    public String refresh(HttpServletRequest request,HttpServletResponse response,@PathVariable Integer id)
+    {
+        SysTask sysTask = sysTaskService.selectByPrimaryKey(id);
+        if(null == sysTask)
+        {
+            return "暂无此任务";
+        }
+
         Scheduler scheduler = factoryBean.getScheduler();
-        sysTasks.forEach(sysTask -> {
-            if(sysTask.getStatus().equals(1))
+
+        if(null == sysTask.getStatus() || sysTask.getStatus().equals(0))
+        {
+            try
             {
-                try
-                {
-                    if (sysTask.getStatus().equals(1))
-                    {
-                        scheduler.deleteJob(JobKey.jobKey(sysTask.getTaskName(),sysTask.getTaskGroup()));
-                    }
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-
+                scheduler.deleteJob(JobKey.jobKey(sysTask.getTaskName(),sysTask.getTaskGroup()));
+                return "关闭定时任务【"+sysTask.getTaskName()+"】成功!";
+            }catch (Exception e)
+            {
+                e.printStackTrace();
             }
-        });
+
+        }
+
+        if(sysTask.getStatus().equals(1))
+        {
+
+            try
+            {
+                // 删除任务
+                scheduler.deleteJob(JobKey.jobKey(sysTask.getTaskName(),sysTask.getTaskGroup()));
+                // 添加任务
+                scheduler.scheduleJob(jobService.getJobDetail(sysTask),jobService.getTrigger(sysTask));
+
+                return "开启定时任务【"+sysTask.getTaskName()+"】成功!";
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
+
+        return "刷新任务失败";
     }
+
 }
