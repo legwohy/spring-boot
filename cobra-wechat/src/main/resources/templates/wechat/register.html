@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8"/>
+	<title>特种能源</title>
+    <meta http-equiv="Expires" content="-1"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/wechat/css/index.css}" />
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/wechat/images/favicon.ico}"/>
+    <script type="text/javascript" th:src="@{/wechat/js/jquery-1.9.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/wechat/js/index.js}"></script>
+    <style type="text/css">
+        .btn-sms{}
+    </style>
+</head>
+<body>
+<div class="page">
+  <div class="spread">
+    <div class="title">注册</div>  
+    <form action="">
+        <input type="text" name="userPhone" id="userPhone" th:value="${userPhone}"  hidden="hidden" />
+        <input type="text" name="RCaptchaKey" id="RCaptchaKey" th:value="${RCaptchaKey}" hidden="hidden" />
+    <div class="list mart146">
+        <div class="item yz-code">
+            <div class="input-c">
+                <input type="text"  name="captcha" id="captcha" placeholder="图形验证码" maxLength="4" />
+                <i class="icon-close"></i>
+            </div>
+            <div class="yzm">
+                <img th:src="@{/captcha.svl?(RCaptchaKey=${RCaptchaKey})}" id="captchaBtn" onclick="this.src = ('/captcha.svl?RCaptchaKey='+$('#RCaptchaKey').val()+'&amp;d=' + new Date() * 1)"/>
+            </div>
+        </div>
+
+
+        <div class="item yz-code">
+            <div class="input-c">
+                <input type="text" placeholder="短信验证码" maxLength="6" id="smsCode" />
+                <i class="icon-close"></i>
+            </div>
+            <div class="yzm bdl" id="btn">
+                发送验证码
+            </div>
+        </div>
+
+
+        <div class="item">
+            <div class="input-c">
+                <input type="password" id="password" name="password" placeholder="请输入6-20位登录密码" maxLength="20" />
+                <i class="icon-close"></i>
+            </div>
+        </div>
+        <a href="javascript:;" class="btn active mart146 sq-btn">注册</a>
+        <div class="protocol">
+
+            <!--<img th:src="@{/wechat/images/checked.png}" alt=""/>-->
+            <div class="checkbox checked" id="agreement"></div>
+            <span >注册即代表同意</span>
+            <a th:href="${wechatRegAgreement}">《注册协议》</a>
+        </div>
+    </div>
+    </form>
+    </div>
+  </div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+
+    // 消息提示
+    function showMsg(info,time){
+        var e_time = 2000;
+        if (time) {
+            e_time = time
+        }
+        var divElement = $("<div id='msg' style='position: fixed;left: 0; top: 0;right: 0;bottom: 0;z-index: 1000;text-align: center;z-index: 100;background-color: rgba(0, 0, 0, .1);'><div style='display: inline-block;padding: 0.4rem 0.5rem;font-size: 0.75rem;line-height: 1rem;color: #fff;border-radius: 0.2rem;text-align: center;position: relative;top: 30%;background-color: rgba(0, 0, 0, .5);'>"+info+"</div></div>");
+        $("body").append(divElement);
+        setTimeout(function(){
+            $("#msg").remove();
+        }, e_time);
+    }
+
+    // 倒计时
+    var wait=60;
+    var flag = true;
+    var interval = null;
+
+    function time() {
+        interval = setInterval(function() {
+            if (wait == 0) {
+                clearInterval(interval);
+                $("#btn").text("点击获取");
+                wait = 60;
+                flag = true;
+            } else {
+                $("#btn").text(wait + "s");
+                wait--;
+            }
+        }, 1000);
+
+    }
+
+    $(function(){
+        // 去注册
+        $(".sq-btn").click(function(){
+            debugger;
+            var userPhone=$("#userPhone").val();
+            var password=$("#password").val();
+            var smsCode=$("#smsCode").val();
+            var captcha=$("#captcha").val();
+            var RCaptchaKey=$("#RCaptchaKey").val();
+
+            if(!password){
+                showMsg('请输入密码');
+                return;
+            }
+
+            var reg = new RegExp(/^[a-zA-Z0-9]+$/);
+            if (!reg.test(password)||password.length>20){
+                showMsg("密码为20位内字母或数字");
+                return;
+            }
+
+            if(!smsCode){
+                showMsg('请输入短信验证码');
+                return;
+            }
+
+            if(!captcha){
+                showMsg('请先输入图形验证码');
+                return;
+            }
+            // 注册协议
+            if(!agreement)
+            {
+                showMsg("请勾选注册协议");
+                return;
+            }
+
+            $.ajax({
+                type   : "post",
+                async:false,
+                data   : {userPhone: userPhone,password: password,smsCode: smsCode,captcha: captcha,RCaptchaKey: RCaptchaKey},
+                url    : [[@{/wechatApi/checkRegister}]],
+                success: function (resp) {
+                var date =  resp;
+                if(date.code==1)
+                {
+                    window.location.href="/wechatUrl/success?userPhone="+userPhone+"&RCaptchaKey="+RCaptchaKey;
+                }else if(date.code=='-1')
+                {
+                    showMsg(date.message);
+
+                }else if(date.code=='0')
+                {
+                    window.location.href="/wechatUrl/success?userPhone="+userPhone+"&RCaptchaKey="+RCaptchaKey;
+                }else if(date.code=='-2')
+                {
+                    window.location.href="/wechatUrl/toRegister?type=2&userPhone="
+                        +userPhone+"&smsCode="+smsCode+"&captcha="+captcha+"&RCaptchaKey="+RCaptchaKey;
+                }
+            }
+        });
+
+
+        });
+
+        // 获取短信验证码
+        $("#btn").click(function(){
+            debugger;
+            if (!flag) {
+                return;
+            }
+            var userPhone=$("#userPhone").val();
+            var captcha=$("#captcha").val();
+            var RCaptchaKey=$("#RCaptchaKey").val();
+
+            if(!userPhone){
+                showMsg('请输入手机号码');
+                return;
+            }
+
+            var re = /^1\d{10}$/
+            if (!re.test(userPhone)) {
+                showMsg('请输入手机号码');
+                return;
+            }
+
+            if(!captcha){
+                showMsg('请先输入图形验证码');
+                return;
+            }
+            flag = true;
+            $.ajax({
+                type   : "post",
+                async:false,
+                data   : {userPhone: userPhone,captcha: captcha,RCaptchaKey: RCaptchaKey},
+                url    : [[@{/wechatApi/sendMessage}]],
+                success: function (resp) {
+                var date =  resp ;
+                if(date.code=='-1')
+                {
+                    showMsg(date.message);
+                    $("#captchaBtn").click();
+                    $("#captcha").val("");
+                    $("#captcha").focus();
+
+                }else if(resp.code=='0')
+                {
+                    flag=false;
+                    showMsg('短信发送成功');
+                    // 倒计时
+                    time();
+                }
+            }
+
+        });
+
+        });
+
+        var agreement = true;
+        // 点击注册协议
+        $("#agreement").click(function ()
+        {
+            if(agreement)
+            {
+                $("#agreement").removeClass("checked");
+                agreement = false;
+            }else {
+                $("#agreement").addClass("checked");
+                agreement = true;
+            }
+            
+        });
+
+    });
+
+
+    /*]]>*/
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?323d349c977076997b1037c50833ee7a";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+</html>

@@ -21,7 +21,8 @@ public class MvcConfig implements WebMvcConfigurer
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry)
     {
-        interceptorRegistry.addInterceptor(wechatInterceptor());
+        interceptorRegistry.addInterceptor(wechatInterceptor())
+                        .addPathPatterns("/wechat/*");
 
     }
 
@@ -76,6 +77,8 @@ public class MvcConfig implements WebMvcConfigurer
     @Override
     public void addViewControllers(ViewControllerRegistry viewControllerRegistry)
     {
+        // 默认跳转主页
+        viewControllerRegistry.addViewController("/").setViewName("index");
 
     }
 

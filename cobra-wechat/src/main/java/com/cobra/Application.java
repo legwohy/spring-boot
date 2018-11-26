@@ -1,7 +1,7 @@
 package com.cobra;
 
 
-import com.cobra.pojo.SpringUtils;
+import com.cobra.util.SpringUtils;
 import com.cobra.pojo.User1;
 import com.cobra.pojo.User2;
 import lombok.extern.slf4j.Slf4j;
