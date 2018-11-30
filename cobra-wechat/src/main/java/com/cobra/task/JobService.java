@@ -69,7 +69,7 @@ public class JobService
             {
 
                 // 删除任务
-                scheduler.deleteJob(JobKey.jobKey(sysTask.getTaskName(),sysTask.getTaskGroup()));
+                scheduler.deleteJob(JobKey.jobKey(String.valueOf(sysTask.getId()),sysTask.getTaskGroup()));
                 // 添加任务
                 scheduler.scheduleJob(getJobDetail(sysTask),getTrigger(sysTask));
 
@@ -102,12 +102,12 @@ public class JobService
 
     public TriggerKey getTriggerKey(SysTask sysTask)
     {
-        return new TriggerKey(sysTask.getTaskName(),sysTask.getTaskGroup());
+        return new TriggerKey(String.valueOf(sysTask.getId()),sysTask.getTaskGroup());
     }
 
     public JobKey getJobKey(SysTask sysTask)
     {
-        return new JobKey(sysTask.getTaskName(),sysTask.getTaskGroup());
+        return new JobKey(String.valueOf(sysTask.getId()),sysTask.getTaskGroup());
     }
 
     public JobDataMap buildJobDataMap(SysTask sysTask){
