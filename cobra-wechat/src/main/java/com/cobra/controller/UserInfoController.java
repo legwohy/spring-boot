@@ -5,17 +5,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URLEncoder;
 
 @Controller
-@RequestMapping("/wechat")
-public class WeChatController
+@RequestMapping("/cobra")
+public class UserInfoController
 {
-    @RequestMapping("/index")
-    public String intoIndex(HttpServletRequest request,HttpServletResponse response)
+    @RequestMapping("/login")
+    public String login(HttpServletRequest request,HttpServletResponse response)
     {
-
-        return "wechat/index";
+        return "wechat/login";
 
     }
 }

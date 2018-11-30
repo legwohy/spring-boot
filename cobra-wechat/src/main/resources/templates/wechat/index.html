@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8"/>
+	<title>特种能源</title>
+    <meta http-equiv="Expires" content="-1"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/wechat/css/index.css}" />
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/wechat/images/favicon.ico}"/>
+    <script type="text/javascript" th:src="@{/wechat/js/jquery-1.9.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/wechat/js/index.js}"></script>
+</head>
+<body>
+<div class="page">
+  <div class="spread">
+    <img class="banner" th:src="@{/wechat/images/banner.png}" />
+    <form action="">
+    <div class="list mart146">
+        <input type="text" name="RCaptchaKey" id="RCaptchaKey" th:value="${RCaptchaKey}" hidden="hidden" />
+        <div class="item phone">
+            <div class="input-c">
+                <input type="tel" placeholder="请输入您的手机号" maxLength="11" id="userPhone" />
+                <i class="icon-close"></i>
+            </div>
+        </div>
+    
+        <a href="javascript:;" class="btn active sq-btn" id="submit">下一步</a>
+    </div>
+    </form>
+    </div>
+  </div>
+
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+
+    // 消息提示
+    function showMsg(info,time){
+        var e_time = 2000;
+        if (time) {
+            e_time = time
+        }
+        var divElement = $("<div id='msg' style='position: fixed;left: 0; top: 0;right: 0;bottom: 0;z-index: 1000;text-align: center;z-index: 100;background-color: rgba(0, 0, 0, .1);'><div style='display: inline-block;padding: 0.4rem 0.5rem;font-size: 0.75rem;line-height: 1rem;color: #fff;border-radius: 0.2rem;text-align: center;position: relative;top: 30%;background-color: rgba(0, 0, 0, .5);'>"+info+"</div></div>");
+        $("body").append(divElement);
+        setTimeout(function(){
+            $("#msg").remove();
+        }, e_time);
+    }
+
+
+    $(function(){
+        $(".sq-btn").click(function(){
+            var userPhone=$("#userPhone").val();
+            var RCaptchaKey=$("#RCaptchaKey").val();
+
+            if(!userPhone){
+                showMsg('请输入手机号');
+                return;
+            }
+
+            var re = /^1\d{10}$/;
+            if (!re.test(userPhone)) {
+                showMsg('手机号码格式不正确');
+                return;
+            }
+
+
+            $.ajax({
+                type   : "post",
+                async:false,
+                data   : {userPhone: userPhone},
+                url    : [[@{/wechatApi/checkLogin}]],
+                success: function (resp) {
+                var date =  resp;
+                if(date.code==1){
+                    window.location.href="/wechatUrl/toRegister?userPhone="+userPhone+"&RCaptchaKey="+RCaptchaKey;
+                }else if(date.code=='-1'){
+                    if(date.data=="-2")
+                    {
+                        window.location.href="/wechatUrl/toLogin?type=1&userPhone="+userPhone+"&RCaptchaKey="+RCaptchaKey;
+                    }else {
+                        showMsg(date.message);
+                    }
+
+                }else if(date.code=='0'){
+                    window.location.href="/wechatUrl/success?userPhone="+userPhone+"&RCaptchaKey="+RCaptchaKey;
+                }
+
+            }
+        });
+
+
+        });
+
+
+    });
+
+
+    /*]]>*/
+</script>
+
+</body>
+</html>
