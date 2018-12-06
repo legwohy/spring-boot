@@ -3,8 +3,8 @@
 ########################################################
 spring:
   # 暂不设置缓存
-  session:
-    store-type: none
+  #session:
+   # store-type: redis
 
   ############################# ###########################
   ### datasource
@@ -29,6 +29,19 @@ spring:
 
     # 验证
     validation-query: select 1
+
+  ########################################################
+  ###redis
+  ########################################################
+  redis :
+    host: 47.101.174.172
+    password: legwohy
+    database: 10
+    port: 6379
+    timeout: 1000
+    maxTotal: 500
+    maxIdle: 500
+    maxWaitMillis: 2
 
 
 
