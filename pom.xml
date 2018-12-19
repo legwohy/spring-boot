@@ -38,6 +38,7 @@
         <oss.version>2.6.1</oss.version>
         <aspectj.version>1.8.5</aspectj.version>
         <slf4j.version>1.7.25</slf4j.version>
+        <emoji.version>4.0.0</emoji.version>
 
     </properties>
 
@@ -257,6 +258,11 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>com.vdurmont</groupId>
+            <artifactId>emoji-java</artifactId>
+            <version>${emoji.version}</version>
+        </dependency>
 
     </dependencies>
 
