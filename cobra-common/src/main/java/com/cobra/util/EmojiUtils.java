@@ -28,7 +28,8 @@ public class EmojiUtils
             }
         }
         if (buf == null) {
-            return source;
+            // 全部是emoji 则返回空
+            return "";
         } else {
             if (buf.length() == len) {
                 buf = null;
