@@ -1,9 +1,8 @@
-package com.cobra.dsign;
+package com.cobra.design.strategy;
 
 import com.cobra.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import springfox.documentation.schema.Maps;
 
 import java.util.HashMap;
 import java.util.List;

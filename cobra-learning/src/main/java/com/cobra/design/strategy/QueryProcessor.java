@@ -1,4 +1,4 @@
-package com.cobra.dsign;
+package com.cobra.design.strategy;
 
 import java.util.Map;
 
