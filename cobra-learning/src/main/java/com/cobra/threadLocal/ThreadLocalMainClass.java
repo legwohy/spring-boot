@@ -1,14 +1,19 @@
 package com.cobra.threadLocal;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
- * @description: threadLocal 存储线程内的变量
+ * @description: threadLocal 一个线程只保留一个变量 并且只保存一个 在最后一个get完之后需要remove
  */
 public class ThreadLocalMainClass
 {
     public static void main(String[] args)
     {
         ProductUtils.set(new Product("JJJ"));
+        ProductUtils.set(new Product("QQQ"));
+        ProductUtils.set(new Product("KKK"));
         ProductThread t1 = new ProductThread("1",new Product("A"));
         ProductThread t2 = new ProductThread("2",new Product("B"));
         ProductThread t3 = new ProductThread("3",new Product("C"));
@@ -27,13 +32,20 @@ public class ThreadLocalMainClass
 
 
 
-        System.out.println("主线程:"+ProductUtils.get().getName());
+        System.out.println("主线程1:"+ProductUtils.get().getName());
+        System.out.println("main线程:"+Thread.currentThread());
+
+
 
     }
 
     public void concurrent(String name){
 
-       System.out.println("次线程二级:"+ProductUtils.get().getName()+"\t"+name+",当前线程名:"+ Thread.currentThread().getName());
+        String cureentName = ProductUtils.get().getName();
+       System.out.println("次线程二级:"+cureentName+"\t"+name+",当前线程名:"+ Thread.currentThread().getName());
+
+
+
     }
 }
 
