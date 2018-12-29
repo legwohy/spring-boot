@@ -24,7 +24,7 @@ class DCL
 {
 
     private String name;
-    private volatile static DCL dcl;
+    private  static DCL dcl;
 
     private DCL(){}
 
