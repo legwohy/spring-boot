@@ -42,7 +42,7 @@ public class ThreadLocalMainClass
     public void concurrent(String name){
 
         String cureentName = ProductUtils.get().getName();
-       System.out.println("次线程二级:"+cureentName+"\t"+name+",当前线程名:"+ Thread.currentThread().getName());
+        System.out.println("次线程二级:"+cureentName+"\t"+name+",当前线程名:"+ Thread.currentThread().getName());
 
 
 
