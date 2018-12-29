@@ -5,7 +5,11 @@ import java.lang.ref.WeakReference;
 /**
  * @auther: leigang
  * @date: 2018/12/29 11:46
- * @description:
+ * @description:而SoftReference
+
+就是和WeakReference有一点点的不同，SoftReference比较大方，
+在内存快用尽的时候才会回收这个对象。而Weak会很快就回收，
+强引用是就算内存不足了，也不会回收，这就是他的危险之处
  */
 public class WeakReferenceMainClass
 {
