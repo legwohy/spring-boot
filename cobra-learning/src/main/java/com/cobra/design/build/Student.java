@@ -8,7 +8,7 @@ import java.util.Date;
  *  1、构造器私有
  *  2、通过构造器实例化
  *  3、相当于注释
- *  4、不允许set方法修改参数
+ *  4、不允许set方法修改参数(外部get 内部set)
  *
  * @auther: leigang
  * @date: 2019/1/22 11:59
