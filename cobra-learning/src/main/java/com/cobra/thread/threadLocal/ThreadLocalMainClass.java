@@ -1,7 +1,4 @@
-package com.cobra.threadLocal;
-
-import java.util.HashMap;
-import java.util.Map;
+package com.cobra.thread.threadLocal;
 
 /**
  *

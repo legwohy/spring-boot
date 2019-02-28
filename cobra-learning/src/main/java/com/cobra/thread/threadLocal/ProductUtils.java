@@ -1,4 +1,4 @@
-package com.cobra.threadLocal;
+package com.cobra.thread.threadLocal;
 
 /**
  * 静态与非静态
