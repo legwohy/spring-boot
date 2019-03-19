@@ -208,13 +208,13 @@ public class LinkNet
 
     /**
      * 1、普通参数
-     * --boundary--
+     * --boundary
      * Content-Disposition:form-data;name=key
      *
      * value
      *
      * 2、文件参数
-     * --boundary--
+     * --boundary
      * Content-Disposition:form-data;name=fileName;filename=fileName.png
      * Content-Type:application/octet-stream
      *
