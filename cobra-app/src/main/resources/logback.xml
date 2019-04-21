@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<configuration scan="false" scanPeriod="10 seconds">
+<!-- logback-classic.jar启动时候
+	1、SystemProperties中查找logbackConfiguration中的value
+	2、在classpath下查找logback.groove
+	3、在classpath下查找logback-test.xml
+	4、在classpath下查找logback.xml
+	只要找到其中的一项就会对相应的配置初始化
+	若都找不到就会默认BasicConfiguration初始化
+
+	san默认为true 当配置文件改变时会重新加载
+	scanPeriod扫描配置文件的时间 仅且当 scan为true时有效 默认间隔1分钟
+	debug 默认为false 是否打印logback内部日志
+
+	日志由低到高五个级别 trace debug info warn error
+
+	-->
+<configuration scan="false" scanPeriod="10 seconds" debug="false">
 
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
 
@@ -11,16 +26,21 @@
     <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(--%line){gray} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
     <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} %clr(--%line){gray} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
 
+	<!--STDOUT将日志信息打印到控制台-->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <!-- encoder 默认配置为PatternLayoutEncoder -->   
+        <!-- encoder 格式化 默认配置为PatternLayoutEncoder -->
 	    <encoder>   
 	      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %line : %msg%n</pattern>   
 	    </encoder>   
     </appender>
 
-	<!-- 根据日志的级别输出日志-->
-	<appender name="fileErrorLog"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<!--
+		rollingFileAppender滚动记录日志文件
+		即先将日志记录到指定文件 当符合某一条件，在将日志记录到相应的文件
+		TimeBasedRollingPolicy 时间滚动策略 最常用
+		ThresholdFilter 在当前日志给定的级别下在进行一次过滤 只有高于本级别才能打印出来
+	-->
+	<appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>ERROR</level>
 		</filter>
@@ -29,27 +49,25 @@
 				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{32} - %line : %msg%n
 			</Pattern>
 		</layout>
-		<!--滚动策略 -->
-		<rollingPolicy
-			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!--路径 -->
-			<FileNamePattern> logs/error/cobra_api.%d{yyyy-MM-dd}.log
-			</FileNamePattern>
+
+		<!--时间滚动策略 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--文件保留的最大数量 -->
+			<FileNamePattern> logs/error/cobra_api.%d{yyyy-MM-dd}.log</FileNamePattern>
 		</rollingPolicy>
 	</appender>
 
-	<appender name="fileWarnLog"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<appender name="fileWarnLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<!--必须大于warn日志级别-->
 			<level>WARN</level>
 		</filter>
 
 		<!--滚动策略 -->
-		<rollingPolicy
-			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!--路径 -->
-			<FileNamePattern> logs/warn/cobra_api_warn.%d{yyyy-MM-dd}.log
-			</FileNamePattern>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--文件保留的最大数量 -->
+			<FileNamePattern> logs/warn/cobra_api_warn.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<maxHistory>60</maxHistory>
 		</rollingPolicy>
 		<layout class="ch.qos.logback.classic.PatternLayout">
 			<Pattern>
@@ -61,9 +79,7 @@
 	<!-- 常规日志打印所有的-->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>
-                logs/cobra_api_%d{yyyy-MM-dd}.log
-            </FileNamePattern>
+            <FileNamePattern>logs/cobra_api_%d{yyyy-MM-dd}.log</FileNamePattern>
             <maxHistory>60</maxHistory>
         </rollingPolicy>
 
@@ -71,10 +87,17 @@
             <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{32} - %line : %msg%n</Pattern>
         </layout>
     </appender>
-    <!-- show sql -->
-    <logger name="com.cobra" level="DEBUG"/>
+
+    <!-- logger打印某一类或某一包下的日志
+    name 制定包名或类名
+    level 日志打印级别 若不设置边级别 默认继承上一日志打印级别
+    additivity 是否向上一级别传递打印日志信息 默认为true -->
+    <logger name="com.cobra" level="DEBUG" additivity="true"/>
+
+	<!--root name 为root-->
     <root>
 		<level value="INFO" />
+		<!--将日志信息打印到控制台-->
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="fileWarnLog" />
 		<appender-ref ref="FILE" />
