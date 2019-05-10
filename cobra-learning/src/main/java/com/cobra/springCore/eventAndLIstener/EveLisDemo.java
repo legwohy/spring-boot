@@ -1,4 +1,4 @@
-package com.cobra.eventAndLIstener;
+package com.cobra.springCore.eventAndLIstener;
 
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.PayloadApplicationEvent;
@@ -10,7 +10,7 @@ import org.springframework.context.event.SimpleApplicationEventMulticaster;
  * Spring监听器 ApplicationListener
  * Ctrl+F12 查找方法
  */
-public class MainClass
+public class EveLisDemo
 {
     public static void main(String[] args)
     {
