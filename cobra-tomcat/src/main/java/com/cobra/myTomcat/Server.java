@@ -6,6 +6,7 @@ import java.net.Socket;
 
 /**
  * tomcat的服务端 serverSocket 监听端口 并响应数据 响应头是必须的
+ * uri做拦截 将会进入到自己写的业务代码
  */
 public class Server
 {
@@ -21,6 +22,9 @@ public class Server
             InputStream is = socket.getInputStream();
             HttpRequest request = new HttpRequest(is);
 
+            System.out.println("uri="+request.getUri());
+            System.out.println("userName="+request.getParamter("userName")+","+request.getParamter("pwd"));
+
             /*byte[] bytes = new byte[1024];// 每次读取1kb
             int len = is.read(bytes);
             if(len>0){
@@ -34,6 +38,10 @@ public class Server
             String uri = request.getUri();
             if(isStatic(uri)){
                 response.writeFile(uri.substring(1));// 去掉 /
+            }else if(uri.endsWith(".action"))
+            {
+                new LoginServlet().server(request,response);
+
             }
 
 
