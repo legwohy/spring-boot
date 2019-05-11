@@ -1,4 +1,7 @@
-package com.cobra.myTomcat;
+package com.cobra.servlet;
+
+import com.cobra.myTomcat.HttpRequest;
+import com.cobra.myTomcat.HttpResponse;
 
 import java.io.IOException;
 

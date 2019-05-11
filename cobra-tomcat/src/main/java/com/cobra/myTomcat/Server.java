@@ -1,12 +1,18 @@
 package com.cobra.myTomcat;
 
+import com.cobra.servlet.HttpServlet;
+import com.cobra.util.ConfigUtils;
+import groovy.util.MapEntry;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
 
 /**
  * tomcat的服务端 serverSocket 监听端口 并响应数据 响应头是必须的
- * uri做拦截 将会进入到自己写的业务代码
+ * uri被拦截 将会进入到自己写的业务代码
+ * web.xml中需要配置servlet
  */
 public class Server
 {
@@ -40,7 +46,9 @@ public class Server
                 response.writeFile(uri.substring(1));// 去掉 /
             }else if(uri.endsWith(".action"))
             {
-                new LoginServlet().server(request,response);
+                // new LoginServlet().server(request,response);
+                new Server().processActionRequest(uri,request,response);
+
 
             }
 
@@ -69,6 +77,42 @@ public class Server
             socket.close();// 请求结束
 
 
+        }
+    }
+
+    /**
+     * 处理动态请求 需要取出所有的资源 然后与uri做比对 发射执行
+     */
+    private  void processActionRequest(String uri,HttpRequest request,HttpResponse response)
+    {
+        ConfigUtils configUtils = new ConfigUtils();
+        String path = configUtils.getClass().getResource("/").getPath()+"WEB-INF/web.xml";
+        try
+        {
+            Map<String,String> handlerMap = configUtils.getClassName(path);
+            for (Map.Entry<String,String> entry:handlerMap.entrySet()){
+                if(uri.equals(entry.getKey()))
+                {
+                    try
+                    {
+                        // 反射执行
+                        Class clazz = Class.forName(entry.getValue());
+                        HttpServlet servlet = (HttpServlet)clazz.newInstance();
+                        servlet.server(request,response);
+                        break;
+
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 
