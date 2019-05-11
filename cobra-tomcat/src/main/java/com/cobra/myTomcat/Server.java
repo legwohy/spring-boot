@@ -13,6 +13,12 @@ import java.util.Map;
  * tomcat的服务端 serverSocket 监听端口 并响应数据 响应头是必须的
  * uri被拦截 将会进入到自己写的业务代码
  * web.xml中需要配置servlet
+ *
+ *
+ * @description sersocket BIO的方式监听端口
+ * HttpRequest 封装请求的数据 包括请求头和请求体
+ * HttpResponse 封装响应数据 主要响应内容
+ * configUtils 读取web.xml中的servlet并被服务拦截 拦截到进行反射激活
  */
 public class Server
 {
