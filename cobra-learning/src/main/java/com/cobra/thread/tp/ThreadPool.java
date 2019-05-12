@@ -5,8 +5,10 @@ package com.cobra.thread.tp;
 import java.util.List;
 
 /**
+ * FIFO :first input first output
+ * LIFO :last input first output
  * 线程池 wait-notifyAll 线程调度
- * execute 放将待执行的任务放在LinkedBlockingQueue队列中 并唤醒所有等待的工作线程
+ * execute 放将待执行的任务放在LinkedBlockingQueue(FIFO)队列中 并唤醒所有等待的工作线程
  * WorkThread 内部工作线程 取出LinkedBlockingQueue队列中的任务 并执行 取出任务 有阻塞线程 wait
  */
 public interface ThreadPool {
