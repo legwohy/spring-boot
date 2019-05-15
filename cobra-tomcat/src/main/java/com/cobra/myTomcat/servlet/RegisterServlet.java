@@ -1,4 +1,4 @@
-package com.cobra.servlet;
+package com.cobra.myTomcat.servlet;
 
 import com.cobra.myTomcat.HttpRequest;
 import com.cobra.myTomcat.HttpResponse;

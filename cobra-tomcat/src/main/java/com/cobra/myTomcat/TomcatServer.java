@@ -1,8 +1,7 @@
 package com.cobra.myTomcat;
 
-import com.cobra.servlet.HttpServlet;
-import com.cobra.util.ConfigUtils;
-import groovy.util.MapEntry;
+import com.cobra.myTomcat.servlet.HttpServlet;
+import com.cobra.myTomcat.util.ConfigUtils;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -20,7 +19,7 @@ import java.util.Map;
  * HttpResponse 封装响应数据 主要响应内容
  * configUtils 读取web.xml中的servlet并被服务拦截 拦截到进行反射激活
  */
-public class Server
+public class TomcatServer
 {
     public static void main(String[] args) throws IOException
     {
@@ -53,7 +52,7 @@ public class Server
             }else if(uri.endsWith(".action"))
             {
                 // new LoginServlet().server(request,response);
-                new Server().processActionRequest(uri,request,response);
+                new TomcatServer().processActionRequest(uri,request,response);
 
 
             }
