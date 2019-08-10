@@ -1,5 +1,11 @@
 package com.cobra.rest;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.junit.Test;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -32,5 +38,18 @@ public class MainClass
 
         System.out.println(responseEntity.getBody());
 
+    }
+
+    @Test public void get() throws Exception{
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet get = new HttpGet("https://www.cnblogs.com/liujisong2014221/articles/8269572.html");
+        CloseableHttpResponse response = httpClient.execute(get);
+        System.out.println("=========>"+response);
+        System.out.println("headers>"+response.getAllHeaders().toString());
+        System.out.println("entirty>"+response.getEntity().getContent());
+        System.out.println("locate>"+response.getLocale());
+        System.out.println("protocolVersion>"+response.getProtocolVersion());
+        response.close();
+        httpClient.close();
     }
 }
