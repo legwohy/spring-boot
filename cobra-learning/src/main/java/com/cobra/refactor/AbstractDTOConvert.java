@@ -82,10 +82,6 @@ public abstract class AbstractDTOConvert<A,B>{
     }
 
 
-    public static void main(String[] args) {
-
-
-    }
 
 }
 
