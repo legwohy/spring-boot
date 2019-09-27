@@ -50,7 +50,9 @@ public abstract class AbstractDTOConvert<A,B>{
             this.original = original;
         }
 
-        /** 转换方法*/
+        /** 转换方法 泛型B 映射 若是父类调用则是第一顺序，
+         * 若是子类调用则是第二顺序 反转就是调用子类从而实现的反转
+         * */
         @Override
          A correctedDoForward(B b){
             return original.doBackward(b);
