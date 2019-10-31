@@ -66,4 +66,16 @@ public class BaseResponse
         this.code = code;
     }
 
+    public boolean isSuccess(){
+        return CobraCode.SUCCESS.getCode().equals(code);
+    }
+
+    @Override
+    public String toString() {
+        return "BaseResponse{" +
+                "code='" + code + '\'' +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

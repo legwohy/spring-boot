@@ -35,6 +35,19 @@
         </dependency>
         <!--pdf包 end-->
 
+        <!--oval框架校验 start-->
+        <dependency>
+            <groupId>net.sf.oval</groupId>
+            <artifactId>oval</artifactId>
+            <version>1.81</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.4.7</version>
+        </dependency>
+        <!--oval框架校验 end-->
+
 
     </dependencies>
 
