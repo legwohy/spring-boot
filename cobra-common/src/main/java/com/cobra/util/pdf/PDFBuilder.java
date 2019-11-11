@@ -19,9 +19,9 @@ public class PDFBuilder extends PdfPageEventHelper {
     public String header = "";
 
     /**
-     * 文档字体大小，页脚页眉最好和文本大小一致
+     * 页眉字体大小
      */
-    public int presentFontSize = 12;
+    public int presentFontSize = 8;
 
     /**
      * 文档页面大小，最好前面传入，否则默认为A4纸张
@@ -75,8 +75,7 @@ public class PDFBuilder extends PdfPageEventHelper {
      *
      * TODO 文档打开时创建模板
      *
-     * @see PdfPageEventHelper#onOpenDocument(PdfWriter,
-     *      Document)
+     * @see PdfPageEventHelper#onOpenDocument(PdfWriter, Document)
      */
     @Override
     public void onOpenDocument(PdfWriter writer, Document document) {
@@ -87,13 +86,12 @@ public class PDFBuilder extends PdfPageEventHelper {
      *
      * TODO 关闭每页的时候，写入页眉，写入'第几页共'这几个字。
      *
-     * @see PdfPageEventHelper#onEndPage(PdfWriter,
-     *      Document)
+     * @see PdfPageEventHelper#onEndPage(PdfWriter, Document)
      */
     @Override
     public void onEndPage(PdfWriter writer, Document document) {
         this.addPage(writer, document);
-        this.addWatermark(writer,null);
+        this.addWatermark(writer,"water.png");
     }
 
     //加分页
@@ -154,16 +152,27 @@ public class PDFBuilder extends PdfPageEventHelper {
         // 水印图片
         Image image;
         try {
-            image = Image.getInstance(PathUtils.getRootClassPath(waterPath));
+            String path = PathUtils.getRootClassPath(waterPath);
+
+            System.out.println("path:"+path);
+
+            image = Image.getInstance(path);
+
+            // 生成水印的核心类 加入水印
             PdfContentByte content = writer.getDirectContentUnder();
             content.beginText();
             // 开始写入水印 自定义规则
-            for(int k=0;k<5;k++){
-                for (int j = 0; j <4; j++) {
-                    image.setAbsolutePosition(150*j,170*k);
+            // k:水印的数量
+           // for(int k=0;k<1;k++){
+             //   for (int j = 0; j <1; j++) {
+                    // 设置坐标
+                    image.setAbsolutePosition(2,3);
+                    image.setRotationDegrees(64);//角度
+                    image.scalePercent(80);// 缩放
+
                     content.addImage(image);
-                }
-            }
+                //}
+            //}
             content.endText();
         } catch (IOException | DocumentException e) {
             // TODO Auto-generated catch block
