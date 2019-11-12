@@ -16,6 +16,7 @@
         <module>cobra-war</module>
         <module>cobra-wechat</module>
         <module>cobra-tomcat</module>
+        <module>cobra-enhance</module>
     </modules>
 
     <packaging>pom</packaging>

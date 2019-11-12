@@ -480,6 +480,56 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         return false;
     }
 
+    /**
+     * Long转换为带小数点的数
+     * @param dataLong Long整形的数字
+     * @return
+     */
+    public static String longToStringPoint(Long dataLong,int bit) {
+        if (null == dataLong) {
+            return "";
+        }
+        // 先转为串型
+        String dataStr = dataLong.toString();
+
+        // 相差的位数
+        int div = bit + 1 - dataStr.length();
+        if (div > 0) {
+            dataStr = getOffSet(bit,div) + dataStr;
+        }
+
+        StringBuilder builder = new StringBuilder(dataStr);
+        builder.insert(dataStr.length() - bit, ".");
+
+        return builder.toString();
+    }
+    private static String getOffSet(int total,int cult){
+        String offset = "";
+        for (int i = 1;i<=total;i++){
+            if(cult == i){
+                offset = copyValue(i,"0");
+                break;
+            }
+        }
+
+        return offset;
+    }
+    /**
+     * 指数级增长
+     * @param count
+     * @param value
+     * @return
+     */
+    public static String copyValue(int count,String value){
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0;i < count;i++){
+            builder = builder.append(value);
+        }
+
+        return builder.toString();
+    }
+
 
 
 }
