@@ -13,7 +13,7 @@ public class EmojiUtils
      * @return
      */
     public static String filterEmoji(String source) {
-        if (StringUtils.isBlank(source)) {
+        if (StringCommonUtils.isBlank(source)) {
             return source;
         }
         StringBuilder buf = null;
