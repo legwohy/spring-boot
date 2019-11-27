@@ -19,6 +19,12 @@
             <groupId>com.itextpdf.tool</groupId>
             <artifactId>xmlworker</artifactId>
             <version>5.5.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.itextpdf</groupId>
+                    <artifactId>itextpdf</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- 支持中文 -->
@@ -73,6 +79,12 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml-schemas</artifactId>
             <version>3.14</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.xmlbeans</groupId>
+                    <artifactId>xmlbeans</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
