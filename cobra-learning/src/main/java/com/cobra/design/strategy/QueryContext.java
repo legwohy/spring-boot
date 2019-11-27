@@ -1,6 +1,6 @@
 package com.cobra.design.strategy;
 
-import com.cobra.util.StringUtils;
+import com.cobra.util.StringCommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +43,7 @@ public class QueryContext
     {
         Map<String,String> request = new HashMap<>();
         Map<String,String> result = new HashMap<>();
-        if(!StringUtils.isBlank(type))
+        if(!StringCommonUtils.isBlank(type))
         {
             request.put("type",type);
         }

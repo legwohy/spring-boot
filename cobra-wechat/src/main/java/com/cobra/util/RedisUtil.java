@@ -192,11 +192,11 @@ public class RedisUtil
         }
         //如果锁超时 ***
         String currentValue = (String)redisTemplate.opsForValue().get(key);
-        if (!StringUtils.isEmpty(currentValue) && Long.parseLong(currentValue) < System.currentTimeMillis())
+        if (!StringCommonUtils.isEmpty(currentValue) && Long.parseLong(currentValue) < System.currentTimeMillis())
         {
             //获取上一个锁的时间
             String oldvalue = (String)redisTemplate.opsForValue().getAndSet(key, value);
-            if (!StringUtils.isEmpty(oldvalue) && oldvalue.equals(currentValue))
+            if (!StringCommonUtils.isEmpty(oldvalue) && oldvalue.equals(currentValue))
             {
                 redisTemplate.expire(key, ORDER_PAY_LOCK_TIMEOUT, TimeUnit.MILLISECONDS);
                 return true;
@@ -216,7 +216,7 @@ public class RedisUtil
         try
         {
             String currentValue = (String)redisTemplate.opsForValue().get(key);
-            if (!StringUtils.isEmpty(currentValue))
+            if (!StringCommonUtils.isEmpty(currentValue))
             {
                 redisTemplate.opsForValue().getOperations().delete(key);
             }

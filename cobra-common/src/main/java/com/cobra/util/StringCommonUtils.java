@@ -17,12 +17,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 字符串工具类, 继承org.apache.commons.lang3.StringUtils类
- *
+ * 字符串工具类,
+ * @see org.apache.commons.lang3.StringUtils
  * @author ThinkGem
  * @version 2013-05-22
  */
-public class StringUtils extends org.apache.commons.lang3.StringUtils {
+public class StringCommonUtils extends org.apache.commons.lang3.StringUtils {
 
     private static final char SEPARATOR = '_';
     private static final String CHARSET_NAME = "UTF-8";

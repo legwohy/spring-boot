@@ -7,7 +7,7 @@ import com.cobra.dao.WechatConfigDao;
 import com.cobra.pojo.UserInfo;
 import com.cobra.pojo.WechatConfig;
 import com.cobra.util.OkHttpUtil;
-import com.cobra.util.StringUtils;
+import com.cobra.util.StringCommonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -33,7 +33,7 @@ public class WechatInterceptor implements HandlerInterceptor
 
         WechatConfig wechatConfig = wechatConfigDao.selectByPrimaryKey(1);
         String code = request.getParameter("code");
-        if(StringUtils.isEmpty(code))
+        if(StringCommonUtils.isEmpty(code))
         {
             // 1、获取code
             String code_url = Wechat.code_url.concat("appid="+wechatConfig.getAppId())
