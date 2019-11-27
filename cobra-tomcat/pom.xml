@@ -12,13 +12,12 @@
     <artifactId>cobra-tomcat</artifactId>
 
     <dependencies>
+
         <dependency>
-            <groupId>org.dom4j</groupId>
+            <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
-            <scope>system</scope>
-            <systemPath>${pom.basedir}/src/lib/dom4j-1.6.1.jar</systemPath>
         </dependency>
+
     </dependencies>
 
 
