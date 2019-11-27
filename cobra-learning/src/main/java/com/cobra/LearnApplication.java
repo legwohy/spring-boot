@@ -10,11 +10,11 @@ import java.util.List;
 
 @SpringBootApplication
 //@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
-public class Application
+public class LearnApplication
 {
     public static void main(String[] args) throws InterruptedException
     {
-        SpringApplication.run(Application.class,args);
+        SpringApplication.run(LearnApplication.class,args);
     }
 
     /**

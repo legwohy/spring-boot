@@ -15,13 +15,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @MapperScan("com.cobra.dao")
 @Slf4j
-public class Application
+public class WechatApplication
 {
     public static void main(String[] args)
     {
         // 注入 上下文
         SpringUtils springUtils = new SpringUtils();
-        springUtils.setApplicationContext(SpringApplication.run(Application.class,args));
+        springUtils.setApplicationContext(SpringApplication.run(WechatApplication.class,args));
 
         // 获取bean
         User1 u1 = SpringUtils.getBean(User1.class);

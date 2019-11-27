@@ -38,7 +38,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.cobra.Application</mainClass>
+                    <mainClass>com.cobra.WechatApplication</mainClass>
                 </configuration>
             </plugin>
 
