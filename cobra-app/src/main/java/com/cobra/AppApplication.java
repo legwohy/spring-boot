@@ -16,10 +16,10 @@ import java.util.Map;
 @SpringBootApplication //必须标注该注解才能扫描程序里面的注解组件
 @EnableCaching // 支持缓存
 @ServletComponentScan // 支持@WebFilter注解 代替写注册bean
-public class Application implements CommandLineRunner{
+public class AppApplication implements CommandLineRunner{
 
     public static void main(String[] args){
-        SpringApplication.run(Application.class,args);
+        SpringApplication.run(AppApplication.class,args);
     }
 
     /**

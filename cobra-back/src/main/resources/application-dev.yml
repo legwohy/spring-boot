@@ -12,6 +12,8 @@ server:
 ##################  spring  #################
 ##############################################
 spring:
+  session:
+    store-type: none
   #thymeleaf模板
   thymeleaf:
     #cache: false

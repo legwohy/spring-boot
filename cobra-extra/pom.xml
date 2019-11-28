@@ -49,7 +49,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.cobra.Application</mainClass>
+                    <mainClcom.cobra.BackApption</mainClass>
                     <executable>true</executable>
                 </configuration>
                 <executions>

@@ -57,7 +57,7 @@
 
                 <!-- 2、打包的项目-->
                 <configuration>
-                    <mainClass>com.cobra.Application</mainClass>
+                    <mainClass>com.cobra.AppApplication</mainClass>
                     <executable>true</executable>
                 </configuration>
 
