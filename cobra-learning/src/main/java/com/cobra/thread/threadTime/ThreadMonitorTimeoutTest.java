@@ -87,6 +87,7 @@ public class ThreadMonitorTimeoutTest {
                     if (refreshTimes > 10*1000) {
                         System.out.printf("alive thread %d: is %dms to refresh, will restart\n", threadId, currentTime - aliveThreadRefreshTimeMap.get(threadId));
                         aliveThreadFutureMap.get(threadId).cancel(true);
+
                         aliveThreadNum ++;
                         Future<?> future = cachedThreadPool.submit(workerThread(aliveThreadNum, aliveThreadNum*4000));
                         aliveThreadFutureMap.put(aliveThreadNum,future);

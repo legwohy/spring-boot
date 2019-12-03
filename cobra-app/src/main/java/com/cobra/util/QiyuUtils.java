@@ -1,6 +1,7 @@
 package com.cobra.util;
 
 import com.cobra.constants.QiyuConstant;
+import com.cobra.util.digest.MD5;
 
 
 public final class QiyuUtils

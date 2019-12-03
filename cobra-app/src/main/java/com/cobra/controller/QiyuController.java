@@ -10,6 +10,7 @@ import com.cobra.dto.QiyuMessageDto;
 import com.cobra.exception.CobraException;
 import com.cobra.param.BaseResponse;
 import com.cobra.util.*;
+import com.cobra.util.digest.MD5;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

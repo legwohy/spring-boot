@@ -1,4 +1,4 @@
-package com.cobra.util;
+package com.cobra.util.digest;
 
 import java.io.IOException;
 import java.io.InputStream;
