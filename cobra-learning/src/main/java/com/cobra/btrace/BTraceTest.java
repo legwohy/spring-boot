@@ -10,6 +10,9 @@ import static com.sun.btrace.BTraceUtils.*;
  * <p>
  * <a link='https://blog.csdn.net/wilsonpeng3/article/details/52576253'/>
  * start：btrace -p 2021  -cp  D:\code_repository\cobra\cobra-learning\src\main\lib  pid BTraceTest.java
+ *
+ * tip:  -cp路径  BTraceTest引用jar包所在的路径 一般是 btrace-client.jar包路径
+ *          中文会出现大量乱码 暂无解决方案
  */
 @BTrace
 public class BTraceTest {
