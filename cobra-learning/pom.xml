@@ -39,6 +39,35 @@
             <artifactId>netty-all</artifactId>
             <version>5.0.0.Alpha2</version>
         </dependency>
+
+
+        <!--btrace 探针 start-->
+        <dependency>
+            <groupId>com.sun.btrace</groupId>
+            <artifactId>btrace-agent</artifactId>
+            <version>1.3.11</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/src/main/lib/btrace-agent.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.btrace</groupId>
+            <artifactId>btrace-boot</artifactId>
+            <version>1.3.11</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/src/main/lib/btrace-boot.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.btrace</groupId>
+            <artifactId>btrace-client</artifactId>
+            <version>1.3.11</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/src/main/lib/btrace-client.jar</systemPath>
+        </dependency>
+        <!--Btrace 探针 end-->
+
     </dependencies>
 
     <build>
