@@ -1,4 +1,4 @@
-package com.cobra.dto;
+package com.cobra.domain.dto;
 
 import lombok.Data;
 

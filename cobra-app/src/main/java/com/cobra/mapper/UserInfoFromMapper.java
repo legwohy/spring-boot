@@ -1,11 +1,9 @@
 package com.cobra.mapper;
 
-import com.cobra.entirty.UserInfoFrom;
-import com.cobra.util.MyMapper;
+import com.cobra.domain.entirty.UserInfoFrom;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
-@Mapper
+//@Mapper
 public interface UserInfoFromMapper{
     int deleteByPrimaryKey(Integer id);
 

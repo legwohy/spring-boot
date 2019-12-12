@@ -12,6 +12,8 @@ server:
 ##################  spring  #################
 ##############################################
 spring:
+  session:
+    store-type: none
 
   #druid数据源
   datasource:

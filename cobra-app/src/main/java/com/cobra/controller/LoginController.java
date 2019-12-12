@@ -2,7 +2,7 @@ package com.cobra.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cobra.constants.CobraCode;
-import com.cobra.entirty.UserInfo;
+import com.cobra.domain.entirty.UserInfo;
 import com.cobra.exception.CobraException;
 import com.cobra.param.BaseResponse;
 import com.cobra.util.DateUtils;

@@ -6,31 +6,28 @@ import com.cobra.constants.CobraCode;
 /**
  * @author admin
  */
-public class BaseResponse
+@SuppressWarnings("rawType")
+public class BaseResponse<T>
 {
+    private Boolean success;
     private String code;
     private String msg;
-    private Object data;
+    private T data;
 
-    public BaseResponse() {}
 
     public BaseResponse(String code,String msg){
+        success = false;
         this.code = code;
         this.msg = msg;
     }
 
-    public BaseResponse(String code, String msg, Object data)
-    {
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
-    }
 
     /**
      * 请求成功
      * @param data
      */
-    public BaseResponse(Object data){
+    public BaseResponse(T data){
+        success = true;
         this.code = CobraCode.SUCCESS.getCode();
         this.msg = CobraCode.SUCCESS.getMsg();
         this.data = data;
@@ -56,7 +53,7 @@ public class BaseResponse
         this.msg = msg;
     }
 
-    public void setData(Object data)
+    public void setData(T data)
     {
         this.data = data;
     }
@@ -67,7 +64,7 @@ public class BaseResponse
     }
 
     public boolean isSuccess(){
-        return CobraCode.SUCCESS.getCode().equals(code);
+        return success;
     }
 
     @Override

@@ -22,6 +22,6 @@ public class ResponseUtil
     }
 
     public static BaseResponse success(String data){
-        return new BaseResponse(CobraCode.SUCCESS.getCode(),CobraCode.SUCCESS.getMsg(),data);
+        return new BaseResponse(data);
     }
 }

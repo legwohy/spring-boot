@@ -4,6 +4,8 @@ package com.cobra.filter.response;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.cobra.param.BaseResponse;
+import com.cobra.util.SpringContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +44,11 @@ public class ResponseFilter implements Filter {
 
             filterChain.doFilter(request, wrapper);
 
-
             String respStr = new String(wrapper.toByteArray(), response.getCharacterEncoding());
 
             JSONObject jsonObject = JSON.parseObject(respStr);
             if ("true".equalsIgnoreCase(jsonObject.getString("success"))) {
-                Object result = jsonObject.get("result");
+                Object result = jsonObject.get("data");
 
                 // 解析
                 this.replaceArr(result);
@@ -60,6 +61,12 @@ public class ResponseFilter implements Filter {
             response.getOutputStream().write(JSON.toJSONBytes(jsonObject));
         } catch (Exception e) {
             LOGGER.error("数据包装器执行出错....{}", e);
+            response.setContentType("application/json;charset=utf-8");
+            //将buffer重置，因为我们要重新写入流进去
+            response.resetBuffer();
+
+            response.setContentLength(JSON.toJSONBytes(new BaseResponse("404","系统异常")).length);
+            response.getOutputStream().write(JSON.toJSONBytes(new BaseResponse("404","系统异常")));
         }
     }
 
@@ -80,20 +87,22 @@ public class ResponseFilter implements Filter {
             JSONObject resultJson = (JSONObject) result;
             for (Map.Entry<String, Object> en : resultJson.entrySet()) {
                 Object vue = en.getValue();
-                if (key.equalsIgnoreCase(en.getKey())) {
+                if (key.equals(en.getKey())) {
                     // 替换
                     en.setValue("XXX_" + en.getValue());
-                } else if (vue instanceof JSONObject) {
+                }else{
+                    if (vue instanceof JSONObject) {
                         this.replaceArr(vue);
-                } else if (vue instanceof JSONArray) {
-                    // 数组
-                    JSONArray array = (JSONArray) vue;
-                    for (int i = 0; i < array.size(); i++) {
-                        Object arrObj = array.get(i);
+                    } else if (vue instanceof JSONArray) {
+                        // 数组
+                        JSONArray array = (JSONArray) vue;
+                        for (int i = 0; i < array.size(); i++) {
+                            Object arrObj = array.get(i);
 
-                        this.replaceArr(arrObj);
+                            this.replaceArr(arrObj);
+                        }
+
                     }
-
                 }
             }
 

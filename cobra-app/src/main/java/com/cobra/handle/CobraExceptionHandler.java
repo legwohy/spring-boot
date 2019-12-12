@@ -22,12 +22,9 @@ public class CobraExceptionHandler
     @ResponseBody
     public BaseResponse handelCobraException(CobraException ce)
     {
-       BaseResponse response = new BaseResponse();
-       response.setCode(ce.getCode());
-       response.setMsg(ce.getMessage());
 
         logger.info("--------->拦截到CobraException异常");
-        return response;
+        return new BaseResponse(ce.getCode(),ce.getMessage());
 
     }
 
@@ -35,18 +32,16 @@ public class CobraExceptionHandler
     @ResponseBody
     public BaseResponse handelException(Exception ce)
     {
-        BaseResponse response = new BaseResponse();
         if(ce instanceof CobraException){
             CobraException ex = (CobraException) ce;
 
-            response.setCode(ex.getCode());
-            response.setMsg(ex.getMessage());
 
             logger.info("--------->拦截到Exception异常");
+            return new BaseResponse(ex.getCode(),ex.getMessage());
 
         }
 
-        return response;
+        return new BaseResponse("404","系统异常");
 
     }
 }
