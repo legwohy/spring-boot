@@ -13,7 +13,7 @@ public class FilterConfig {
 
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new ResponseFilter());
-        registration.addUrlPatterns("/userInfo/list","/userInfo/page");
+        registration.addUrlPatterns("/userInfo/*");
         registration.addInitParameter("paramName", "paramValue");
         registration.setName("responseFilter");
         registration.setOrder(1);

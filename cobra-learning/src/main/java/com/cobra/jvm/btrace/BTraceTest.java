@@ -1,4 +1,4 @@
-package com.cobra.btrace;
+package com.cobra.jvm.btrace;
 
 import com.sun.btrace.annotations.*;
 
@@ -36,7 +36,7 @@ public class BTraceTest {
      * @param b
      */
     @OnMethod(
-            clazz = "com.cobra.btrace.Calculator",
+            clazz = "com.cobra.jvm.btrace.Calculator",
             method = "add",
             location = @Location(Kind.RETURN)
     )
@@ -48,7 +48,7 @@ public class BTraceTest {
      * print method loading time
      */
    /* @OnMethod(
-            clazz = "com.cobra.btrace.Calculator",
+            clazz = "com.cobra.jvm.btrace.Calculator",
             method = "add",
             location = @Location(Kind.RETURN)
     )
@@ -61,7 +61,7 @@ public class BTraceTest {
      * monitor clazz method ect
      */
    /* @OnMethod(
-            clazz = "com.cobra.btrace.Calculator",
+            clazz = "com.cobra.jvm.btrace.Calculator",
             method = "add",
             location = @Location(value = Kind.CALL, clazz = "/.", method = "sleep")
     )
@@ -87,7 +87,7 @@ public class BTraceTest {
      * get feild
      */
     /*@OnMethod(
-            clazz = "com.cobra.btrace.Calculator",
+            clazz = "com.cobra.jvm.btrace.Calculator",
             method = "add",
             location = @Location(Kind.RETURN)
     )

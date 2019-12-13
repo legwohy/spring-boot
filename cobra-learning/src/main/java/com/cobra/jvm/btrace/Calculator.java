@@ -1,4 +1,4 @@
-package com.cobra.btrace;
+package com.cobra.jvm.btrace;
 
 
 import java.util.Random;
