@@ -3,12 +3,15 @@ package com.cobra.param;
 
 import com.cobra.constants.CobraCode;
 
+import java.io.Serializable;
+
 /**
  * @author admin
  */
 @SuppressWarnings("rawType")
-public class BaseResponse<T>
+public class BaseResponse<T> implements Serializable
 {
+    private static final long serialVersionUID = -7979641854729188260L;
     private Boolean success;
     private String code;
     private String msg;

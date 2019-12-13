@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.*;
 import javax.servlet.FilterConfig;
@@ -21,6 +22,7 @@ import java.util.Map;
  * <a link='https://blog.csdn.net/hehuanchun0311/article/details/80513558'/>
  * 其实Spring中，web应用启动的顺序是：listener->filter->servlet，先初始化listener，然后再来就filter的初始化，再接着才到我们的dispathServlet的初始化，因此，当我们需要在filter里注入一个注解的bean时，
  * 就会注入失败，因为filter初始化时，注解的bean还没初始化，没法注入
+ * 推荐 extend OncePerRequestFilter 该类 保证在不同的容器中只执行一次
  */
 @Component
 public class ResponseFilter implements Filter {
