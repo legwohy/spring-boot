@@ -53,7 +53,7 @@ public class ResponseFilter implements Filter {
                 Object result = jsonObject.get("data");
 
                 // 解析
-                this.replaceArr(result);
+                this.parseJson(result);
             }
 
             response.setContentType("application/json;charset=utf-8");
@@ -84,26 +84,25 @@ public class ResponseFilter implements Filter {
     }
 
 
-    private Object replaceArr(Object result) {
+    /**
+     * 解析json
+     * @param result 必须是转换为 JSONObject 或 JSONArray对象
+     * @return
+     */
+    private Object parseJson(Object result) {
         if (result instanceof JSONObject) {
             JSONObject resultJson = (JSONObject) result;
             for (Map.Entry<String, Object> en : resultJson.entrySet()) {
                 Object vue = en.getValue();
                 if (key.equals(en.getKey())) {
-                    // 替换
-                    en.setValue("XXX_" + en.getValue());
+                    // 替换 所有的去处
+                    en.setValue("J_Q_K_" + en.getValue());
                 }else{
                     if (vue instanceof JSONObject) {
-                        this.replaceArr(vue);
+                        this.parseJson(vue);
                     } else if (vue instanceof JSONArray) {
-                        // 数组
-                        JSONArray array = (JSONArray) vue;
-                        for (int i = 0; i < array.size(); i++) {
-                            Object arrObj = array.get(i);
-
-                            this.replaceArr(arrObj);
-                        }
-
+                        // 数组 递归到外层数组
+                        this.parseJson(vue);
                     }
                 }
             }
@@ -111,9 +110,9 @@ public class ResponseFilter implements Filter {
         } else if (result instanceof JSONArray) {
             JSONArray array = (JSONArray) result;
             for (int i = 0; i < array.size(); i++) {
-                JSONObject arrObj = (JSONObject) array.get(i);
+                Object arrObj =  array.get(i);
 
-                this.replaceArr(arrObj);
+                this.parseJson(arrObj);
             }
         }
         return result;
