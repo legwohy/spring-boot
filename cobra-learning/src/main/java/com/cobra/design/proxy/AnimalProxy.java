@@ -3,8 +3,10 @@ package com.cobra.design.proxy;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Arrays;
 
 /**
+ * JDK动态代理 代理接口
  * 代理类
  */
 public class AnimalProxy implements InvocationHandler
@@ -31,10 +33,15 @@ public class AnimalProxy implements InvocationHandler
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
     {
-        System.out.println("调入前========");
+        if(proxy instanceof Animal){
+            System.out.println("代理类型为 Animal");
+        }else {
+            System.out.println("sb=====");
+        }
+        System.out.println("代理方法名字："+method.getName()+",代理传入的参数值args="+ Arrays.toString(args));
         Object rs = method.invoke(target,args);
 
-        System.out.println("调入==========后");
+        System.out.println("方法执行完成");
 
         return rs;
     }
