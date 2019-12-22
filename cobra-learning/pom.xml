@@ -31,6 +31,8 @@
             <groupId>com.xue</groupId>
             <artifactId>shangtang</artifactId>
             <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/src/lib/shangtang-1.0.jar</systemPath>
         </dependency>
 
         <!--netty 网络框架-->
@@ -87,6 +89,14 @@
                 <includes>
                     <include>*.xml</include>
                     <include>*.yml</include>
+                </includes>
+            </resource>
+            <!--将jar包打入包中-->
+            <resource>
+                <directory>src/lib</directory>
+                <targetPath>./boot-lib/lib</targetPath>
+                <includes>
+                    <include>*.jar</include>
                 </includes>
             </resource>
         </resources>
