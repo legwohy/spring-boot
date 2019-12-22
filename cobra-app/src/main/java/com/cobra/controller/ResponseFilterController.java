@@ -1,6 +1,6 @@
 package com.cobra.controller;
 
-import com.cobra.domain.entirty.UserInfo;
+import com.cobra.domain.entity.UserInfo;
 import com.cobra.param.BaseResponse;
 import io.swagger.annotations.Api;
 import lombok.Data;

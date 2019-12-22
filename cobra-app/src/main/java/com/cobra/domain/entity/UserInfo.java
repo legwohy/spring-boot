@@ -1,4 +1,4 @@
-package com.cobra.domain.entirty;
+package com.cobra.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

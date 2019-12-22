@@ -28,11 +28,11 @@
         <resources>
             <resource>
 
-                <!-- 1、文件位置-->
-                <directory>src/main/resources/com/cobra/dao</directory>
+                <!-- 1、源文件的路径-->
+                <directory>src/main/resources/mapping</directory>
 
-                <!-- 2、打包的位置-->
-                <targetPath>./com/cobra/dao</targetPath>
+                <!-- 2、打完包后文件的路径 这里设置与原mapper文件路径一致-->
+                <targetPath>./com/cobra/mapper</targetPath>
 
                 <!-- 3、需要打包的文件-->
                 <includes>
