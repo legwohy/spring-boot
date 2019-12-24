@@ -9,7 +9,7 @@ import java.util.Observer;
  * 自动通知观察者
  * {@link java.util.Observer} 观察者就是订阅者 被通知的对象
  * Observable是一个维护多个有序 Observer对象的集合 相当于subject publisher 发布者
- * Observer customer subscriber 订阅者
+ * Observer customize subscriber 订阅者
  */
 public class ObserverDemo
 {

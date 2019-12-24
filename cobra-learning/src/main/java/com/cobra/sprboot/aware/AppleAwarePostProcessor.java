@@ -1,4 +1,4 @@
-package com.cobra.sprboot;
+package com.cobra.sprboot.aware;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;

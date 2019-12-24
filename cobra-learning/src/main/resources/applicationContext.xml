@@ -9,10 +9,10 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">  
         
 
-    <bean id="apple" class="com.cobra.sprboot.Apple">
+    <bean id="apple" class="com.cobra.sprboot.aware.Apple">
         <constructor-arg name="name" type="java.lang.String" value="job"/>
     </bean>
-    <bean id="market" class="com.cobra.sprboot.Market" init-method="initMarket">
+    <bean id="market" class="com.cobra.sprboot.aware.Market" init-method="initMarket">
         <property name="apple"   ref="apple"/>
     </bean>
    </beans> 

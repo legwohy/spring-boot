@@ -1,15 +1,23 @@
 package com.cobra;
 
-import com.cobra.bean.Animal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
-@SpringBootApplication
-//@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+@SpringBootApplication(
+        exclude={
+                DataSourceAutoConfiguration.class,
+                DataSourceTransactionManagerAutoConfiguration.class,
+                HibernateJpaAutoConfiguration.class
+        }
+)
 public class LearnApplication
 {
     public static void main(String[] args) throws InterruptedException
@@ -21,7 +29,7 @@ public class LearnApplication
      * 标注在方法上 程序启动时会执行一边
      */
     @Autowired
-    public void remarkUser(List<Animal> animals)
+    public void remarkUser(List<XAnimal> animals)
     {
         animals.get(0).eat();
         System.out.println("=============>@Autowired标注在方法上 程序启动时自动执行");
@@ -36,4 +44,22 @@ public class LearnApplication
 
     }
 
+}
+
+interface XAnimal{
+    void eat();
+}
+
+class Dog implements XAnimal{
+
+    @Override
+    public void eat() {
+        System.out.println("dog 池翔");
+    }
+}class Cat implements XAnimal{
+
+    @Override
+    public void eat() {
+        System.out.println("cat ");
+    }
 }

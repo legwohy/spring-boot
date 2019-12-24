@@ -1,4 +1,4 @@
-package com.cobra.sprboot;
+package com.cobra.sprboot.aware;
 
 /**
  * @auther: leigang

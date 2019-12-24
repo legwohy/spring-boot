@@ -1,10 +1,9 @@
-package com.cobra.trans;
+package com.cobra.tx.springTx;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.transaction.support.DefaultTransactionStatus;
 
 /**
  * Created by legwo on 2019/5/8.

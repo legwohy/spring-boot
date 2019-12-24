@@ -1,4 +1,4 @@
-package com.cobra.tomcat;
+package com.cobra.sprboot.tomcat;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
