@@ -19,13 +19,13 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class StringHelper {
 
-    public static Log logger = LogFactory.getLog(StringHelper.class);
+    public static Logger logger = LoggerFactory.getLogger(StringHelper.class);
 
     /**
      * 前导标识
@@ -1278,7 +1278,6 @@ public class StringHelper {
      * <p>
      * Noe:Null Or Empty<br>
      *
-     * @param strings
      * @return
      */
     public static boolean existNoe(Object... someObj) {

@@ -6,6 +6,6 @@ import com.cobra.util.MyMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface BackConfigParamsMapper extends MyMapper<BackConfigParams>{
+public interface BackConfigParamsMapper extends MyMapper<BackConfigParams> {
 
 }

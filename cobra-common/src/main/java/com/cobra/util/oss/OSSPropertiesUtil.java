@@ -1,6 +1,8 @@
 package com.cobra.util.oss;
 
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.Properties;
@@ -13,7 +15,7 @@ import java.util.Properties;
 public class OSSPropertiesUtil
 {
 
-    private Logger logger = Logger.getLogger(OSSPropertiesUtil.class);
+    private Logger logger = LoggerFactory.getLogger(OSSPropertiesUtil.class);
     private String fileName = "/ossConfig.properties";
 
     /**

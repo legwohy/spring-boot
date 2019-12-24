@@ -11,7 +11,7 @@ public class FileUtils {
      * @return
      */
     public static String getRootPath() {
-        String classPath = FileUtilsBean.class.getClassLoader().getResource("").getPath();
+        String classPath = FileUtils.class.getClassLoader().getResource("").getPath();
         String rootPath = "";
         //windows下
         if ("\\".equals(File.separator))

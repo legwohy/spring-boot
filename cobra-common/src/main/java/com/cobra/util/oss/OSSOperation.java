@@ -4,7 +4,8 @@ package com.cobra.util.oss;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.*;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class OSSOperation
         util = new OSSPropertiesUtil();
     }
 
-    private Logger logger = Logger.getLogger(OSSOperation.class);
+    private Logger logger = LoggerFactory.getLogger(OSSOperation.class);
     private OSSClient ossClient;
     private String region;
     private String accessKeyId;

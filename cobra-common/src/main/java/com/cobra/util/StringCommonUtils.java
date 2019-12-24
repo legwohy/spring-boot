@@ -5,11 +5,7 @@ package com.cobra.util;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.LocaleResolver;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Locale;
@@ -246,31 +242,8 @@ public class StringCommonUtils extends org.apache.commons.lang3.StringUtils {
         return toLong(val).intValue();
     }
 
-    /**
-     * 获得i18n字符串
-     */
-    public static String getMessage(String code, Object[] args) {
-        LocaleResolver localLocaleResolver = (LocaleResolver) SpringContextHolder.getBean(LocaleResolver.class);
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-                .getRequest();
-        Locale localLocale = localLocaleResolver.resolveLocale(request);
-        return SpringContextHolder.getApplicationContext().getMessage(code, args, localLocale);
-    }
 
-    /**
-     * 获得用户远程地址
-     */
-    public static String getRemoteAddr(HttpServletRequest request) {
-        String remoteAddr = request.getHeader("X-Real-IP");
-        if (isNotBlank(remoteAddr)) {
-            remoteAddr = request.getHeader("X-Forwarded-For");
-        } else if (isNotBlank(remoteAddr)) {
-            remoteAddr = request.getHeader("Proxy-Client-IP");
-        } else if (isNotBlank(remoteAddr)) {
-            remoteAddr = request.getHeader("WL-Proxy-Client-IP");
-        }
-        return remoteAddr != null ? remoteAddr : request.getRemoteAddr();
-    }
+
 
     /**
      * 驼峰命名法工具
