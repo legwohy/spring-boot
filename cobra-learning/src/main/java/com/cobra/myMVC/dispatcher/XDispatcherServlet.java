@@ -76,9 +76,7 @@ public class XDispatcherServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = req.getRequestURI();
-        String contextPath = req.getContextPath();
-        String path = url.replaceAll(contextPath,url);
-        Method method = urlMethodMap.get(path);
+        Method method = urlMethodMap.get(url);
         if(null != method){
             // 激活方法
             String packageName = methodPackageMap.get(method);
@@ -88,7 +86,10 @@ public class XDispatcherServlet extends HttpServlet {
 
             try {
                 method.setAccessible(true);
-                method.invoke(obj);
+                Object result = method.invoke(obj);
+
+                resp.setContentType("application/json;charset=UTF-8");
+                resp.getWriter().print(result);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
@@ -159,6 +160,10 @@ public class XDispatcherServlet extends HttpServlet {
             if(clazz.isAnnotationPresent(XController.class)){
                 XController controller = (XController) clazz.getAnnotation(XController.class);
                 String controllerName = controller.value();
+                if("".equals(controllerName.trim())){
+                    String clazzName = clazz.getName();
+                    controllerName = clazzName.substring(0,1).toLowerCase()+clazzName.substring(1,clazzName.length());
+                }
                 instanceMap.put(controllerName,clazz.newInstance());
                 nameMap.put(packageName,controllerName);
 

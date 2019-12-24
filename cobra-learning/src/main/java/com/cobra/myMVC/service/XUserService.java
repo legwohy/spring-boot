@@ -6,7 +6,7 @@ import com.cobra.myMVC.dao.XUserDao;
 
 @XService("xUserService")
 public class XUserService {
-    @XQualifier("userDao")
+    @XQualifier("xUserDao")
     private XUserDao userDao;
 
     public void query(){

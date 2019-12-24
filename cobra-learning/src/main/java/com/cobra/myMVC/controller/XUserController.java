@@ -9,14 +9,15 @@ import com.cobra.myMVC.service.XUserService;
 import java.util.HashMap;
 import java.util.Map;
 
-@XController("xUserController")
-@XRequestMapping("/xUser")
+@XController
+@XRequestMapping("/rest/xUser")
 public class XUserController {
-    @XQualifier("userService")
+    @XQualifier("xUserService")
     private XUserService userService;
 
     @XRequestMapping("/query")
     public Map<String,Object> query(){
+        System.out.println("============>>>");
         Map<String,Object> map = new HashMap<>();
         userService.query();
         map.put("code","202");

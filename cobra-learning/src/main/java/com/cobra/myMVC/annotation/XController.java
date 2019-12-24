@@ -6,5 +6,5 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE) // 类上
 @Retention(RetentionPolicy.RUNTIME)
 public @interface XController {
-     String value();
+     String value() default "";
 }
