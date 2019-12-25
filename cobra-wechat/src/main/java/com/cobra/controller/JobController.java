@@ -1,4 +1,4 @@
-package com.cobra.sprboot.controller;
+package com.cobra.controller;
 
 
 import com.cobra.task.JobService;
@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Controller
+//@Controller
 @Slf4j
 public class JobController
 {

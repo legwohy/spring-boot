@@ -2,6 +2,8 @@ package com.cobra.pojo;
 
 import org.springframework.beans.factory.BeanNameAware;
 
+import java.util.Date;
+
 /**
  *
  */
@@ -10,8 +12,17 @@ public class User1 implements BeanNameAware
     private String id;
     private String name;
     private String address;
+
+    private Integer order;
+    private Date date;
     public User1()
     {
+    }
+
+    public User1(Integer order, String name, Date date) {
+        this.order = order;
+        this.name = name;
+        this.date = date;
     }
 
     @Override
@@ -51,14 +62,29 @@ public class User1 implements BeanNameAware
     }
 
     @Override
-    public String toString()
-    {
-        return "User2{" +
-                        "id=" + id +
-                        ", name='" + name + '\'' +
-                        ", address='" + address + '\'' +
-                        '}';
+    public String toString() {
+        return "User1{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", order=" + order +
+                ", date=" + date +
+                '}';
     }
 
+    public Date getDate() {
+        return date;
+    }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
 }
