@@ -503,6 +503,34 @@ public class StringCommonUtils extends org.apache.commons.lang3.StringUtils {
         return builder.toString();
     }
 
+    /**
+     * 网址
+     */
+    public final static String urlPattern = "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
+
+    /**
+     * 身份证
+     * */
+    public final static String SFZ_PATTERN = "^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$";
+
+
+    /**
+     * 校验身份证
+     * @param cardNo
+     */
+    public static Boolean validateSFZ(String cardNo){
+        return Pattern.matches(SFZ_PATTERN,cardNo);
+    }
+
+    /**
+     * 校验网址
+     * @param url
+     */
+    public static Boolean validateUrl(String url){
+        return Pattern.matches(urlPattern,url);
+    }
+
+
 
 
 }
