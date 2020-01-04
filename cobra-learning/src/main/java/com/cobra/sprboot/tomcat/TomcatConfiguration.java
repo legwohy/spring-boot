@@ -16,7 +16,7 @@ public class TomcatConfiguration implements EmbeddedServletContainerCustomizer
     @Override
     public void customize(ConfigurableEmbeddedServletContainer container)
     {
-        System.err.println(container.getClass());
+       /* System.err.println(container.getClass());
         if(container instanceof TomcatEmbeddedServletContainerFactory)
         {
             TomcatEmbeddedServletContainerFactory factory = (TomcatEmbeddedServletContainerFactory) container;
@@ -33,7 +33,7 @@ public class TomcatConfiguration implements EmbeddedServletContainerCustomizer
             });
             factory.addConnectorCustomizers();
 
-        }
+        }*/
 
     }
 }

@@ -3,16 +3,15 @@
 ##############################################
 spring:
   profiles:
-    active: pro
+    active: dev
 ##############################################
 ##################  strWhite  #################
 ##############################################
-strWhite: /api/user/login;
+strWhite: /api/user/login,/userInfo/list,/userInfo/obj;
 ##############################################
 ##################  mybatis  #################
 ##############################################
-mybatis:
-  mapper-locations: classpath:mapping/*.xml
+
 
 
 

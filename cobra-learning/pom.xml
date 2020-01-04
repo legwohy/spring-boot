@@ -15,11 +15,40 @@
     <artifactId>cobra-learning</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.ihome</groupId>
             <artifactId>cobra-common</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>tk.mybatis</groupId>
+                    <artifactId>mapper-spring-boot-starter</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
+        <!-- 事务 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
 
         <!-- 引入外部-->
         <dependency>
@@ -31,7 +60,45 @@
             <groupId>com.xue</groupId>
             <artifactId>shangtang</artifactId>
             <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/src/lib/shangtang-1.0.jar</systemPath>
         </dependency>
+
+        <!--netty 网络框架-->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>5.0.0.Alpha2</version>
+        </dependency>
+
+
+        <!--btrace 探针 start-->
+        <dependency>
+            <groupId>com.sun.btrace</groupId>
+            <artifactId>btrace-agent</artifactId>
+            <version>1.3.11</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/src/lib/btrace-agent.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.btrace</groupId>
+            <artifactId>btrace-boot</artifactId>
+            <version>1.3.11</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/src/lib/btrace-boot.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.btrace</groupId>
+            <artifactId>btrace-client</artifactId>
+            <version>1.3.11</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/src/lib/btrace-client.jar</systemPath>
+        </dependency>
+        <!--Btrace 探针 end-->
+
     </dependencies>
 
     <build>
@@ -53,6 +120,14 @@
                     <include>*.yml</include>
                 </includes>
             </resource>
+            <!--将jar包打入包中-->
+            <resource>
+                <directory>src/lib</directory>
+                <targetPath>./boot-lib/lib</targetPath>
+                <includes>
+                    <include>*.jar</include>
+                </includes>
+            </resource>
         </resources>
 
         <plugins>
@@ -61,7 +136,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.cobra.LearnApplication</mainClass>
+                    <mainClass>com.cobra.sprboot.LearnApplication</mainClass>
                     <executable>true</executable>
                 </configuration>
                 <executions>

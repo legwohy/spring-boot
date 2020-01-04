@@ -22,14 +22,17 @@ import java.io.IOException;
 import java.util.*;
 
 @Slf4j
-@Component
+//@Component
 @Order(1)
 @WebFilter(urlPatterns = "/api/*") // 没有拦截到kefu/distribute
 public class IdentifiedFilter implements Filter
 {
 
-    @Value("${strWhite}") private String strWhite;
-    List<String> whitelist = new ArrayList<>();
+    @Value("${strWhite}")
+    private String strWhite;
+
+    Set<String> whitelist = new HashSet<>();
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException
     {

@@ -16,9 +16,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ihome</groupId>
-            <artifactId>cobra-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
         </dependency>
     </dependencies>
 

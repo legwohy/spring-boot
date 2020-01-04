@@ -1,9 +1,11 @@
 package com.cobra.util.pdf;
 
-/**
- * Created by leigang on 2019/10/22.
- */
+import java.io.File;
+
+
 public class PathUtils {
+
+    private PathUtils(){throw new AssertionError("can not instantiate class");}
 
     public static String getRootClassPath(String fileName){
 
@@ -12,7 +14,20 @@ public class PathUtils {
 
     public static String getCurrentClassPath(String fileName){
 
-        return PathUtils.class.getResource("").getFile()+fileName;
+        String classPath = PathUtils.class.getClassLoader().getResource("").getPath();
+        String rootPath = "";
+        //windows下
+        if ("\\".equals(File.separator))
+        {
+            rootPath = classPath.replace("/", "\\");
+        }
+        //linux下
+        if ("/".equals(File.separator))
+        {
+            rootPath = classPath.replace("\\", "/");
+        }
+
+        return rootPath + fileName;
     }
 
 

@@ -2,16 +2,19 @@ package com.cobra.util.pdf;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 
 /**
- * 设置页面附加属性 https://www.cnblogs.com/joann/p/5511905.html
+ * 设置页面附加属性
  *
  */
 public class PDFBuilder extends PdfPageEventHelper {
+    private static Logger logger = LoggerFactory.getLogger(PDFBuilder.class);
 
     /**
      * 页眉
@@ -19,7 +22,7 @@ public class PDFBuilder extends PdfPageEventHelper {
     public String header = "";
 
     /**
-     * 页眉字体大小
+     * 文档字体大小，页脚页眉最好和文本大小一致
      */
     public int presentFontSize = 8;
 
@@ -28,20 +31,15 @@ public class PDFBuilder extends PdfPageEventHelper {
      */
     public Rectangle pageSize = PageSize.A4;
 
-    // 模板
+    /** 总页数*/
     public PdfTemplate total;
 
-    // 基础字体对象
+    /** 字体*/
     public BaseFont bf = null;
 
-    // 利用基础字体生成的字体对象，一般用于生成中文文字
+    /** 利用基础字体生成的字体对象，一般用于生成中文文字*/
     public Font fontDetail = null;
 
-    /**
-     *
-     * Creates a new instance of PdfReportM1HeaderFooter 无参构造方法.
-     *
-     */
     public PDFBuilder() {
 
     }
@@ -72,41 +70,45 @@ public class PDFBuilder extends PdfPageEventHelper {
     }
 
     /**
-     *
-     * TODO 文档打开时创建模板
-     *
+     **
      * @see PdfPageEventHelper#onOpenDocument(PdfWriter, Document)
      */
     @Override
     public void onOpenDocument(PdfWriter writer, Document document) {
-        total = writer.getDirectContent().createTemplate(50, 50);// 共 页 的矩形的长宽高
+        // 共 页 的矩形的长宽高
+        total = writer.getDirectContent().createTemplate(50, 50);
     }
 
     /**
      *
-     * TODO 关闭每页的时候，写入页眉，写入'第几页共'这几个字。
+     * 关闭每页的时候，写入页眉，写入'第几页共'这几个字。
      *
      * @see PdfPageEventHelper#onEndPage(PdfWriter, Document)
      */
     @Override
     public void onEndPage(PdfWriter writer, Document document) {
         this.addPage(writer, document);
-        this.addWatermark(writer,"water.png");
+        this.addWatermark(writer,"water-bestpay.png");
     }
 
-    //加分页
+
+    /**
+     * 加分页
+     * @param writer
+     * @param document
+     */
     public void addPage(PdfWriter writer, Document document){
         try {
             if (bf == null) {
                 bf = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", false);
             }
             if (fontDetail == null) {
-                fontDetail = new Font(bf, presentFontSize, Font.NORMAL);// 数据体字体
+                // 数据体字体
+                fontDetail = new Font(bf, presentFontSize, Font.NORMAL);
             }
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error("字体不存在,errorMsh={}",e);
+            return;
         }
 
         // 1.写入页眉
@@ -145,45 +147,30 @@ public class PDFBuilder extends PdfPageEventHelper {
     }
 
     /** 加水印*/
-    public void addWatermark(PdfWriter writer,String waterPath){
+    public void addWatermark(PdfWriter writer, String waterPath){
         if(StringUtils.isEmpty(waterPath)){
             return;
         }
         // 水印图片
         Image image;
         try {
-            String path = PathUtils.getRootClassPath(waterPath);
-
-            System.out.println("path:"+path);
-
-            image = Image.getInstance(path);
-
-            // 生成水印的核心类 加入水印
+            image = Image.getInstance(PathUtils.getRootClassPath(waterPath));
             PdfContentByte content = writer.getDirectContentUnder();
             content.beginText();
             // 开始写入水印 自定义规则
-            // k:水印的数量
-           // for(int k=0;k<1;k++){
-             //   for (int j = 0; j <1; j++) {
-                    // 设置坐标
-                    image.setAbsolutePosition(2,3);
-                    image.setRotationDegrees(64);//角度
-                    image.scalePercent(80);// 缩放
-
-                    content.addImage(image);
-                //}
-            //}
+            image.setAbsolutePosition(2,3);
+            image.setRotationDegrees(64);
+            image.scalePercent(80);
+            content.addImage(image);
             content.endText();
         } catch (IOException | DocumentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.error("添加水印失败,errorMsh={}",e);
         }
     }
 
     /**
      *
-     * TODO 关闭文档时，替换模板，完成整个页眉页脚组件
-     *
+     * 关闭文档时，替换模板，完成整个页眉页脚组件
      * @see PdfPageEventHelper#onCloseDocument(PdfWriter,
      *      Document)
      */

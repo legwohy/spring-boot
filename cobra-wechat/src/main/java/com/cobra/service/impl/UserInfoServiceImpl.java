@@ -3,7 +3,6 @@ package com.cobra.service.impl;
 import com.cobra.dao.UserInfoDao;
 import com.cobra.pojo.UserInfo;
 import com.cobra.service.UserInfoService;
-import com.cobra.util.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

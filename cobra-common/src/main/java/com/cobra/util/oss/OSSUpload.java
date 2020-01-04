@@ -3,7 +3,8 @@ package com.cobra.util.oss;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSException;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,7 +17,7 @@ import java.util.Date;
 public class OSSUpload
 {
 
-    private Logger logger = Logger.getLogger(OSSUpload.class);
+    private Logger logger = LoggerFactory.getLogger(OSSUpload.class);
 
     private OSSOperation ossOperation = null;
 
@@ -128,7 +129,7 @@ public class OSSUpload
             model.setResultCode("success");
             model.setResultMessage("");
             // 设置URL过期时间
-            Date expiration = new Date(new Date().getTime() + outTime);
+            Date expiration = new Date(System.currentTimeMillis() + outTime);
             url = ossOperation.generatePresignedUrl(bucketName, key, expiration);
         } catch (OSSException oe)
         {
@@ -307,7 +308,7 @@ public class OSSUpload
             }
         } catch (Exception e)
         {
-            logger.error(e);
+           e.printStackTrace();
         }
 
         return false;

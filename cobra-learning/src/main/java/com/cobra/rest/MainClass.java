@@ -46,7 +46,7 @@ public class MainClass
         CloseableHttpResponse response = httpClient.execute(get);
         System.out.println("=========>"+response);
         System.out.println("headers>"+response.getAllHeaders().toString());
-        System.out.println("entirty>"+response.getEntity().getContent());
+        System.out.println("entity>"+response.getEntity().getContent());
         System.out.println("locate>"+response.getLocale());
         System.out.println("protocolVersion>"+response.getProtocolVersion());
         response.close();

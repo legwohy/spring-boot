@@ -1,6 +1,5 @@
 package com.cobra.util.pdf;
 
-import com.cobra.util.StringCommonUtils;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.tool.xml.Pipeline;
@@ -15,73 +14,85 @@ import com.itextpdf.tool.xml.parser.XMLParser;
 import com.itextpdf.tool.xml.pipeline.css.CSSResolver;
 import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
 import com.itextpdf.tool.xml.pipeline.end.PdfWriterPipeline;
-import com.itextpdf.tool.xml.pipeline.html.*;
-import org.springframework.util.StringUtils;
-import org.xhtmlrenderer.pdf.ITextRenderer;
+import com.itextpdf.tool.xml.pipeline.html.AbstractImageProvider;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
+@Slf4j
 public class PdfGenerator {
+    private static Logger logger = LoggerFactory.getLogger(PdfGenerator.class);
 
-	/**
-	 * Output a pdf to the specified outputstream
-	 * 
-	 * @param htmlStr
-	 *            the htmlstr
-	 * @param out
-	 *            the specified outputstream
-	 * @throws Exception
-	 */
+    public final static String CHARSET_NAME = "UTF-8";
 
-	public static void htmlToPdf(String htmlStr, OutputStream out) throws IOException, DocumentException {
-		final String charsetName = "UTF-8";
-		
-		Document document = new Document(PageSize.A4, 30, 30, 30, 30);
+
+    private Document document;
+
+    /**
+     * 设置字体
+     */
+    private Font font;
+
+    public PdfGenerator() {
+        document = new Document(PageSize.A4, 30, 30, 30, 30);
         document.setMargins(30, 30, 30, 30);
+
+        // 添加附件
+        BaseFont bfChinese = null;
+        try {
+            bfChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+        } catch (Exception e) {
+            logger.error("字体不存在,errorMsg={}",e);
+        }
+        font = new Font(bfChinese, 10, Font.NORMAL);
+
+    }
+
+    public void htmlToPdf(String htmlStr, OutputStream out) throws IOException, DocumentException {
+
         PdfWriter writer = PdfWriter.getInstance(document, out);
 
         // 设置页眉
         PDFBuilder builder = new PDFBuilder();
         writer.setPageEvent(builder);
-
         document.open();
-        
+
         // html内容解析
-        HtmlPipelineContext htmlContext = new HtmlPipelineContext(
-                new CssAppliersImpl(new XMLWorkerFontProvider() {
-                    @Override
-                    public Font getFont(String fontname, String encoding, float size, final int style) {
-                        if (fontname == null) {
-                        	// 操作系统需要有该字体, 没有则需要安装; 当然也可以将字体放到项目中， 再从项目中读取
-                            fontname = "SimSun";        
+        HtmlPipelineContext htmlContext = new HtmlPipelineContext
+                (
+                    new CssAppliersImpl(new XMLWorkerFontProvider() {
+                        @Override
+                        public Font getFont(String fontName, String encoding, float size, final int style)
+                        {
+                            if (fontName == null)
+                            {
+                                // 加载系统配置文件
+                                font = getSystemConfigFont(size, style);
+                            }
+                            
+                            return font;
                         }
-                        return super.getFont(fontname, encoding, size, style);
-                    }
-                })) {
-            @Override
-            public HtmlPipelineContext clone() throws CloneNotSupportedException {
-                HtmlPipelineContext context = super.clone();
-                try {
-                    ImageProvider imageProvider = this.getImageProvider();
-                    context.setImageProvider(imageProvider);
-                } catch (NoImageProviderException e) {
-                }
-                return context;
-            }
-        };
-        
+                    })
+                );
+
         // 图片解析
         htmlContext.setImageProvider(new AbstractImageProvider() {
-        	
-        	String rootPath = PdfGenerator.class.getResource("/").getPath();
-        	
+
+            String rootPath = PdfGenerator.class.getResource("/").getPath();
+
             @Override
             public String getImageRootPath() {
-            	return rootPath;
+                return rootPath;
             }
 
             @Override
@@ -92,19 +103,17 @@ public class PdfGenerator {
                 try {
                     Image image = Image.getInstance(new File(rootPath, src).toURI().toString());
                     // 图片显示位置
-                    image.setAbsolutePosition(400, 400);		
-                    if (image != null) {
-                        store(src, image);
-                        return image;
-                    }
-                } catch (Throwable e) {
-                	e.printStackTrace();
+                    image.setAbsolutePosition(400, 400);
+                    store(src, image);
+                    return image;
+                } catch (Exception e) {
+                    logger.error("pdf文件解析图片错误,errorMsg={}",e);
                 }
                 return super.retrieve(src);
             }
         });
         htmlContext.setAcceptUnknown(true).autoBookmark(true).setTagFactory(Tags.getHtmlTagProcessorFactory());
-        
+
         // css解析
         CSSResolver cssResolver = XMLWorkerHelper.getInstance().getDefaultCssResolver(true);
         cssResolver.setFileRetrieve(new FileRetrieve() {
@@ -112,26 +121,27 @@ public class PdfGenerator {
             public void processFromStream(InputStream in,
                                           ReadingProcessor processor) throws IOException {
                 try (
-                        InputStreamReader reader = new InputStreamReader(in, charsetName)) {
+                        InputStreamReader reader = new InputStreamReader(in, Charset.forName(CHARSET_NAME))) {
                     int i = -1;
                     while (-1 != (i = reader.read())) {
                         processor.process(i);
                     }
-                } catch (Throwable e) {
+                } catch (Exception e) {
+                    logger.error("css解析错误,errorMsg={}",e);
                 }
             }
 
             // 解析href
             @Override
             public void processFromHref(String href, ReadingProcessor processor) throws IOException {
-            	InputStream is = PdfGenerator.class.getResourceAsStream("/" + href);
-                try (InputStreamReader reader = new InputStreamReader(is,charsetName)) {
+                InputStream is = PdfGenerator.class.getResourceAsStream("/" + href);
+                try (InputStreamReader reader = new InputStreamReader(is, CHARSET_NAME)) {
                     int i = -1;
                     while (-1 != (i = reader.read())) {
                         processor.process(i);
                     }
-                } catch (Throwable e) {
-                	e.printStackTrace();
+                } catch (Exception e) {
+                    logger.error("解析href错误,errorMsg={}",e);
                 }
             }
         });
@@ -140,79 +150,67 @@ public class PdfGenerator {
         Pipeline<?> pipeline = new CssResolverPipeline(cssResolver, htmlPipeline);
         XMLWorker worker = null;
         worker = new XMLWorker(pipeline, true);
-        XMLParser parser = new XMLParser(true, worker, Charset.forName(charsetName));
+        XMLParser parser = new XMLParser(true, worker, Charset.forName(CHARSET_NAME));
         try (InputStream inputStream = new ByteArrayInputStream(htmlStr.getBytes())) {
-            parser.parse(inputStream, Charset.forName(charsetName));
+            parser.parse(inputStream, Charset.forName(CHARSET_NAME));
         }
 
-        // 添加属性
-        addAttach(document);
 
-        document.add(new Paragraph("附件 见下页 ",font));
+    }
 
-        // 另起一页
-        addNextPage(document,"订单信息");
-
-        // 居中
-        Paragraph paragraph = new Paragraph("附 订单信息 1-1",font);
-        paragraph.setAlignment(Element.ALIGN_CENTER);
-        document.add(paragraph);
-
-
-        // 添加表单
-        addTable(document);
-
-
-
+    public void closeDocument() {
         document.close();
-	}
-
-	/** 设置字体*/
-	private static Font font;
-	static {
-        // 添加附件
-        BaseFont bfChinese = null;
-        try {
-            bfChinese = BaseFont.createFont( "STSongStd-Light" ,"UniGB-UCS2-H",BaseFont.NOT_EMBEDDED);
-        } catch (DocumentException e) {
-            // TODO 解决中文不显示问题
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        font = new Font(bfChinese, 10,Font.NORMAL);
     }
 
 
-
-	/** 添加文档属性*/
-	private static void addAttach(Document document){
+    /**
+     * 添加文档属性
+     */
+    public  void addAttach() {
         // 文档附加信息
-        document.addTitle("协议.pdf");
+        document.addTitle("合同.pdf");
         document.addAuthor("lei sir");
     }
 
     /**
      * 添加新章节 另起一页
-     * @param document
+     *
      * @param title
      * @throws DocumentException
      */
-    private static void addNextPage(Document document,String title) throws DocumentException{
+    public void addNextPage(String title) throws DocumentException {
         // 新章节从编号1开始
-        Chapter chapter = new Chapter(new Paragraph(title),1);
+        Chapter chapter = new Chapter(new Paragraph(title), 1);
         // 不显示上面的编号1
         chapter.setNumberDepth(0);
         document.add(chapter);
     }
 
 
+    public void addOthers() throws DocumentException {
+        // 添加属性
+        this.addAttach();
+
+        document.add(new Paragraph("附件 见下页 ",font));
+
+        // 另起一页
+        this.addNextPage("合同");
+
+        // 居中
+        Paragraph paragraph = new Paragraph("附 订单信息 1-1",font);
+        paragraph.setAlignment(Element.ALIGN_CENTER);
+        document.add(paragraph);
+
+    }
+
+
     /**
      * 添加列表
      */
-	private static void  addTable(Document document) throws DocumentException{
-	    // 3X7
-        PdfPTable table = new PdfPTable(7);
+    public void addTable(LinkedHashMap<String,String> titleMap, List<Map<String,Object>> contentMapList) throws DocumentException {
+        // 3X7
+        int size = titleMap.size();
+        PdfPTable table = new PdfPTable(size);
         // 宽度100%填充
         table.setWidthPercentage(100);
         // 前间距
@@ -222,27 +220,34 @@ public class PdfGenerator {
         ArrayList<PdfPRow> rowList = table.getRows();
 
 
-        PdfPCell[] titleCells = new PdfPCell[7];
-        titleCells[0] = new PdfPCell(new Paragraph("订单号",font));
-        titleCells[1] = new PdfPCell(new Paragraph("商品信息",font));
-        titleCells[2] = new PdfPCell(new Paragraph("规格",font));
-        titleCells[3] = new PdfPCell(new Paragraph("购买数量",font));
-        titleCells[4] = new PdfPCell(new Paragraph("购买时长",font));
-        titleCells[5] = new PdfPCell(new Paragraph("创建时间",font));
-        titleCells[6] = new PdfPCell(new Paragraph("金额",font));
+
+        PdfPCell[] titleCells = new PdfPCell[size];
+
+        int i = 0;
+        for(Map.Entry<String,String> en: titleMap.entrySet()){
+            titleCells[i] = new PdfPCell(new Paragraph(en.getValue(), font));
+            i++;
+        }
+
+
         PdfPRow titleRow = new PdfPRow(titleCells);
 
         rowList.add(titleRow);
 
-        for (int i = 0;i<3;i++){
-            PdfPCell[] contentCells = new PdfPCell[7];
-            contentCells[0] = new PdfPCell(new Paragraph("10001",font));
-            contentCells[1] = new PdfPCell(new Paragraph("治疗库",font));
-            contentCells[2] = new PdfPCell(new Paragraph("S 粉色",font));
-            contentCells[3] = new PdfPCell(new Paragraph("100",font));
-            contentCells[4] = new PdfPCell(new Paragraph("10年",font));
-            contentCells[5] = new PdfPCell(new Paragraph("2046-10-10 02:34:34",font));
-            contentCells[6] = new PdfPCell(new Paragraph("￥38.00",font));
+
+        for (int j = 0; j < contentMapList.size(); j++) {
+            PdfPCell[] contentCells = new PdfPCell[size];
+            Map<String,Object> contentMap = contentMapList.get(j);
+            int k = 0;
+
+            // 顺序
+            for(Map.Entry<String,String> en: titleMap.entrySet()){
+                if(contentMap.containsKey(en.getKey())){
+                    contentCells[k] = new PdfPCell(new Paragraph(contentMap.get(en.getKey()).toString(), font));
+                    k++;
+                }
+            }
+
 
             PdfPRow contentRow = new PdfPRow(contentCells);
             rowList.add(contentRow);
@@ -252,28 +257,19 @@ public class PdfGenerator {
 
     }
 
-    public static void main(String[] args) throws Exception{
-	    Long start = System.currentTimeMillis();
-	    File file = new File(PathUtils.getRootClassPath("testPdf.html"));
-	    FileInputStream fis = new FileInputStream(file);
-
-	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        byte[] bytes = new byte[1024];
-        int n;
-        while ((n=fis.read(bytes)) != -1){
-            baos.write(bytes,0,n);
+    private Font getSystemConfigFont(float size, int style){
+        Font configFont = null;
+        String fontFile = this.getClass().getResource("/").getPath() + "fonts/simsun.ttc";
+        BaseFont bf=null;
+        try {
+            bf = BaseFont.createFont(fontFile+",1",
+                    BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+            configFont = new Font(bf, size, style);
+        } catch (Exception e) {
+            log.error("html 字体转换失败fontFile:{},font:{}",fontFile,font);
         }
-        baos.flush();
-	    baos.close();
 
-        String htmlStr = baos.toString() ;
-
-        OutputStream os = new FileOutputStream(new File("D:\\temp.pdf"));
-        htmlToPdf(htmlStr,os);
-
-        Long end = System.currentTimeMillis();
-
-        System.out.println("耗时:"+ StringCommonUtils.longToStringPoint(end-start,3));
+        return configFont;
     }
+
 }

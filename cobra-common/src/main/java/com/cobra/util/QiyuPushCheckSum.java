@@ -1,5 +1,7 @@
 package com.cobra.util;
 
+import com.cobra.util.digest.MD5;
+
 import java.security.MessageDigest;
 
 
