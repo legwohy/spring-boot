@@ -28,7 +28,7 @@ public class ExcelUtil {
      * @param headMap 表头
      * @param contentList 每行的单元格
      */
-    public static void writeExcelNew(OutputStream  outputStream,LinkedHashMap<String,String> headMap,
+    public static void listToExcel(OutputStream  outputStream,LinkedHashMap<String,String> headMap,
                                   List<Map<String, Object>> contentList) throws IOException {
         try {
             // xlsx  xls返回的是HSSFWorkbook
