@@ -35,6 +35,17 @@ public class RandomAccessFileDemo {
         file.close();
 
     }
+    @Test
+    public void writeStringWithSeek() throws Exception {
+        // 会直接覆盖上文的文件
+        RandomAccessFile file = new RandomAccessFile("temp.txt", "rw");
+        // 指定下标开始写 写入多少个长度 注意这不是插入 它会覆盖源位置的数据
+        file.seek(10);
+        file.write("insert data".getBytes(),1,3);
+        System.out.println("length:"+file.length());
+        file.close();
+
+    }
 
     public static void main(String[] args) {
         byte[] bytes = new byte[3];
