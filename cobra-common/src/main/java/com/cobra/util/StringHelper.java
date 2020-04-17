@@ -1278,10 +1278,6 @@ public class StringHelper {
      * <p>
      * Noe:Null Or Empty<br>
      *
-<<<<<<< HEAD
-     * @param strings
-=======
->>>>>>> dev-refactor
      * @return
      */
     public static boolean existNoe(Object... someObj) {
