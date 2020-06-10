@@ -1,9 +1,10 @@
-package com.cobra.clasloader;
+package com.cobra.clsloader;
 
 
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 import java.io.*;
+import java.lang.reflect.Method;
 
 public class FileClassLoader extends ClassLoader {
     private String rootDir;
@@ -13,10 +14,12 @@ public class FileClassLoader extends ClassLoader {
     }
 
     /**
+     * 注意 这里是重写 findClass 方法 而不是 loadClass
+     * findClass 查找二进制文件的位置并加载里面
      * @param name 全类名
      */
     @Override
-    public Class<?> loadClass(String name) throws ClassNotFoundException {
+    public Class<?> findClass(String name) throws ClassNotFoundException {
         // 1、获取.class二进制文件
         byte[] bytes = loadDataByName(name);
         if (null == bytes) {
@@ -28,6 +31,7 @@ public class FileClassLoader extends ClassLoader {
 
     private byte[] loadDataByName(String name) {
         String path = classNameToPath(name);
+        System.out.println("文件路径:"+path);
         try (InputStream is = new FileInputStream(path);
              ByteOutputStream bos = new ByteOutputStream()) {
             byte[] buffer = new byte[1024];
@@ -50,12 +54,16 @@ public class FileClassLoader extends ClassLoader {
     }
 
     public static void main(String[] args) throws Exception {
-        String rootDir = "F:\\temp";
+        String rootDir = FileClassLoader.class.getResource("/").getFile();
         FileClassLoader loader = new FileClassLoader(rootDir);
-        Class clazz = loader.loadClass("com.test.TestObj");
+        String name = "com.cobra.clsloader.TestObj";
+        // 这里调用loadClass非findClass
+        // loadClass 双亲模型加载
+        Class clazz = loader.loadClass(name);
+        Object obj = clazz.newInstance();
+        Method method = clazz.getMethod("test",null);
+        method.invoke(obj,null);
 
-
-        //System.out.println(clazz.newInstance());
     }
 
 

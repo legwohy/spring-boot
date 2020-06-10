@@ -1,9 +1,8 @@
 package com.cobra.tx.manualTx.dao;
 
 
-import com.cobra.tx.manualTx.frame.SingleConnectionHolder;
+import com.cobra.tx.manualTx.frame.ConnectionUtils;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -12,12 +11,12 @@ import java.sql.SQLException;
  */
 public class UserAccountDao
 {
-    private DataSource dataSource;
-    public UserAccountDao(DataSource dataSource){
-        this.dataSource = dataSource;
+    private ConnectionUtils connectionUtils;
+    public UserAccountDao(ConnectionUtils connectionUtils){
+        this.connectionUtils = connectionUtils;
     }
     public void order()throws SQLException{
-        Connection conn = SingleConnectionHolder.getConnection(dataSource);
+        Connection conn = connectionUtils.getThreadConnection();
 
         // 业务操作
         System.out.println("当前【用户】线程:"+Thread.currentThread().getName()+",连接通道 hashcode="+conn.hashCode());

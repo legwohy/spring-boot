@@ -72,7 +72,7 @@
         </dependency>
 
 
-        <!--btrace 探针 start-->
+        <!--btracebeginTransactiontart-->
         <dependency>
             <groupId>com.sun.btrace</groupId>
             <artifactId>btrace-agent</artifactId>
@@ -98,6 +98,19 @@
             <systemPath>${pom.basedir}/src/lib/btrace-client.jar</systemPath>
         </dependency>
         <!--Btrace 探针 end-->
+
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.19</version>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.2.5</version>
+        </dependency>
+
 
     </dependencies>
 
