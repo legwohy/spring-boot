@@ -29,9 +29,9 @@
 	<!--STDOUT将日志信息打印到控制台-->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoder 格式化 默认配置为PatternLayoutEncoder -->
-	    <encoder>   
+	    <encoder>
 	      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{traceLogId}] | %-5level %logger{32} - %line : %msg%n</pattern>
-	    </encoder>   
+	    </encoder>
     </appender>
 
 	<!--
@@ -116,9 +116,9 @@
 		<level value="INFO" />
 		<!--将日志信息打印到控制台-->
 		<appender-ref ref="STDOUT" />
-		<appender-ref ref="fileWarnLog" />
+		<!--<appender-ref ref="fileWarnLog" />
 		<appender-ref ref="FILE" />
-		<appender-ref ref="fileErrorLog" />
+		<appender-ref ref="fileErrorLog" />-->
 	</root>
 
 </configuration>

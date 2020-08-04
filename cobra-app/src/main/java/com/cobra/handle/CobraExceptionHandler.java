@@ -23,7 +23,7 @@ public class CobraExceptionHandler
     public BaseResponse handelCobraException(CobraException ce)
     {
 
-        logger.info("--------->拦截到CobraException异常");
+        logger.info("--------->拦截到CobraException异常,errorMsg=[{}]",ce);
         return new BaseResponse(ce.getCode(),ce.getMessage());
 
     }
@@ -32,11 +32,11 @@ public class CobraExceptionHandler
     @ResponseBody
     public BaseResponse handelException(Exception ce)
     {
+        logger.info("--------->拦截到Exception异常 errorMsg=[{}]",ce);
         if(ce instanceof CobraException){
             CobraException ex = (CobraException) ce;
 
 
-            logger.info("--------->拦截到Exception异常");
             return new BaseResponse(ex.getCode(),ex.getMessage());
 
         }

@@ -1,4 +1,4 @@
-package com.cobra.sprboot.controller;
+package com.cobra.controller;
 
 import com.cobra.domain.entity.UserInfo;
 import com.cobra.param.BaseResponse;

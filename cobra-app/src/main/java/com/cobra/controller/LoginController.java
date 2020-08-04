@@ -1,4 +1,4 @@
-package com.cobra.sprboot.controller;
+package com.cobra.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cobra.constants.CobraCode;

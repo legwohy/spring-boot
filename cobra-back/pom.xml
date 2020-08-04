@@ -44,6 +44,11 @@
             <groupId>tk.mybatis</groupId>
             <artifactId>mapper-spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
 
     </dependencies>
@@ -51,8 +56,9 @@
     <build>
         <!-- 指定xml的位置 注意mybatis需要指定xml-->
         <resources>
+            <!--讲mapping下的xml文件放在dao下-->
             <resource>
-                <directory>src/main/resources/com/cobra/dao</directory>
+                <directory>src/main/resources/mapping</directory>
                 <includes>
                     <include>*.xml</include>
                 </includes>
@@ -60,6 +66,7 @@
                 <!-- 打包的位置-->
                 <targetPath>./com/cobra/dao</targetPath>
             </resource>
+            <!--打包resource下的xml和yml文件-->
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
@@ -67,7 +74,24 @@
                     <include>*.yml</include>
                 </includes>
             </resource>
+
         </resources>
+
+        <!--测试文件
+        include 哪些需要打包 exclude不需要打包
+        filtering 开启过滤 用于过滤指定属性文件中 ${}的参数  默认 false
+        -->
+        <testResources>
+            <!--test下的文件全部不打包-->
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>**/*</exclude>
+                </excludes>
+            </testResource>
+
+        </testResources>
 
         <plugins>
             <plugin>
@@ -85,6 +109,16 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <!--maven执行测试用例的插件 默认会绑定maven的test阶段 默认执行junit-->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
             </plugin>
 
         </plugins>

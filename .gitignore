@@ -22,7 +22,6 @@
 # idea set
 /.idea/
 /*.iml
-/*/src/test/
 /*/target/
 /*/*.iml
 

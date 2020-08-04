@@ -1,4 +1,4 @@
-package com.cobra.sprboot.controller;
+package com.cobra.controller;
 
 import com.cobra.constant.BackConfig;
 import com.cobra.pojo.BackConfigParams;

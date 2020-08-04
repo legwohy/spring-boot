@@ -25,7 +25,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())// api的基本信息
                 .select()// 选择那些路径和api会生成document
                 // 此处需标注出RestController类
-                .apis(RequestHandlerSelectors.basePackage("com.shiro.controller")) // 对所有api进行监控
+                .apis(RequestHandlerSelectors.basePackage("com.cobra.controller")) // 对所有api进行监控
                 .paths(PathSelectors.any())// 对所有路径进行监控
                 .build();
     }

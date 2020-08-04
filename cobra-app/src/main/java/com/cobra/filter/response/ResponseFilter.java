@@ -6,8 +6,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cobra.param.BaseResponse;
 import com.cobra.util.SpringContextHolder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +22,9 @@ import java.util.Map;
  * 就会注入失败，因为filter初始化时，注解的bean还没初始化，没法注入
  * 推荐 extend OncePerRequestFilter 该类 保证在不同的容器中只执行一次
  */
+@Slf4j
 @Component
 public class ResponseFilter implements Filter {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ResponseFilter.class);
     private String key = "userName";
 
     @Autowired
@@ -41,7 +40,7 @@ public class ResponseFilter implements Filter {
             if(null == testFilterAutoBean){
                 testFilterAutoBean = (TestFilterAutoBean) SpringContextHolder.getBean(TestFilterAutoBean.class);
             }
-            System.out.println("测试自动注入:"+ testFilterAutoBean.getId());
+            log.info("测试自动注入 autoBeanId=[{}]:", testFilterAutoBean.getId());
 
             filterChain.doFilter(request, wrapper);
 
@@ -61,13 +60,13 @@ public class ResponseFilter implements Filter {
             response.setContentLength(JSON.toJSONBytes(jsonObject).length);
             response.getOutputStream().write(JSON.toJSONBytes(jsonObject));
         } catch (Exception e) {
-            LOGGER.error("数据包装器执行出错....{}", e);
+            log.error("数据包装器执行出错....{}", e);
             response.setContentType("application/json;charset=utf-8");
             //将buffer重置，因为我们要重新写入流进去
             response.resetBuffer();
 
-            response.setContentLength(JSON.toJSONBytes(new BaseResponse("404","系统异常")).length);
-            response.getOutputStream().write(JSON.toJSONBytes(new BaseResponse("404","系统异常")));
+            response.setContentLength(JSON.toJSONBytes(new BaseResponse("301","响应拦截异常")).length);
+            response.getOutputStream().write(JSON.toJSONBytes(new BaseResponse("301","响应拦截异常")));
         }
     }
 

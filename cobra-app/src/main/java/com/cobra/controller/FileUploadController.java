@@ -1,4 +1,4 @@
-package com.cobra.sprboot.controller;
+package com.cobra.controller;
 
 import com.cobra.exception.CobraException;
 import com.cobra.param.BaseResponse;

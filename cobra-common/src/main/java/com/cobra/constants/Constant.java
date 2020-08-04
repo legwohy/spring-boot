@@ -26,4 +26,6 @@ public final class Constant
      */
     public static String message = "message";
 
+    public static String LOG_TRACE_ID = "traceLogId";
+
 }
