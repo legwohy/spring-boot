@@ -59,7 +59,6 @@ public class ThreadMonitorTimeoutTest {
                     System.out.printf("thread %d into InterruptedException, over\n", i);
 
                 } catch (Exception e) {
-                    // TODO: handle exception
                     e.printStackTrace();
                 }
             }
@@ -100,7 +99,6 @@ public class ThreadMonitorTimeoutTest {
                     aliveThreadRefreshTimeMap.remove(id);
                 }
             } catch (Exception e) {
-                // TODO: handle exception
                 e.printStackTrace();
             }
 

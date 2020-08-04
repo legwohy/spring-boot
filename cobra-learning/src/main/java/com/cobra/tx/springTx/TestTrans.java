@@ -36,7 +36,6 @@ public class TestTrans
             // 2、业务未执行到commit就return
             // 3、事务开关循环
             // 开启事务1（requires_new）-> 然后开事务2(requires_new) -> 之后提交事务1（commit） -> 在提交事务2(commit)
-            //TODO 业务代码
             txManager.commit(status); // 事务提交
         }catch (Throwable e)
         {

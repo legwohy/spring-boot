@@ -33,7 +33,6 @@ public class RSAEncrypt
         try {
             keyPairGen = KeyPairGenerator.getInstance("RSA");
         } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         // 初始化密钥对生成器，密钥大小为96-1024位

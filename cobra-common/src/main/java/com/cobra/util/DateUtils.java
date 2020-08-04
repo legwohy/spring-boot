@@ -14,20 +14,7 @@ import java.util.GregorianCalendar;
 
 import static org.apache.commons.lang.StringUtils.isEmpty;
 
-/**
- * 日期帮助类
- * 功能描述: TODO 增加描述代码功能
- * 
- * @逻辑说明: TODO 增加描述代码逻辑
- * 
- * @牵涉到的配置项: TODO 若果代码中逻辑牵涉到配置项在这里列出
- *
- * @编码实现人员 HOLI
- * @需求提出人员 TODO 填写需求填写人员
- * @实现日期 Jun 19, 2017
- * @版本 TODO 填写版本
- * @修改历史 TODO 新建的时候留空
- */
+
 public class DateUtils
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(DateUtils.class);
@@ -43,7 +30,6 @@ public class DateUtils
 
     /**
      * 日期转换成字符串格式
-     * TODO 增加功能描述
      * @author HOLI
      * @date Jun 19, 2017
      * @param date date
@@ -56,7 +42,6 @@ public class DateUtils
 
     /**
      * 字符串转车成对应的格式
-     * TODO 增加功能描述
      * @author HOLI
      * @date Jun 19, 2017
      * @param date date
@@ -84,7 +69,6 @@ public class DateUtils
 
     /**
      * 转换日期格式
-     * TODO 增加功能描述
      * @author HOLI
      * @date Jun 21, 2017
      * @param date date
@@ -97,7 +81,6 @@ public class DateUtils
 
     /**
      * 
-     * TODO 把date转化为合适的类型
      * @author xingyu.wu
      * @date 2017年5月18日
      * @param date date
@@ -130,7 +113,6 @@ public class DateUtils
 
     /**
      * 
-     * TODO 把字符串类型的转化成Date类型的
      * @author xingyu.wu
      * @date 2017年5月18日
      * @param source source
@@ -166,7 +148,6 @@ public class DateUtils
 
     /**
      * 获取当前网络时间
-     * TODO 增加功能描述
      * @author lihong
      * @date 2017年8月8日
      * @return
@@ -194,7 +175,6 @@ public class DateUtils
 
     /**
      * 
-     * TODO 比较2个日期相差几天
      * @author wxy
      * @date 2017年8月24日
      * @param soure  当前时间
@@ -209,7 +189,6 @@ public class DateUtils
 
     /**
      * 获取几天前的日期
-     * TODO 增加功能描述
      * @author lihong
      * @date 2017年8月25日
      * @param days
@@ -237,7 +216,6 @@ public class DateUtils
 
     /**
      *           
-     * TODO 获取几分钟之后的时间
      * @author
      * @date 2017年9月6日
      * @param date
