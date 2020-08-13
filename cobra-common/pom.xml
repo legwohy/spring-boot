@@ -192,6 +192,13 @@
         </dependency>
         <!-- word/excel  end-->
 
+        <!--编码相关的-->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
+        </dependency>
+
 
     </dependencies>
 
