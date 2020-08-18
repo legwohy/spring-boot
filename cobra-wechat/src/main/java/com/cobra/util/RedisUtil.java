@@ -22,6 +22,10 @@ public class RedisUtil
 
     public static final int ORDER_PAY_LOCK_TIMEOUT = 2 * 60 * 60 * 1000; //两小时  2 * 60 * 60 * 1000
 
+    public final String API_LIMIT_VALUE_PREFIX = "cis:wechat:limit_api_value_";
+    public final String API_LIMIT_COUNT_PREFIX = "cis:wechat:limit_api_count_";
+    public final long API_LIMIT_EXPIRE = 15*1000;
+
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -168,7 +172,7 @@ public class RedisUtil
 
     public long getIncrementValue(final String key)
     {
-        return redisTemplate.opsForValue().increment(key, 1);
+        return redisTemplate.opsForValue().increment(key, 1L);
     }
 
     public void increment(final String key, int i)
@@ -208,7 +212,6 @@ public class RedisUtil
     /***
      * 解锁
      * @param key
-     * @param value
      * @return
      */
     public void unlock(String key)//, String value)

@@ -1,5 +1,6 @@
 package com.cobra.configuration;
 
+import com.cobra.interceptor.AccessLimitInterceptor;
 import com.cobra.interceptor.WechatInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,11 +25,19 @@ public class MvcConfig implements WebMvcConfigurer
         interceptorRegistry.addInterceptor(wechatInterceptor())
                         .addPathPatterns("/wechat/*");
 
+        interceptorRegistry.addInterceptor(accessInterceptor())
+                        .addPathPatterns("/apiLimit");
+
     }
 
     @Bean
     public WechatInterceptor wechatInterceptor(){
         return new WechatInterceptor();
+    }
+
+    @Bean
+    public AccessLimitInterceptor accessInterceptor(){
+        return new AccessLimitInterceptor();
     }
 
     @Override
