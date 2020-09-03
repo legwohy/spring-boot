@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -42,6 +43,15 @@ public class LearnApplication
     {
         System.out.println("=============>@PostConstruct标注在方法上 有点类似构造");
 
+    }
+    @Bean(value = "dog")
+    public XAnimal dog(){
+        return new Dog();
+    }
+
+    @Bean(value = "cat")
+    public XAnimal cat(){
+        return new Cat();
     }
 
 }
