@@ -1,5 +1,8 @@
 package com.cobra.design.proxy;
 
+import com.cobra.design.proxy.entity.Animal;
+import com.cobra.design.proxy.entity.Dog;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -9,11 +12,11 @@ import java.util.Arrays;
  * JDK动态代理 代理接口
  * 代理类
  */
-public class AnimalProxy implements InvocationHandler
+public class CommonJdkProxy implements InvocationHandler
 {
     private Object target;// 代理类
 
-    public AnimalProxy(Object target)
+    public CommonJdkProxy(Object target)
     {
         this.target = target;
     }
@@ -38,10 +41,13 @@ public class AnimalProxy implements InvocationHandler
         }else {
             System.out.println("sb=====");
         }
-        System.out.println("代理方法名字："+method.getName()+",代理传入的参数值args="+ Arrays.toString(args));
+        System.out.println("代理方法执行开始。。。 \r\n"
+                        + "className:["+proxy.getClass().getName()+"] "
+                        + ",methodName：["+method.getName()+"]"
+                        + ",args：["+ Arrays.toString(args)+"]");
         Object rs = method.invoke(target,args);
 
-        System.out.println("方法执行完成");
+        System.out.println("方法执行结束。。。");
 
         return rs;
     }
