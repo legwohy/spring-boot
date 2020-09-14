@@ -1,8 +1,5 @@
 package com.cobra.design.proxy;
 
-import com.cobra.design.proxy.entity.Animal;
-import com.cobra.design.proxy.entity.Dog;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -22,7 +19,7 @@ public class CommonJdkProxy implements InvocationHandler
     }
 
     /**
-     * @return getInstance 接口
+     * @return 创建代理对象
      */
     public  Object getInstance()
     {
@@ -36,18 +33,13 @@ public class CommonJdkProxy implements InvocationHandler
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
     {
-        if(proxy instanceof Animal){
-            System.out.println("代理类型为 Animal");
-        }else {
-            System.out.println("sb=====");
-        }
-        System.out.println("代理方法执行开始。。。 \r\n"
-                        + "className:["+proxy.getClass().getName()+"] "
-                        + ",methodName：["+method.getName()+"]"
+        System.out.println("=============JDK代理执行开始============");
+        System.out.println("JDK代理 className:"+proxy.getClass().getName()
+                        + ",methodName:["+method.getName()+"] "
                         + ",args：["+ Arrays.toString(args)+"]");
         Object rs = method.invoke(target,args);
 
-        System.out.println("方法执行结束。。。");
+        System.out.println("=============JDK代理执行结束============");
 
         return rs;
     }
