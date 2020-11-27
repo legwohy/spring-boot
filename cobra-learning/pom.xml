@@ -149,7 +149,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.cobra.sprboot.LearnApplication</mainClass>
+                    <mainClass>com.cobra.spring.sprboot.LearnApplication</mainClass>
                     <executable>true</executable>
                 </configuration>
                 <executions>
