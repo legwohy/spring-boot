@@ -33,7 +33,7 @@ public class ChineseNumber {
 
     public static String getChineseNumber(String number, String unit, String postfix) {
 
-        String[] numbers = StringHelper.strToStrArray(number, DEFAULT_PATH_SEPARATOR);
+        String[] numbers = StringCommonUtils.strToStrArray(number, DEFAULT_PATH_SEPARATOR);
         if (numbers.length > 2) {
             new NumberFormatException("数字格式错误!");
         }
