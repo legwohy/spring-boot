@@ -3,7 +3,7 @@ package com.cobra.controller;
 import com.cobra.exception.CobraException;
 import com.cobra.param.BaseResponse;
 import com.cobra.constants.Constant;
-import com.cobra.util.FileUtilsBean;
+import com.cobra.bean.FileUtilsBean;
 import com.cobra.util.ResponseUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -31,12 +31,13 @@ public class DynamicJob implements Job
         String parameter = map.getString("parameter");
         String className = map.getString("className");
         String methodName = map.getString("methodName");
-        logger.info("Running Job taskName : {} ", map.getString("taskName"));
-        logger.info("Running Job taskGroup: {} ", map.getString("taskGroup"));
-        logger.info("Running Job cron {}: " , map.getString("cron"));
-        logger.info("Running Job parameter : {} ", parameter);
-        logger.info("Running Job className : {} ", className);
-        logger.info("Running Job methodName : {} ", methodName);
+        logger.info("Running Job taskName:{},taskGroup:{},cron:{},parameter:{},className:{},methodName:{} ",
+                        map.getString("taskName"),
+                        map.getString("taskGroup"),
+                        map.getString("cron"),
+                        parameter,
+                        className,
+                        methodName);
         long startTime = System.currentTimeMillis();
 
         try

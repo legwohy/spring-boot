@@ -1,6 +1,5 @@
 package com.cobra.constants;
 
-import org.apache.http.HttpStatus;
 
 /**
  * 全局常量
