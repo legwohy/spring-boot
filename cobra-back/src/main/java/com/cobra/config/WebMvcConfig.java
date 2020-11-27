@@ -1,8 +1,8 @@
 package com.cobra.config;
 
 
-import com.cobra.iterceptor.AdminInterceptor;
-import com.cobra.iterceptor.LogInterceptor;
+import com.cobra.chains.iterceptor.AdminInterceptor;
+import com.cobra.chains.iterceptor.LogInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;

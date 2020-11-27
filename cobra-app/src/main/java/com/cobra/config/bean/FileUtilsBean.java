@@ -1,4 +1,4 @@
-package com.cobra.bean;
+package com.cobra.config.bean;
 
 import com.cobra.util.Uploader;
 import org.apache.commons.io.FileUtils;

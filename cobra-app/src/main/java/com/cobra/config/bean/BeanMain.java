@@ -1,4 +1,4 @@
-package com.cobra.bean;
+package com.cobra.config.bean;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

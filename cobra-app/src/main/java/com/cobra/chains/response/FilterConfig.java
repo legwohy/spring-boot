@@ -1,4 +1,4 @@
-package com.cobra.filter.response;
+package com.cobra.chains.response;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

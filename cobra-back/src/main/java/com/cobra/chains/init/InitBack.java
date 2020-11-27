@@ -1,4 +1,4 @@
-package com.cobra.init;
+package com.cobra.chains.init;
 
 import com.cobra.constant.BackConfig;
 import com.cobra.pojo.BackConfigParams;

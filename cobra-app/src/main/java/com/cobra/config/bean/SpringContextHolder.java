@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2014 All rights reserved.
  */
-package com.cobra.bean;
+package com.cobra.config.bean;
 
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package com.cobra.filter;
+package com.cobra.chains;
 
 
 import com.alibaba.fastjson.JSON;
@@ -12,7 +12,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

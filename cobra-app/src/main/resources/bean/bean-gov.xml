@@ -6,7 +6,7 @@
 ">
         
 
-    <bean id="gov" class="com.cobra.bean.Government">
+    <bean id="gov" class="com.cobra.config.bean.Government">
         <property name="govName" value="orange"/>
     </bean>
 

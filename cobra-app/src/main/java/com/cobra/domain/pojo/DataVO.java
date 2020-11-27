@@ -1,4 +1,4 @@
-package com.cobra.entity;
+package com.cobra.domain.pojo;
 
 import lombok.Data;
 

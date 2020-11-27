@@ -10,7 +10,7 @@ public class MyWebParameter implements WebParameter
 {
     /**
      * 每个基于servlet的web应用 均有一个s servletContext 对象保存上下文信息
-     * 包括初始化参数 filter listener 以及容器信息
+     * 包括初始化参数 chains listener 以及容器信息
      * @param servletContext
      */
     @Override

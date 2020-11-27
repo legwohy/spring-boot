@@ -1,6 +1,6 @@
 package com.cobra.service;
 
-import com.cobra.entity.DataVO;
+import com.cobra.domain.pojo.DataVO;
 import org.springframework.stereotype.Service;
 
 @Service

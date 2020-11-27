@@ -6,7 +6,7 @@
 ">
         
 
-    <bean id="emp" class="com.cobra.bean.Employee">
+    <bean id="emp" class="com.cobra.config.bean.Employee">
         <property name="name" value="${emp.name}"/>
     </bean>
 

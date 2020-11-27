@@ -1,4 +1,4 @@
-package com.cobra.init;
+package com.cobra.chains.init;
 
 import com.cobra.service.UserInfoFromService;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.cobra.filter.response;
+package com.cobra.chains.response;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;

@@ -1,7 +1,7 @@
 package com.cobra.service;
 
 import com.cobra.AbstractTest;
-import com.cobra.entity.DataVO;
+import com.cobra.domain.pojo.DataVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
