@@ -1,20 +1,9 @@
 package com.cobra.mapper;
 
-import com.cobra.domain.entity.TUserInfo;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.cobra.domain.entity.TUserInfoDO;
 
-public interface TUserInfoMapper {
-
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(TUserInfo record);
-
-    int insertSelective(TUserInfo record);
+public interface TUserInfoMapper extends BaseMapper<TUserInfoDO>{
 
 
-    TUserInfo selectByPrimaryKey(Integer id);
-
-
-    int updateByPrimaryKeySelective(TUserInfo record);
-
-    int updateByPrimaryKey(TUserInfo record);
 }

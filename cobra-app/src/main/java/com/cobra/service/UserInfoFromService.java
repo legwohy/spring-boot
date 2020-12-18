@@ -1,7 +1,7 @@
 package com.cobra.service;
 
-import com.cobra.domain.entity.TUserInfo;
+import com.cobra.domain.entity.TUserInfoDO;
 
 public interface UserInfoFromService {
-    TUserInfo selectByPrimaryKey(Integer id);
+    TUserInfoDO selectByPrimaryKey(Integer id);
 }
