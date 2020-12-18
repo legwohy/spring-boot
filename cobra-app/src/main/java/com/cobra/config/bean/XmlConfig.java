@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ImportResource;
  * 引入xml中的bean
  */
 @Configuration
-@ImportResource(locations = "bean/applicationContext.xml")
+@ImportResource(locations = "classpath:bean/applicationContext.xml")
 public class XmlConfig
 {
 }

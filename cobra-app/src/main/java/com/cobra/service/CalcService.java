@@ -9,7 +9,7 @@ public class CalcService {
 
         return num1+num2;
     }
-    public Integer add2(DataVO data){
+    public Integer addForObject(DataVO data){
 
         return data.getNum1()+data.getNum2();
     }
