@@ -6,9 +6,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * Created by legwo on 2018/12/19.
- */
+
 public class RestTemplateUtil {
     public static String post(String url){
         // 客户端

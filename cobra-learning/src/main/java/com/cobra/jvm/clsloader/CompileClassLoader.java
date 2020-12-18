@@ -41,7 +41,6 @@ public class CompileClassLoader extends ClassLoader
     {
         String newClassName = className;
         System.out.println("查找类【"+className+"】开始。。。");
-        Class clazz = null;
 
         //将包路径中的点（.）替换成斜线（/）。
         newClassName = newClassName.replace(".", "/");
@@ -50,9 +49,10 @@ public class CompileClassLoader extends ClassLoader
         File javaFile = new File(javaFilename);
         File classFile = new File(classFilename);
 
+        Class clazz = null;
         try
         {
-            // 编译文件 .java --> .class
+            // 1、编译文件 .java --> .class
             if (javaFile.exists() && (!classFile.exists()) || javaFile.lastModified() > classFile.lastModified())
             {
                 // 如果编译失败，或者该class文件不存在
@@ -62,9 +62,10 @@ public class CompileClassLoader extends ClassLoader
                 }
             }
 
-            // .class --> class对象
+            // 2、.class --> class对象
             if (classFile.exists())
             {
+                // 读取 .class文件
                 byte[] raw = getBytes(classFilename);
                 clazz = defineClass(className, raw, 0, raw.length);
             }
@@ -96,11 +97,11 @@ public class CompileClassLoader extends ClassLoader
      * @return
      * @throws IOException
      */
-    private boolean compile(String clazzName) throws IOException
+    public boolean compile(String clazzName) throws IOException
     {
 
         clazzName = clazzName.replace(".",File.separator);
-        System.out.println("CompileClassLoader正在编译\t" + fileRootPath+clazzName + "...");
+        System.out.println("CompileClassLoader正在编译\t" + fileRootPath+clazzName + "\t...");
         // 调用系统的javac命令
         Process p = Runtime.getRuntime().exec("javac " + fileRootPath+clazzName+java_suffix);
         //其他的线程都在等待这个线程完成
@@ -116,36 +117,12 @@ public class CompileClassLoader extends ClassLoader
         //获取javac线程的退出值
         int ret = p.exitValue();
 
-        System.out.println("CompileClassLoader编译结束\t" + clazzName );
+        System.out.println("CompileClassLoader编译结束\t");
         return ret == 0;
 
     }
 
-    /**
-     * .class二进制文件转换为class对象
-     * @param clazzName 全类名
-     *                  fileRootPath 必须是.class文件所在的根目录(不含包名)
-     * @return
-     */
-    private Class<?> getClassObject(String clazzName) throws IOException
-    {
-        String newClazzName = clazzName;
-        newClazzName = dotToSeparator(newClazzName);
 
-        String fileName = fileRootPath+newClazzName+class_suffix;
-        System.out.println(".class文件转class对象【"+fileName+"】开始...");
-
-        byte[] raw = getBytes(fileName);
-
-        System.out.println(".class文件转class对象结束");
-        return defineClass(clazzName,raw,0,raw.length);
-
-    }
-
-    private String dotToSeparator(String name)
-    {
-        return name.replace(".",File.separator);
-    }
 
     /**
      * 读取一个文件的内容
@@ -170,22 +147,6 @@ public class CompileClassLoader extends ClassLoader
     }
 
 
-
-    public static void main(String[] args) throws Exception
-    {
-
-        String rootPath = "F:\\workspqce_idea\\cobra\\cobra-learning\\src\\main\\java\\";
-        CompileClassLoader loader = new CompileClassLoader(rootPath);
-        Class clazz = loader.findClass("com.cobra.jvm.clsloader.Hello");
-
-
-       //loader.compile("com.ihome.HelloWorld");// 编译
-
-
-        // Class clazz = loader.getClassObject("com.ihome.HelloWorld");// .class转class对象
-        Method method = clazz.getMethod("test",null);
-        method.invoke(clazz.newInstance(),null);
-    }
 
 
 
