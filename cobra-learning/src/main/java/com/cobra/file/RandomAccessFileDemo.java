@@ -1,6 +1,5 @@
 package com.cobra.file;
 
-import org.junit.Test;
 
 import java.io.RandomAccessFile;
 
@@ -9,7 +8,6 @@ import java.io.RandomAccessFile;
  */
 public class RandomAccessFileDemo {
 
-    @Test
     public void writeByte() throws Exception {
         RandomAccessFile file = new RandomAccessFile("temp.txt", "rw");
         file.write(97);// a
@@ -17,7 +15,6 @@ public class RandomAccessFileDemo {
 
     }
 
-    @Test
     public void writeString() throws Exception {
         // 会直接覆盖上文的文件
         RandomAccessFile file = new RandomAccessFile("temp.txt", "rw");
@@ -25,7 +22,6 @@ public class RandomAccessFileDemo {
         file.close();
 
     }
-    @Test
     public void writeStringWithOffset() throws Exception {
         // 会直接覆盖上文的文件
         RandomAccessFile file = new RandomAccessFile("temp.txt", "rw");
@@ -35,7 +31,6 @@ public class RandomAccessFileDemo {
         file.close();
 
     }
-    @Test
     public void writeStringWithSeek() throws Exception {
         // 会直接覆盖上文的文件
         RandomAccessFile file = new RandomAccessFile("temp.txt", "rw");
@@ -47,9 +42,5 @@ public class RandomAccessFileDemo {
 
     }
 
-    public static void main(String[] args) {
-        byte[] bytes = new byte[3];
 
-        System.out.println("length:"+bytes.length);
-    }
 }

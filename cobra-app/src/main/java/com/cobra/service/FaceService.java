@@ -4,7 +4,6 @@ package com.cobra.service;
 import com.alibaba.fastjson.JSONObject;
 import com.cobra.util.HttpUtil;
 import okhttp3.*;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +37,7 @@ public class FaceService {
      * 证件识别
      * @throws Exception
      */
-   @Test public void testScanningCard() throws Exception {
+   public void testScanningCard() throws Exception {
         System.out.println("----------->校验身份证开始");
 
         //--------------------okHttp------------
@@ -119,7 +118,6 @@ public class FaceService {
     /**
      * 有源比对
      */
-    @Test
     public void checkFace() throws IOException {
         System.out.println("-------------->识别开始");
 
@@ -150,25 +148,9 @@ public class FaceService {
         Response rs = client.newCall(request).execute();
         System.out.println("----------->rs="+rs.body().string());
 
-        // 响应回调
-       /* Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                System.out.println("---------->回调失败，请稍后再试");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                System.out.println("回调成功:"+response.body().string());
-            }
-        });*/
-
-
 
     }
 
-    @Test
     public void test1() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", 200);
@@ -183,7 +165,6 @@ public class FaceService {
     }
 
 
-    @Test
     public void checkIdCardZ() {
         System.out.println("---------->校验身份证正面开始");
         String apiKey = "LGq9uVn4OQnzFgNlSQ_S8-706xmcq5ij";

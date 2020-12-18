@@ -1,6 +1,5 @@
 package com.cobra.thread.threadTime;
 
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +16,7 @@ import java.util.concurrent.*;
 
  * <a link='https://blog.csdn.net/zhangjikuan/article/details/78670288'/>
  */
-public class ThreadMonitorTimeoutTest {
+public class ThreadMonitorTimeout {
     /** 维护每个线程id和时间戳的映射，用来监控哪个线程超时用的*/
     private ConcurrentMap<Integer, Long> aliveThreadRefreshTimeMap = new ConcurrentHashMap<>();
 
@@ -108,7 +107,6 @@ public class ThreadMonitorTimeoutTest {
     /**
      * 创建线程
      */
-    @Test
     public void createTask() {
         // 开启三个线程来执行 workerThread
         cachedThreadPool = Executors.newCachedThreadPool();

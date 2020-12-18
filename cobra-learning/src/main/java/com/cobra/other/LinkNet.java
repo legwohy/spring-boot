@@ -1,6 +1,5 @@
 package com.cobra.other;
 
-import org.junit.Test;
 
 import javax.net.ssl.SSLSocketFactory;
 import java.io.*;
@@ -59,7 +58,6 @@ public class LinkNet
 
     }
 
-    @Test
     public void socketForGet() throws IOException
     {
         //如果需要进行https的请求只需要换成如下一句（https的默认端口为443，http默认端口为80）
@@ -96,7 +94,6 @@ public class LinkNet
      * 读取到换行符时认为header读取完毕
      * @throws IOException
      */
-    @Test
     public void socketForPost() throws IOException
     {
 
@@ -142,7 +139,6 @@ public class LinkNet
 
     }
 
-    @Test
     public void httpForGet() throws Exception
     {
 
@@ -164,7 +160,6 @@ public class LinkNet
 
     }
 
-    @Test
     public void httpForPost() throws Exception
     {
         //建立连接
@@ -225,7 +220,6 @@ public class LinkNet
      *
      * @throws Exception
      */
-    @Test
     public void httpForUpload() throws Exception
     {
         String prefix = "--";
@@ -307,13 +301,7 @@ public class LinkNet
     }
 
 
-    public static void main(String[] args)
-    {
-        String sb = "hell";
-        System.out.println(">>>\n");
-        System.out.println(">>>\r\n");
-        System.out.println(">>>");
-    }
+
 
     public static byte[] readInputStream(InputStream inputStream) throws IOException
     {

@@ -2,12 +2,9 @@ package com.cobra.util.digest;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.junit.Test;
 
 import java.security.MessageDigest;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by leigang on 2019/12/3.
@@ -16,22 +13,6 @@ public class SHA {
     public static final String STR = "<if test=\"outTradeNo != null and outTradeNo!=''\">\n" +
             "      and out_trade_no=#{outTradeNo,jdbcType=VARCHAR}\n" +
             "    </if>";
-
-    @Test
-    public void testSHA1() throws Exception{
-        byte[] a = SHACoder.encodeSHA1(STR.getBytes());
-        byte[] b = ApacheSHACoder.encodeSHA1(STR);
-        assertArrayEquals(a,b);
-    }
-
-    @Test
-    public void testSHA1Hex() throws Exception{
-        String a = SHACoder.encodeSHA1Hex(STR.getBytes());
-        String b = ApacheSHACoder.encodeSHA1Hex(STR);
-        assertEquals(a,b);
-        System.out.println("sha1Hex : "+a);
-    }
-
 
 }
 

@@ -51,10 +51,6 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
         <!-- 阿里云OSS对象存储SDK -->
         <dependency>
             <groupId>com.aliyun.oss</groupId>

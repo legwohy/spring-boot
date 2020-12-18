@@ -9,8 +9,6 @@ import java.util.Properties;
 
 /**
  * 读取配置文件
- *
- * @author zhangtao
  */
 public class OSSPropertiesUtil
 {

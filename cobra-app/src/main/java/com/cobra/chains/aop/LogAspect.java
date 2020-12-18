@@ -43,7 +43,6 @@ public class LogAspect {
         log.info("环绕通知---->  methodName=[{}]，args=[{}]",jp.getSignature().getName(),jp.getArgs());
         MDC.put(Constant.LOG_TRACE_ID, Serial.genSerialNo_32(null));
         Object result = jp.proceed();
-        // TODO 无论使用哪种方法添加追踪日志 必须在方法执行完毕清除
         MDC.clear();
         return result;
 
