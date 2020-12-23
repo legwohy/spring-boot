@@ -59,15 +59,22 @@ public class AesUtil {
             } else {
                 content = parseHexStr2Byte(data);
             }
-            KeyGenerator keygen = KeyGenerator.getInstance(KEY_AES);
+            // 随机算法
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
             random.setSeed(key.getBytes());
+
+            // 密钥生成器
+            KeyGenerator keygen = KeyGenerator.getInstance(KEY_AES);
             keygen.init(128, random);
             SecretKey secretKey = keygen.generateKey();
             byte[] enCodeFormat = secretKey.getEncoded();
+
             SecretKeySpec keySpec = new SecretKeySpec(enCodeFormat, KEY_AES);
+
+            // 算法名称 AES
             Cipher cipher = Cipher.getInstance(KEY_AES);
-            cipher.init(mode, keySpec);
+            cipher.init(mode, // 模式 加解密
+                            keySpec);// key
             byte[] result = cipher.doFinal(content);
             if (encrypt) {
                 return parseByte2HexStr(result);
@@ -75,6 +82,7 @@ public class AesUtil {
                 return new String(result, defaultCharset);
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

@@ -9,10 +9,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.security.Key;
+import java.security.spec.AlgorithmParameterSpec;
 import java.util.Locale;
 
 /**
  * 自定义AES加密
+ * @see Cipher#init(int, Key)
+ * @see Cipher#init(int, Key, AlgorithmParameterSpec)
  */
 @Slf4j
 public class AesUtil16
@@ -41,6 +45,7 @@ public class AesUtil16
     {
         try
         {
+            // 算法/模式/填充
             Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
             int blockSize = cipher.getBlockSize();
             byte[] dataBytes = sSrc.getBytes();
@@ -51,9 +56,10 @@ public class AesUtil16
             }
             byte[] plaintext = new byte[plaintextLength];
             System.arraycopy(dataBytes, 0, plaintext, 0, dataBytes.length);
-            SecretKeySpec keyspec = new SecretKeySpec(sKey.getBytes(), "AES");
-            IvParameterSpec ivspec = new IvParameterSpec(ivs.getBytes());
-            cipher.init(Cipher.ENCRYPT_MODE, keyspec, ivspec);
+
+            cipher.init(Cipher.ENCRYPT_MODE, // 加密
+                            new SecretKeySpec(sKey.getBytes(), "AES"),// key
+                            new IvParameterSpec(ivs.getBytes()));// 向量
             byte[] encrypted = cipher.doFinal(plaintext);
             return new Base64().encode(encrypted);
         }
@@ -79,11 +85,11 @@ public class AesUtil16
             {
                 return null;
             }
-            byte[] raw = sKey.getBytes("utf-8");
-            SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
-            IvParameterSpec iv = new IvParameterSpec(ivs.getBytes("utf-8"));//使用CBC模式，需要一个向量iv，可增加加密算法的强度
-            cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
+            cipher.init(Cipher.DECRYPT_MODE,// 解密
+                            new SecretKeySpec(sKey.getBytes("utf-8"), "AES"),// key
+                            new IvParameterSpec(ivs.getBytes("utf-8")));// 向量(算法参数)
+
             byte[] encrypted = new Base64().decode(sSrc);//先用base64解密
             byte[] original = cipher.doFinal(encrypted);
             String originalString = new String(original);
