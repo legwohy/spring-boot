@@ -57,7 +57,6 @@ public class OptionalTest {
     public void testStream2Option(){
         Stream<String> names = Stream.of("A", "AB", "C", "D", "E");
         Optional<String> optional = names.filter(name -> name.startsWith("A")).findFirst();
-
         Assert.assertTrue(optional.isPresent());
 
     }
