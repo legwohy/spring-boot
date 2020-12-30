@@ -22,4 +22,19 @@ public class HexUtil {
     public static String decode(String cipher)throws Exception{
         return new String(Hex.decodeHex(cipher.toCharArray()));
     }
+
+    public static String toHexString(byte[] data) {
+        StringBuilder builder = new StringBuilder();
+        int len = data.length;
+        String hex;
+        for (int i = 0; i < len; i++) {
+            hex = Integer.toHexString(data[i] & 0xFF);
+            if (hex.length() == 1) {
+                builder.append("0");
+            }
+            builder.append(hex);
+        }
+        return builder.toString();
+    }
+
 }
