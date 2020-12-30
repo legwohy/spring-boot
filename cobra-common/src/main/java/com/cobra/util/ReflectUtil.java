@@ -1,9 +1,5 @@
 package com.cobra.util;
 
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;

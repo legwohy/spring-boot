@@ -11,24 +11,8 @@ import java.util.Map;
 
 public class BeanMapUtils {
 
-    public static void main(String []args) throws Exception {
 
-        TestUser user=new TestUser();
-        user.setName("passer");
-        user.setDescri("cool");
-
-
-        List<TestUser> list = new ArrayList<>();
-        list.add(user);
-
-        Map<Object,Object> map=bean2map(user);
-        System.out.println(map);
-
-        Object obj=map2bean(map,TestUser.class);
-        System.out.println(obj);
-    }
-
-    private static <T> T map2bean(Map<Object,Object> map,Class<T> beanType) throws Exception {
+    public static <T> T map2bean(Map<Object,Object> map,Class<T> beanType) throws Exception {
         T t=beanType.newInstance();
         PropertyDescriptor[] pds= Introspector.getBeanInfo(beanType,Object.class)
                 .getPropertyDescriptors();
@@ -42,7 +26,7 @@ public class BeanMapUtils {
         return t;
     }
 
-    private static Map<Object,Object> bean2map(Object bean) throws Exception {
+    public static Map<Object,Object> bean2map(Object bean) throws Exception {
 
         Map<Object,Object> map=new HashMap<>();
         BeanInfo info=Introspector.getBeanInfo(bean.getClass(),Object.class);
@@ -59,26 +43,3 @@ public class BeanMapUtils {
 
 }
 
-class TestUser{
-    private String name;
-    private String descri;
-
-    public TestUser() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescri() {
-        return descri;
-    }
-
-    public void setDescri(String descri) {
-        this.descri = descri;
-    }
-}

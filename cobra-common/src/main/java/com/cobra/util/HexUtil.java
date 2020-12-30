@@ -8,15 +8,7 @@ import org.apache.commons.codec.binary.Hex;
  * 2、每组前面补四个0(高位补0)
  * 3、将补齐后的八位查表
  */
-public class HexUtil
-{
-    public static void main(String[] args)throws Exception{
-        String src = "hex";
-        String cipher = HexUtil.encode(src);
-        System.out.println("编码:"+cipher);
-        System.out.println("解码:"+HexUtil.decode(cipher));
-
-    }
+public class HexUtil {
 
     /**
      * 编码
