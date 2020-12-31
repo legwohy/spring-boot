@@ -5,51 +5,23 @@ import java.util.Base64;
 
 /**
  * signature类用于提供数字签名，用于保证数据的完整性
- * NONEwithRSA
- MD2withRSA
- MD5withRSA
- SHA1withRSA
- SHA224withRSA
- SHA256withRSA
- SHA384withRSA
- SHA512withRSA
- NONEwithDSA
- SHA1withDSA
- SHA224withDSA
- SHA256withDSA
- NONEwithECDSA
- SHA1withECDSA
- SHA224withECDSA
- SHA256withECDSA
- SHA384withECDSA
- SHA512withECDSA
+ *
+ * <p>
+ *      NONEwithRSA、MD2withRSA、MD5withRSA、SHA1withRSA、SHA224withRSA、SHA256withRSA、SHA384withRSA
+ *      SHA512withRSA、NONEwithDSA、SHA1withDSA、SHA224withDSA、SHA256withDSA、NONEwithECDSA、SHA1withECDSA、
+ *      SHA224withECDSA、SHA256withECDSA、SHA384withECDSA、SHA512withECDSA
+ * </p>
 
  * @author admin
  * @date 2020/12/30 17:37
  * @desc
  */
 public class SignatureUtils {
-    static String TEXT = "aa";
-    Signature signature = null;
-    PublicKey publicKey = null;
-    PrivateKey privateKey = null;
+    static String alg = "NONEwithRSA";
 
-    public SignatureUtils() throws Exception{
-        signature = Signature.getInstance("NONEwithRSA");
-
-        //KeyPairGenerator生成公钥和私钥
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(1024);
-        KeyPair keyPair = keyPairGenerator.generateKeyPair();
-
-        publicKey = keyPair.getPublic();
-        privateKey = keyPair.getPrivate();
-
-    }
-
-    public String signature(String content) throws Exception{
-
+    public static String signature(String content, PrivateKey privateKey) throws Exception{
         //用私钥初始化signature
+        Signature signature = Signature.getInstance(alg);
         signature.initSign(privateKey);
         //更新原始字符串
         signature.update(content.getBytes());
@@ -59,13 +31,21 @@ public class SignatureUtils {
 
     }
 
-    public boolean verify(String sign) throws Exception{
-
+    /**
+     * 验签
+     * @param content
+     * @param sign
+     * @param publicKey
+     * @return
+     * @throws Exception
+     */
+    public static boolean verify(String content, String sign, PublicKey publicKey) throws Exception{
+        Signature signature = Signature.getInstance(alg);
         //用公钥初始化signature
         signature.initVerify(publicKey);
-        //更新原始字符串
-        signature.update(TEXT.getBytes());
         //校验签名是否正确
+        signature.update(content.getBytes());
+
         return signature.verify(Base64.getDecoder().decode(sign));
 
     }

@@ -6,8 +6,10 @@ import com.cobra.util.HexUtil;
 import java.security.MessageDigest;
 
 /**
- *
- * MessageDigest主要是做hash变换(也称消息摘要或者散列值)
+ * <p>
+ *     MessageDigest主要是做hash变换(也称消息摘要或者散列值)
+ *      MD5,MD2,MD5,SHA-1,SHA-224,SHA-256,SHA-384,SHA-512
+ * </p>
  *
  * @author admin
  * @date 2020/12/30 17:38
@@ -15,17 +17,14 @@ import java.security.MessageDigest;
  */
 public class MessageDigestUtils {
 
-    public void testMessageDigest() throws Exception {
+    public static String messageDigest(String content) throws Exception {
         //参数可以是 MD5,MD2,MD5,SHA-1,SHA-224,SHA-256,SHA-384,SHA-512
         MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-        byte[] bytes = messageDigest.digest("helloworld".getBytes());
+        byte[] bytes = messageDigest.digest(content.getBytes());
+
         //将二进制数组转成16进制字符串输出
-        System.out.println("MD5哈希变换：" + HexUtil.toHexString(bytes));
+        return  HexUtil.toHexString(bytes);
 
-
-        messageDigest = MessageDigest.getInstance("SHA-1");
-        bytes = messageDigest.digest("helloworld".getBytes());
-        System.out.println("SHA1哈希变换：" + HexUtil.toHexString(bytes));
     }
 
 
