@@ -141,27 +141,24 @@ public class CipherUtils {
         return new String(bytes);
     }
 
-    public void testCipherRSA() throws Exception{
-        //获取cipher对象
+    public static String cipherRSAEnc(String content,PublicKey publicKey) throws Exception{
+
         Cipher cipher = Cipher.getInstance("RSA");
-        //通过KeyPairGenerator来生成公钥和私钥
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(1024);
-        KeyPair keyPair = keyPairGenerator.generateKeyPair();
-
-        PublicKey publicKey = keyPair.getPublic();//公钥
-        PrivateKey privateKey = keyPair.getPrivate();//私钥
-
         //加密
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-        byte[] bytes = cipher.doFinal("te".getBytes());
+        byte[] bytes = cipher.doFinal(content.getBytes());
         final String encryptText = Base64.getEncoder().encodeToString(bytes);
-        System.out.println("RSA公钥加密：" + encryptText);
+        return encryptText;
+
+    }
+    public static String cipherRSADec(String content,PrivateKey privateKey) throws Exception{
+        //获取cipher对象
+        Cipher cipher = Cipher.getInstance("RSA");
 
         // 解密
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
-        bytes = cipher.doFinal(Base64.getDecoder().decode(encryptText));
-        System.out.println("RSA解密：" + new String(bytes));
+        byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(content));
+        return new String(bytes);
     }
 
 }

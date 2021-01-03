@@ -1,9 +1,10 @@
 package com.cobra.util.cryto;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.security.Key;
+import java.security.*;
 
 import static org.junit.Assert.*;
 
@@ -12,9 +13,25 @@ import static org.junit.Assert.*;
  * @date 2020/12/31 11:23
  * @desc
  */
-public class CipherUtilsTest {
+public class CipherUtilsTest
+{
+    PublicKey publicKey = null;
+    PrivateKey privateKey = null;
+
+    @Before
+    public void init() throws Exception
+    {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(1024);
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+        publicKey = keyPair.getPublic();//公钥
+        privateKey = keyPair.getPrivate();//私钥
+    }
+
     @Test
-    public void cipherAES() throws Exception{
+    public void cipherAES() throws Exception
+    {
         String key = "i love yi tiao cai";
         String content = "123456";
 
@@ -27,7 +44,8 @@ public class CipherUtilsTest {
     }
 
     @Test
-    public void cipherDES()throws Exception{
+    public void cipherDES() throws Exception
+    {
         String key = "i love yi tiao cai";
         String content = "123456";
         String enc = CipherUtils.cipherDESForEnc(content, key);
@@ -36,6 +54,16 @@ public class CipherUtilsTest {
         String dec = CipherUtils.cipherDESForDec(enc, key);
         Assert.assertEquals(content, dec);
 
+    }
+
+    @Test
+    public void testRSA() throws Exception
+    {
+        String key = "i love yi tiao cai";
+        String content = "123456";
+        String enc = CipherUtils.cipherRSAEnc(content, publicKey);
+
+        Assert.assertEquals(content, CipherUtils.cipherRSADec(enc, privateKey));
     }
 
 }
