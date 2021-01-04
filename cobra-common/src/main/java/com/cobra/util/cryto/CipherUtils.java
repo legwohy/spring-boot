@@ -1,5 +1,7 @@
 package com.cobra.util.cryto;
 
+import com.cobra.util.StringCommonUtils;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.IvParameterSpec;
@@ -66,6 +68,21 @@ public class CipherUtils {
     static String AES_CBC = "AES/CBC/PKCS5Padding";
     static String AES_EBC = "AES/ECB/PKCS5Padding";
     static String ivs = "0000000000000000";// CBC需要
+    static String THREE_DES = "DESede/ECB/PKCS5Padding";// CBC需要
+
+    static String CBC = "CBC";
+
+    public static String encryptFor3DEs(String content, String seed) throws Exception{
+        String keyAlg = "DESede";
+        String cipherAlg = "DESede/ECB/PKCS5Padding";
+        return doEncrypt(keyAlg, 168, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, null, content);
+    }
+
+    public static String decryptFor3DEs(String content, String seed) throws Exception{
+        String keyAlg = "DESede";
+        String cipherAlg = "DESede/ECB/PKCS5Padding";
+        return doEncrypt(keyAlg, 168, null, cipherAlg, Cipher.DECRYPT_MODE, seed, null, content);
+    }
 
     /**
      * 1、生成密钥
@@ -74,114 +91,75 @@ public class CipherUtils {
      * @throws Exception
      */
     public static String cipherAESForEncrypt(String content, String seed) throws Exception{
-        //指定使用AES加密
-        //使用KeyGenerator生成key，参数与获取cipher对象的algorithm必须相同
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        //指定生成的密钥长度为128
-        keyGenerator.init(128, new SecureRandom(seed.getBytes()));
-        Key key = keyGenerator.generateKey();
-        System.out.println("密钥长度是16位:"+(key.getEncoded().length==16));
-        // TODO SecretKeySpec 限制字节数组的长度
-        //key = new SecretKeySpec(seed.getBytes(),"AES");
-        Cipher cipher = Cipher.getInstance(AES_CBC);
-        cipher.init(Cipher.ENCRYPT_MODE,
-                        key,
-                        new IvParameterSpec(ivs.getBytes()));
-        byte[] bytes = cipher.doFinal(content.getBytes());
+        String keyAlg = "AES";
+        String cipherAlg = "AES/CBC/PKCS5Padding";
 
-        return Base64.getEncoder().encodeToString(bytes);
-
+        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, ivs, content);
     }
 
-
-
-    /**
+  /**
      * 1、BASE64解码
      * 2、生成密钥
      * 3、解密
      * @throws Exception
      */
     public static String cipherAESForDecrypt(String content, String seed) throws Exception{
-        //指定使用AES加密
-        Cipher cipher = Cipher.getInstance(AES_CBC);
-        //使用KeyGenerator生成key，参数与获取cipher对象的algorithm必须相同
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        keyGenerator.init(128, new SecureRandom(seed.getBytes()));
-        Key key = keyGenerator.generateKey();
-        // TODO 这种密钥会限制种子长度
-        //key = new SecretKeySpec(seed.getBytes(),"AES");
+        String keyAlg = "AES";
+        String cipherAlg = "AES/CBC/PKCS5Padding";
 
-        cipher.init(Cipher.DECRYPT_MODE,
-                        key,
-                        new IvParameterSpec(ivs.getBytes()));
+        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.DECRYPT_MODE, seed, ivs, content);
 
-        // 解密
-        byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(content));
+    }
 
-        return new String(bytes);
+
+    public static String cipherAESForCredit(String content, String seed) throws Exception{
+
+        String keyAlg = "AES";
+        String cipherAlg = "AES/CBC/PKCS5Padding";
+
+        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, "Xadiapdfaxi0s91D", true,content);
+
+    }
+
+
+    public static String cipherAESForDecrypt2(String content, String seed) throws Exception{
+        String keyAlg = "AES";
+        String cipherAlg = "AES/CBC/PKCS5Padding";
+        String iv = "Xadiapdfaxi0s91D";
+
+        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, iv, true,content);
+
     }
 
     public static String cipherAESForEncEBC(String content, String seed) throws Exception{
-        //指定使用AES加密
-        //使用KeyGenerator生成key，参数与获取cipher对象的algorithm必须相同
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        //指定生成的密钥长度为128
-        keyGenerator.init(128, new SecureRandom(seed.getBytes()));
-        Key key = keyGenerator.generateKey();
-
-        Cipher cipher = Cipher.getInstance(AES_EBC);
-        cipher.init(Cipher.ENCRYPT_MODE, key);
-        byte[] bytes = cipher.doFinal(content.getBytes());
-
-        return Base64.getEncoder().encodeToString(bytes);
+        String keyAlg = "AES";
+        String cipherAlg = "AES/ECB/PKCS5Padding";
+        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.DECRYPT_MODE, seed, ivs, true,content);
 
     }
+
     public static String cipherAESForDecEBC(String content, String seed) throws Exception{
-        //指定使用AES加密
-        Cipher cipher = Cipher.getInstance(AES_EBC);
-        //使用KeyGenerator生成key，参数与获取cipher对象的algorithm必须相同
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        keyGenerator.init(128, new SecureRandom(seed.getBytes()));
-        Key key = keyGenerator.generateKey();
+        String keyAlg = "AES";
+        String cipherAlg = "AES/ECB/PKCS5Padding";
+        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.DECRYPT_MODE, seed, null, content);
 
-        cipher.init(Cipher.DECRYPT_MODE, key);
-
-        // 解密
-        byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(content));
-
-        return new String(bytes);
     }
 
     public static String cipherDESForEnc(String content, String seed) throws Exception{
-        //指定使用DES加密
-        Cipher cipher = Cipher.getInstance("DES");
-        //使用KeyGenerator生成key，参数与获取cipher对象的algorithm必须相同
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("DES");
-        //DES的秘钥长度必须是56位
-        keyGenerator.init(56, new SecureRandom(seed.getBytes()));
-        Key key = keyGenerator.generateKey();
-        cipher.init(Cipher.ENCRYPT_MODE, key);
-        byte[] bytes = cipher.doFinal(content.getBytes());
-
-        return Base64.getEncoder().encodeToString(bytes);
+        String keyAlg = "DES";
+        String cipherAlg = "DES";
+        return doEncrypt(keyAlg, 56, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, null, content);
 
     }
 
     public static String cipherDESForDec(String content, String seed) throws Exception{
-        //指定使用DES加密
-        Cipher cipher = Cipher.getInstance("DES");
-        //使用KeyGenerator生成key，参数与获取cipher对象的algorithm必须相同
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("DES");
-        //DES的秘钥长度必须是56位
-        keyGenerator.init(56, new SecureRandom(seed.getBytes()));
-        Key key = keyGenerator.generateKey();
-        //与AES不同，由于DES并不需要初始向量，因此解密的时候不需要第三个参数
-        cipher.init(Cipher.DECRYPT_MODE, key);
-        byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(content));
-        return new String(bytes);
+        String keyAlg = "DES";
+        String cipherAlg = "DES";
+        return doEncrypt(keyAlg, 56, null, cipherAlg, Cipher.DECRYPT_MODE, seed, null, content);
+
     }
 
-    public static String cipherRSAEnc(String content,PublicKey publicKey) throws Exception{
+    public static String cipherRSAEnc(String content, PublicKey publicKey) throws Exception{
 
         Cipher cipher = Cipher.getInstance("RSA");
         //加密
@@ -191,7 +169,8 @@ public class CipherUtils {
         return encryptText;
 
     }
-    public static String cipherRSADec(String content,PrivateKey privateKey) throws Exception{
+
+    public static String cipherRSADec(String content, PrivateKey privateKey) throws Exception{
         //获取cipher对象
         Cipher cipher = Cipher.getInstance("RSA");
 
@@ -199,6 +178,130 @@ public class CipherUtils {
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
         byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(content));
         return new String(bytes);
+    }
+
+    /**
+     * 1、密钥生成
+     * 2、随机算法
+     * 3、加密
+     * 4、base64编码
+     *
+     * @param keyAlg 密钥生成算法
+     * @param keyLength 密钥长度
+     * @param cipherAlg 加密算法  与密钥算法保持一致
+     * @param content 待加密内容
+     * @param seed 密钥生成种子
+     * @param ivs 密钥生成种子
+     * @param mode 模式 加密或解密 Cipher.ENCRYPT_MODE,
+     * @return
+     * @throws Exception
+     */
+    private static String doEncrypt(String keyAlg,
+                    int keyLength,
+                    String randomAlg,
+                    String cipherAlg,
+                    int mode,
+                    String seed,
+                    String ivs,
+                    String content) throws Exception{
+        // 算法名称校验
+        if (StringCommonUtils.isEmpty(keyAlg) || !cipherAlg.startsWith(keyAlg)) {
+            throw new IllegalArgumentException("加密算法不一致");
+        }
+        if (cipherAlg.startsWith(CBC)) {
+            if (StringCommonUtils.isEmpty(ivs)) {
+                throw new IllegalArgumentException("CBC算法 ivs不能为空");
+            }
+        }
+        KeyGenerator keyGenerator = KeyGenerator.getInstance(keyAlg);
+
+        SecureRandom random = null;
+        // 随机算法
+        if (StringCommonUtils.isNotEmpty(randomAlg)) {
+            random = SecureRandom.getInstance(randomAlg);
+            random.setSeed(seed.getBytes());
+        } else {
+            // SHA1PRNG
+            random = new SecureRandom(seed.getBytes());
+        }
+        keyGenerator.init(keyLength, random);
+
+        Key key = keyGenerator.generateKey();
+        Cipher cipher = Cipher.getInstance(cipherAlg);
+
+        // CBC模式需要向量
+        if (cipherAlg.contains(CBC)) {
+            cipher.init(mode, key, new IvParameterSpec(ivs.getBytes()));
+        } else {
+            cipher.init(mode, key);
+        }
+
+        // BASE64编码
+        if (Cipher.ENCRYPT_MODE == mode) {
+            // 加密
+            byte[] bytes = cipher.doFinal(content.getBytes());
+            return Base64.getEncoder().encodeToString(bytes);
+        } else {
+            // 解密
+            return new String(cipher.doFinal(Base64.getDecoder().decode(content)));
+        }
+
+    }
+    private static String doEncrypt(String keyAlg,
+                    int keyLength,
+                    String randomAlg,
+                    String cipherAlg,
+                    int mode,
+                    String seed,
+                    String ivs,
+                    boolean overKey,// 是否重写key生成方法
+                    String content) throws Exception{
+        // 算法名称校验
+        if (StringCommonUtils.isEmpty(keyAlg) || !cipherAlg.startsWith(keyAlg)) {
+            throw new IllegalArgumentException("加密算法不一致");
+        }
+        if (cipherAlg.startsWith(CBC)) {
+            if (StringCommonUtils.isEmpty(ivs)) {
+                throw new IllegalArgumentException("CBC算法 ivs不能为空");
+            }
+        }
+        KeyGenerator keyGenerator = KeyGenerator.getInstance(keyAlg);
+
+        SecureRandom random = null;
+        // 随机算法
+        if (StringCommonUtils.isNotEmpty(randomAlg)) {
+            random = SecureRandom.getInstance(randomAlg);
+            random.setSeed(seed.getBytes());
+        } else {
+            // SHA1PRNG
+            random = new SecureRandom(seed.getBytes());
+        }
+        keyGenerator.init(keyLength, random);
+
+        Key key = keyGenerator.generateKey();
+        if(overKey){
+            // 指定key
+            key = new SecretKeySpec(seed.getBytes(),keyAlg);
+        }
+        Cipher cipher = Cipher.getInstance(cipherAlg);
+
+        // CBC模式需要向量
+        if (cipherAlg.contains(CBC)) {
+            cipher.init(mode, key, new IvParameterSpec(ivs.getBytes()));
+        } else {
+            cipher.init(mode, key);
+        }
+
+        // BASE64编码
+        if (Cipher.ENCRYPT_MODE == mode) {
+            // 加密
+            byte[] bytes = cipher.doFinal(content.getBytes());
+            return Base64.getEncoder().encodeToString(bytes);
+        } else {
+            // 解密
+            return new String(cipher.doFinal(Base64.getDecoder().decode(content)));
+        }
+
     }
 
 }
