@@ -15,6 +15,8 @@ import static org.junit.Assert.*;
  */
 public class CipherUtilsTest
 {
+    String seed = "i love yi tiao cai 不限制长度";
+    String content = "123456";
     PublicKey publicKey = null;
     PrivateKey privateKey = null;
 
@@ -30,15 +32,25 @@ public class CipherUtilsTest
     }
 
     @Test
-    public void cipherAES() throws Exception
+    public void cipherAESForCBC() throws Exception
     {
-        String key = "i love yi tiao cai";
-        String content = "123456";
 
-        String enc = CipherUtils.cipherAESForEncrypt(content, key);
-        Assert.assertEquals("iKG36iJyF/h26k4cHc6HPw==", enc);
+        String enc = CipherUtils.cipherAESForEncrypt(content, seed);
+        Assert.assertEquals("zc+k23lxO7VfwsdZPcJWFQ==", enc);
 
-        String dec = CipherUtils.cipherAESForDecrypt(enc, key);
+        String dec = CipherUtils.cipherAESForDecrypt(enc, seed);
+        Assert.assertEquals(content, dec);
+
+    }
+    @Test
+    public void cipherAESForEBC() throws Exception
+    {
+         seed = "i love yi tiao cai 不限制密钥长度";
+
+        String enc = CipherUtils.cipherAESForEncEBC(content, seed);
+        Assert.assertEquals("psO7nbLJUqaud+14IfyOIQ==", enc);
+
+        String dec = CipherUtils.cipherAESForDecEBC(enc, seed);
         Assert.assertEquals(content, dec);
 
     }
@@ -46,12 +58,11 @@ public class CipherUtilsTest
     @Test
     public void cipherDES() throws Exception
     {
-        String key = "i love yi tiao cai";
-        String content = "123456";
-        String enc = CipherUtils.cipherDESForEnc(content, key);
-        Assert.assertEquals("3u6YuwOH9cw=", enc);
 
-        String dec = CipherUtils.cipherDESForDec(enc, key);
+        String enc = CipherUtils.cipherDESForEnc(content, seed);
+        Assert.assertEquals("xai3aqsAWIM=", enc);
+
+        String dec = CipherUtils.cipherDESForDec(enc, seed);
         Assert.assertEquals(content, dec);
 
     }
@@ -59,8 +70,6 @@ public class CipherUtilsTest
     @Test
     public void testRSA() throws Exception
     {
-        String key = "i love yi tiao cai";
-        String content = "123456";
         String enc = CipherUtils.cipherRSAEnc(content, publicKey);
 
         Assert.assertEquals(content, CipherUtils.cipherRSADec(enc, privateKey));

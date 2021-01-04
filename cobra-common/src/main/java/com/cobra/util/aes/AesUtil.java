@@ -12,10 +12,7 @@ public class AesUtil {
 
     private static final String defaultCharset = "UTF-8";
     private static final String KEY_AES = "AES";
-    /**
-     * 位数不限
-     */
-    private static final String KEY = "test";
+
 
     /**
      * 加密
@@ -24,8 +21,8 @@ public class AesUtil {
      * @param-key 加密密码
      * @return
      */
-    public static String encrypt(String data) {
-        return doAES(data, KEY, Cipher.ENCRYPT_MODE);
+    public static String encrypt(String data,String seed) {
+        return doAES(data, seed, Cipher.ENCRYPT_MODE);
     }
 
     /**
@@ -35,8 +32,8 @@ public class AesUtil {
      * @param-key 解密密钥
      * @return
      */
-    public static String decrypt(String data) {
-        return doAES(data, KEY, Cipher.DECRYPT_MODE);
+    public static String decrypt(String data,String seed) {
+        return doAES(data, seed, Cipher.DECRYPT_MODE);
     }
 
     /**
@@ -68,6 +65,7 @@ public class AesUtil {
             keygen.init(128, random);
             SecretKey secretKey = keygen.generateKey();
             byte[] enCodeFormat = secretKey.getEncoded();
+            System.out.println("长度:"+enCodeFormat.length);
 
             SecretKeySpec keySpec = new SecretKeySpec(enCodeFormat, KEY_AES);
 
@@ -122,12 +120,5 @@ public class AesUtil {
         return result;
     }
 
-    public static void main(String[] args) {
-        String content=encrypt("小明");
-        System.out.println("content:"+content);
-        String decrypt = decrypt(content);
-
-        System.out.println("decrypt:"+decrypt);
-    }
 
 }

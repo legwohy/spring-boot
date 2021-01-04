@@ -3,6 +3,7 @@ package com.cobra.util.cryto;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.security.*;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.Base64;
@@ -79,14 +80,20 @@ public class CipherUtils {
         //指定生成的密钥长度为128
         keyGenerator.init(128, new SecureRandom(seed.getBytes()));
         Key key = keyGenerator.generateKey();
-
+        System.out.println("密钥长度是16位:"+(key.getEncoded().length==16));
+        // TODO SecretKeySpec 限制字节数组的长度
+        //key = new SecretKeySpec(seed.getBytes(),"AES");
         Cipher cipher = Cipher.getInstance(AES_CBC);
-        cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(ivs.getBytes()));
+        cipher.init(Cipher.ENCRYPT_MODE,
+                        key,
+                        new IvParameterSpec(ivs.getBytes()));
         byte[] bytes = cipher.doFinal(content.getBytes());
 
         return Base64.getEncoder().encodeToString(bytes);
 
     }
+
+
 
     /**
      * 1、BASE64解码
@@ -101,10 +108,43 @@ public class CipherUtils {
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
         keyGenerator.init(128, new SecureRandom(seed.getBytes()));
         Key key = keyGenerator.generateKey();
+        // TODO 这种密钥会限制种子长度
+        //key = new SecretKeySpec(seed.getBytes(),"AES");
 
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(ivs.getBytes());
+        cipher.init(Cipher.DECRYPT_MODE,
+                        key,
+                        new IvParameterSpec(ivs.getBytes()));
 
-        cipher.init(Cipher.DECRYPT_MODE, key, ivParameterSpec);
+        // 解密
+        byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(content));
+
+        return new String(bytes);
+    }
+
+    public static String cipherAESForEncEBC(String content, String seed) throws Exception{
+        //指定使用AES加密
+        //使用KeyGenerator生成key，参数与获取cipher对象的algorithm必须相同
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+        //指定生成的密钥长度为128
+        keyGenerator.init(128, new SecureRandom(seed.getBytes()));
+        Key key = keyGenerator.generateKey();
+
+        Cipher cipher = Cipher.getInstance(AES_EBC);
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+        byte[] bytes = cipher.doFinal(content.getBytes());
+
+        return Base64.getEncoder().encodeToString(bytes);
+
+    }
+    public static String cipherAESForDecEBC(String content, String seed) throws Exception{
+        //指定使用AES加密
+        Cipher cipher = Cipher.getInstance(AES_EBC);
+        //使用KeyGenerator生成key，参数与获取cipher对象的algorithm必须相同
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+        keyGenerator.init(128, new SecureRandom(seed.getBytes()));
+        Key key = keyGenerator.generateKey();
+
+        cipher.init(Cipher.DECRYPT_MODE, key);
 
         // 解密
         byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(content));
