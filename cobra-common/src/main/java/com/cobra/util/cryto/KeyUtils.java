@@ -2,13 +2,9 @@ package com.cobra.util.cryto;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.math.BigInteger;
@@ -19,8 +15,9 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Arrays;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -44,42 +41,86 @@ import java.util.Base64;
  */
 public class KeyUtils {
 
-    public void testKeyGenerator() throws Exception{
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+    static String PUBLIC_KEY = "PUBLIC_KEY";
+    static String PRIVATE_KEY = "PRIVATE_KEY";
+
+    public void writeKeyToFile(String filePath, String content) throws Exception{
+        FileOutputStream fos = new FileOutputStream(filePath);
+        fos.write(content.getBytes());
+        fos.flush();
+        fos.close();
+    }
+
+    public static String readKeyFromFile(String filePath) throws Exception{
+        FileInputStream fis = new FileInputStream(filePath);
+        byte[] bytes = new byte[1024];
+
+        ByteArrayOutputStream bas = new ByteArrayOutputStream();
+        int index = -1;
+        while ((index = fis.read(bytes)) != -1) {
+            bas.write(bytes, 0, index);
+        }
+        bas.flush();
+        bas.close();
+
+        return bas.toString();
+    }
+
+    /**
+     * 生成单个key
+     * @param alg
+     * @param seed
+     * @return
+     * @throws Exception
+     */
+    public static String generateSingleKey(String alg, String seed) throws Exception{
+        KeyGenerator keyGenerator = KeyGenerator.getInstance(alg);
         //初始化方法有多种，根据需要选择
         keyGenerator.init(128);
-        //      keyGenerator.init(new SecureRandom("1234567".getBytes()));
+        keyGenerator.init(new SecureRandom(seed.getBytes()));
 
-        SecretKey key = keyGenerator.generateKey();
-        //key的二进制编码   将它保存到文件中
+        Key key = keyGenerator.generateKey();
+        return org.apache.commons.codec.binary.Base64.encodeBase64String(key.getEncoded());
+    }
 
+    /**
+     * 生成密钥对
+     * @param alg
+     * @param seed
+     * @return
+     * @throws Exception
+     */
+    public static Map<String, String> generateKeyPair(String alg, String seed) throws Exception{
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(alg);
+        keyPairGenerator.initialize(1024, new SecureRandom(seed.getBytes()));
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+        PublicKey publicKey = keyPair.getPublic();//公钥
+        PrivateKey privateKey = keyPair.getPrivate();//私钥
+
+        Map<String, String> keyMap = new HashMap<>();
+        // 公钥 byte X.509编码
+        keyMap.put(PUBLIC_KEY, org.apache.commons.codec.binary.Base64.encodeBase64String(publicKey.getEncoded()));
+        // 私钥 byte PCKS8
+        keyMap.put(PRIVATE_KEY, org.apache.commons.codec.binary.Base64.encodeBase64String(privateKey.getEncoded()));
+
+        return keyMap;
+
+    }
+
+    public void testKeyGenerator() throws Exception{
+        // 保存密钥
+        String key = generateSingleKey("AES", "123456");
+        writeKeyToFile("F://test/key.txt", key);
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, key);
+        cipher.init(Cipher.ENCRYPT_MODE,
+                        new SecretKeySpec(org.apache.commons.codec.binary.Base64.decodeBase64(key), "AES"));
 
         byte[] bytes = cipher.doFinal("helloworld".getBytes());
 
-        System.out.println("加密数据: " + Base64.getEncoder().encodeToString(bytes));
-
-    /*=========保存key的二进制编码=========*/
-        byte[] keyBytes = key.getEncoded();
-        FileOutputStream fos = new FileOutputStream("F://test/key.txt");
-        fos.write(keyBytes);
-        fos.flush();
-        fos.close();
-
-
-    /*============从文件中读取编码并恢复key==============*/
-        FileInputStream fis = new FileInputStream("F://test/key.txt");
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        int len;
-        byte[] buffer = new byte[1024];
-        while ((len = fis.read(buffer)) > 0) {
-            bos.write(buffer, 0, len);
-        }
-        fis.close();
-
     /*==============使用SecretKeySpec重新生成key============*/
-        SecretKeySpec secretKeySpec = new SecretKeySpec(bos.toByteArray(), "AES");
+        SecretKeySpec secretKeySpec = new SecretKeySpec(
+                        org.apache.commons.codec.binary.Base64.decodeBase64(readKeyFromFile("F://test/key.txt")), "AES");
 
         cipher.init(Cipher.DECRYPT_MODE,
                         secretKeySpec,
@@ -89,7 +130,7 @@ public class KeyUtils {
     }
 
     /**
-     *
+     * 可以使用公钥加密、私钥解密 也可以以 私钥加密公钥解密
      *  * KeyPairGenerator用于生成一对密钥对，用于做非对称加密操作。
      * KeyPairGenerator.getInstance(String alorithm)的可用参数为：
      * DSA、RSA、EC
@@ -99,67 +140,34 @@ public class KeyUtils {
      * @throws Exception
      */
     public void testSaveKeyPair2() throws Exception{
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(1024);
-        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+        Map<String, String> keyMap = generateKeyPair("RSA", "123456");
+        String pubKey = keyMap.get(PUBLIC_KEY);
+        String priKey = keyMap.get(PRIVATE_KEY);
+        // 保存密钥
+        writeKeyToFile("F://test/public.key", pubKey);
+        writeKeyToFile("F://test/private.key", priKey);
 
-        PublicKey oldPbk = keyPair.getPublic();
-        PrivateKey oldPrk = keyPair.getPrivate();
+        String filePubKey = readKeyFromFile("F://test/public.key");
+        String filePriKey = readKeyFromFile("F://test/private.key");
 
+        // 公钥加密
         Cipher cipher = Cipher.getInstance("RSA");
-    /*============使用原始私钥加密，重新生成的公钥解密===============*/
-        cipher.init(Cipher.ENCRYPT_MODE, oldPrk);
+        cipher.init(Cipher.ENCRYPT_MODE, transRSAKey(true, filePubKey));
         byte[] bytes = cipher.doFinal("helloworld".getBytes());
-        System.out.println("原始私钥加密： " + Base64.getEncoder().encodeToString(bytes));
+        String enc = Base64.getEncoder().encodeToString(bytes);
+        System.out.println("加密后的内容： " + enc);
 
-    /*提取公钥的比特编码经过Base64转换后保存到文件，注意公钥的比特编码是X.509格式*/
-        byte[] pbks = Base64.getEncoder().encode(oldPbk.getEncoded());
-        File file = new File("F://test/public.key");
-        FileOutputStream fos = new FileOutputStream(file);
-        fos.write(pbks);
-        fos.flush();
-        fos.close();
+        cipher.init(Cipher.DECRYPT_MODE, transRSAKey(false, filePriKey));
+        byte[] dec = cipher.doFinal(org.apache.commons.codec.binary.Base64.decodeBase64(enc));
 
-    /*从文件中提取公钥比特编码并恢复成公钥*/
-        file = new File("F://test/public.key");
-        FileInputStream fis = new FileInputStream(file);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len;
-        while ((len = fis.read(buffer)) > 0) {
-            bos.write(buffer, 0, len);
-        }
-        pbks = Base64.getDecoder().decode(bos.toByteArray());
-        X509EncodedKeySpec encodedKeySpec = new X509EncodedKeySpec(pbks);
-        //重新得到公钥
-        PublicKey newPbk = KeyFactory.getInstance("RSA").generatePublic(encodedKeySpec);
-
-        cipher.init(Cipher.DECRYPT_MODE, newPbk);
-        bytes = cipher.doFinal(bytes);
-        System.out.println("新的公钥解密： " + new String(bytes));
-
-      /*============使用原始公钥加密，重新生成的私钥解密===============*/
-        cipher.init(Cipher.ENCRYPT_MODE, oldPbk);
-        bytes = cipher.doFinal("helloworld".getBytes());
-        System.out.println("原始私钥加密： " + Base64.getEncoder().encodeToString(bytes));
-
-
-    /*省略了文件存取操作，与公钥相同*/
-
-        byte[] prks = oldPrk.getEncoded();
-    /*私钥的比特编码是pkcs8格式*/
-        PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(prks);
-        PrivateKey newPrk = KeyFactory.getInstance("RSA").generatePrivate(pkcs8EncodedKeySpec);
-        cipher.init(Cipher.DECRYPT_MODE, newPrk);
-        bytes = cipher.doFinal(bytes);
-        System.out.println("新的私钥解密： " + new String(bytes));
+        System.out.println("新的私钥解密： " + new String(dec));
     }
 
     /**
      * 保存密钥对的特征值 公钥（N，e）私钥（N，d）
      * @throws Exception
      */
-    public void testSaveKeyPair() throws Exception{
+    public void testSaveKeyPairFeature() throws Exception{
         final String algorithm = "RSA";
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(algorithm);
 
@@ -207,10 +215,26 @@ public class KeyUtils {
         System.out.println("解密数据：" + new String(bytes));
     }
 
-    public static void main(String[] args){
-        ;
-        // 已注册提供者列表
-        System.out.println(Arrays.toString(Security.getProviders()));
+    /**
+     * 密钥转换
+     * 公钥 byte编码 X.509
+     * 私钥 byte编码 PKCS8
+     * @param isPub 是否公钥 true 公钥
+     * @param key 密钥
+     * @return
+     * @throws Exception
+     */
+    public static Key transRSAKey(boolean isPub, String key) throws Exception{
+        byte[] keyBytes = org.apache.commons.codec.binary.Base64.decodeBase64(key);
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        if (isPub) {
+            X509EncodedKeySpec x509 = new X509EncodedKeySpec(keyBytes);
+            return keyFactory.generatePublic(x509);
+        } else {
+            PKCS8EncodedKeySpec pkcs8 = new PKCS8EncodedKeySpec(keyBytes);
+            return keyFactory.generatePrivate(pkcs8);
+        }
+
     }
 
 }

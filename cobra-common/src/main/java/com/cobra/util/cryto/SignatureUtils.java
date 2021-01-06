@@ -1,7 +1,14 @@
 package com.cobra.util.cryto;
 
 import java.security.*;
-import java.util.Base64;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * signature类用于提供数字签名，用于保证数据的完整性
@@ -26,7 +33,7 @@ public class SignatureUtils {
         //更新原始字符串
         signature.update(content.getBytes());
         byte[] bytes = signature.sign();
-        String sign = Base64.getEncoder().encodeToString(bytes);
+        String sign = org.apache.commons.codec.binary.Base64.encodeBase64String(bytes);
         return sign;
 
     }
@@ -46,7 +53,7 @@ public class SignatureUtils {
         //校验签名是否正确
         signature.update(content.getBytes());
 
-        return signature.verify(Base64.getDecoder().decode(sign));
+        return signature.verify(Base64.decodeBase64(sign));
 
     }
 

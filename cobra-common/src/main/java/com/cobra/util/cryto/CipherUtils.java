@@ -67,8 +67,7 @@ import java.util.Base64;
 public class CipherUtils {
     static String AES_CBC = "AES/CBC/PKCS5Padding";
     static String AES_EBC = "AES/ECB/PKCS5Padding";
-    static String ivs = "0000000000000000";// CBC需要
-    static String THREE_DES = "DESede/ECB/PKCS5Padding";// CBC需要
+    static String ivs = "0000000000000000";// CBC 需要向量
 
     static String CBC = "CBC";
 
@@ -97,7 +96,7 @@ public class CipherUtils {
         return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, ivs, content);
     }
 
-  /**
+    /**
      * 1、BASE64解码
      * 2、生成密钥
      * 3、解密
@@ -111,37 +110,35 @@ public class CipherUtils {
 
     }
 
-
-    public static String cipherAESForCredit(String content, String seed) throws Exception{
+    public static String cipherAESForEncCredit(String content, String seed) throws Exception{
 
         String keyAlg = "AES";
         String cipherAlg = "AES/CBC/PKCS5Padding";
 
-        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, "Xadiapdfaxi0s91D", true,content);
+        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, "Xadiapdfaxi0s91D", true, content);
 
     }
 
-
-    public static String cipherAESForDecrypt2(String content, String seed) throws Exception{
+    public static String cipherAESForDecCredit(String content, String seed) throws Exception{
         String keyAlg = "AES";
         String cipherAlg = "AES/CBC/PKCS5Padding";
         String iv = "Xadiapdfaxi0s91D";
 
-        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, iv, true,content);
+        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, iv, true, content);
 
     }
 
-    public static String cipherAESForEncEBC(String content, String seed) throws Exception{
+    public static String cipherAESForEncECB(String content, String seed) throws Exception{
         String keyAlg = "AES";
         String cipherAlg = "AES/ECB/PKCS5Padding";
-        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.DECRYPT_MODE, seed, ivs, true,content);
+        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, null, true, content);
 
     }
 
-    public static String cipherAESForDecEBC(String content, String seed) throws Exception{
+    public static String cipherAESForDecECB(String content, String seed) throws Exception{
         String keyAlg = "AES";
         String cipherAlg = "AES/ECB/PKCS5Padding";
-        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.DECRYPT_MODE, seed, null, content);
+        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.DECRYPT_MODE, seed, null, true,content);
 
     }
 
@@ -159,23 +156,35 @@ public class CipherUtils {
 
     }
 
-    public static String cipherRSAEnc(String content, PublicKey publicKey) throws Exception{
 
-        Cipher cipher = Cipher.getInstance("RSA");
+    static String RSA = "RSA";
+
+    /**
+     * X509EncodedKeySpec
+     * PKCS8EncodedKeySpec
+     * 生成密钥格式不一样
+     *
+     * @param content
+     * @param publicKey
+     * @return
+     * @throws Exception
+     */
+    public static String cipherRSAPublic(String content, String publicKey) throws Exception{
+        Cipher cipher = Cipher.getInstance(RSA);
         //加密
-        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+        cipher.init(Cipher.ENCRYPT_MODE, KeyUtils.transRSAKey(Boolean.TRUE, publicKey));
         byte[] bytes = cipher.doFinal(content.getBytes());
         final String encryptText = Base64.getEncoder().encodeToString(bytes);
         return encryptText;
 
     }
 
-    public static String cipherRSADec(String content, PrivateKey privateKey) throws Exception{
+    public static String cipherRSAPrivate(String content, String privateKey) throws Exception{
         //获取cipher对象
-        Cipher cipher = Cipher.getInstance("RSA");
+        Cipher cipher = Cipher.getInstance(RSA);
 
         // 解密
-        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+        cipher.init(Cipher.DECRYPT_MODE, KeyUtils.transRSAKey(Boolean.FALSE, privateKey));
         byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(content));
         return new String(bytes);
     }
@@ -249,12 +258,12 @@ public class CipherUtils {
     }
     private static String doEncrypt(String keyAlg,
                     int keyLength,
-                    String randomAlg,
+                    String randomAlgName,
                     String cipherAlg,
                     int mode,
                     String seed,
                     String ivs,
-                    boolean overKey,// 是否重写key生成方法
+                    boolean overrideKey,// 是否重写key生成方法
                     String content) throws Exception{
         // 算法名称校验
         if (StringCommonUtils.isEmpty(keyAlg) || !cipherAlg.startsWith(keyAlg)) {
@@ -269,8 +278,8 @@ public class CipherUtils {
 
         SecureRandom random = null;
         // 随机算法
-        if (StringCommonUtils.isNotEmpty(randomAlg)) {
-            random = SecureRandom.getInstance(randomAlg);
+        if (StringCommonUtils.isNotEmpty(randomAlgName)) {
+            random = SecureRandom.getInstance(randomAlgName);
             random.setSeed(seed.getBytes());
         } else {
             // SHA1PRNG
@@ -279,9 +288,9 @@ public class CipherUtils {
         keyGenerator.init(keyLength, random);
 
         Key key = keyGenerator.generateKey();
-        if(overKey){
+        if (overrideKey) {
             // 指定key
-            key = new SecretKeySpec(seed.getBytes(),keyAlg);
+            key = new SecretKeySpec(seed.getBytes(), keyAlg);
         }
         Cipher cipher = Cipher.getInstance(cipherAlg);
 
@@ -303,5 +312,8 @@ public class CipherUtils {
         }
 
     }
+
+
+
 
 }

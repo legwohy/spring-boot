@@ -1,5 +1,6 @@
 package com.cobra.util.cryto;
 
+import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,17 +15,21 @@ import java.security.*;
 public class CipherUtilsTest {
     String seed = "i love yi tiao cai 不限制长度";
     String content = "123456";
-    PublicKey publicKey = null;
-    PrivateKey privateKey = null;
+
+    String pubKey = null;
+    String priKey = null;
 
     @Before
     public void init() throws Exception{
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(1024);
+        keyPairGenerator.initialize(1024,new SecureRandom(seed.getBytes()));
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
-        publicKey = keyPair.getPublic();//公钥
-        privateKey = keyPair.getPrivate();//私钥
+        PublicKey publicKey = keyPair.getPublic();//公钥
+        PrivateKey privateKey = keyPair.getPrivate();//私钥
+
+        pubKey = Base64.encodeBase64String(publicKey.getEncoded());
+        priKey = new String(Base64.encodeBase64(privateKey.getEncoded()));
     }
 
     @Test
@@ -39,13 +44,13 @@ public class CipherUtilsTest {
     }
 
     @Test
-    public void cipherAESForEBC() throws Exception{
-        seed = "i love yi tiao cai 不限制密钥长度";
+    public void cipherAESForECB() throws Exception{
+        seed = "1234567890123456";
 
-        String enc = CipherUtils.cipherAESForEncEBC(content, seed);
-        Assert.assertEquals("psO7nbLJUqaud+14IfyOIQ==", enc);
+        String enc = CipherUtils.cipherAESForEncECB(content, seed);
+        Assert.assertEquals("yXVUkR45PFz0UfpbDB8/ew==", enc);
 
-        String dec = CipherUtils.cipherAESForDecEBC(enc, seed);
+        String dec = CipherUtils.cipherAESForDecECB(enc, seed);
         Assert.assertEquals(content, dec);
 
     }
@@ -73,20 +78,25 @@ public class CipherUtilsTest {
 
     }
 
-    @Test
-    public void testRSA() throws Exception{
-        String enc = CipherUtils.cipherRSAEnc(content, publicKey);
 
-        Assert.assertEquals(content, CipherUtils.cipherRSADec(enc, privateKey));
+    @Test
+    public void cipherAESForCredit() throws Exception{
+        // TODO CREDIT
+        content = "123456";
+        String enc = CipherUtils.cipherAESForEncCredit(content, "1234567890123456");
+
+        Assert.assertEquals("j/O5H1ZOR4O1gm3aTnYMWw==", enc);
     }
 
     @Test
-    public void cipherAESForEncrypt2() throws Exception{
-        // TODO CREDIT
+    public void cipherRSA() throws Exception{
         content = "123456";
-        String enc = CipherUtils.cipherAESForCredit(content, "1234567890123456");
 
-        Assert.assertEquals("j/O5H1ZOR4O1gm3aTnYMWw==",enc);
+        String enc = CipherUtils.cipherRSAPublic(content, pubKey);
+        Assert.assertNotNull(enc);
+
+        String dec = CipherUtils.cipherRSAPrivate(enc, priKey);
+        Assert.assertEquals(content, dec);
     }
 
 }

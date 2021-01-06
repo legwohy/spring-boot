@@ -1,5 +1,6 @@
 package com.cobra.util.cryto;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -10,15 +11,20 @@ import static org.junit.Assert.*;
  * @desc
  */
 public class KeyUtilsTest {
+    KeyUtils keyUtils = null;
+    @Before
+    public void init(){
+         keyUtils = new KeyUtils();
+    }
     @Test
     public void testKeyGenerator() throws Exception{
-        KeyUtils keyUtils = new KeyUtils();
         keyUtils.testKeyGenerator();
-        // teLZOgeajmBKZlnrNPf7Bw==
+
     }
 
     @Test
     public void testSaveKeyPair2() throws Exception{
+        keyUtils.testSaveKeyPair2();
     }
 
     @Test
