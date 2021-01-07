@@ -90,7 +90,7 @@ public class KeyUtils {
      * @return
      * @throws Exception
      */
-    public static Map<String, String> generateKeyPair(String alg, String seed) throws Exception{
+    public static Map<String, String> genRSAKeyPair(String alg, String seed) throws Exception{
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(alg);
         keyPairGenerator.initialize(1024, new SecureRandom(seed.getBytes()));
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
@@ -140,7 +140,7 @@ public class KeyUtils {
      * @throws Exception
      */
     public void testSaveKeyPair2() throws Exception{
-        Map<String, String> keyMap = generateKeyPair("RSA", "123456");
+        Map<String, String> keyMap = genRSAKeyPair("RSA", "123456");
         String pubKey = keyMap.get(PUBLIC_KEY);
         String priKey = keyMap.get(PRIVATE_KEY);
         // 保存密钥

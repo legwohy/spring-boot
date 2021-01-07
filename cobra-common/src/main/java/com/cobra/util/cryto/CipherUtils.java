@@ -138,7 +138,7 @@ public class CipherUtils {
     public static String cipherAESForDecECB(String content, String seed) throws Exception{
         String keyAlg = "AES";
         String cipherAlg = "AES/ECB/PKCS5Padding";
-        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.DECRYPT_MODE, seed, null, true,content);
+        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.DECRYPT_MODE, seed, null, true, content);
 
     }
 
@@ -155,7 +155,6 @@ public class CipherUtils {
         return doEncrypt(keyAlg, 56, null, cipherAlg, Cipher.DECRYPT_MODE, seed, null, content);
 
     }
-
 
     static String RSA = "RSA";
 
@@ -248,14 +247,14 @@ public class CipherUtils {
         // BASE64编码
         if (Cipher.ENCRYPT_MODE == mode) {
             // 加密
-            byte[] bytes = cipher.doFinal(content.getBytes());
-            return Base64.getEncoder().encodeToString(bytes);
+            return Base64.getEncoder().encodeToString(cipher.doFinal(content.getBytes()));
         } else {
             // 解密
             return new String(cipher.doFinal(Base64.getDecoder().decode(content)));
         }
 
     }
+
     private static String doEncrypt(String keyAlg,
                     int keyLength,
                     String randomAlgName,
@@ -304,16 +303,13 @@ public class CipherUtils {
         // BASE64编码
         if (Cipher.ENCRYPT_MODE == mode) {
             // 加密
-            byte[] bytes = cipher.doFinal(content.getBytes());
-            return Base64.getEncoder().encodeToString(bytes);
+            return Base64.getEncoder().encodeToString(cipher.doFinal(content.getBytes()));
         } else {
             // 解密
             return new String(cipher.doFinal(Base64.getDecoder().decode(content)));
         }
 
     }
-
-
 
 
 }
