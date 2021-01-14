@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Base64;
 import java.util.Map;
 
 /**
@@ -59,6 +60,10 @@ public class SmCipherUtilsTest {
         String plainText = SmCipherUtils.dec(cipherText, priKey);
 
         Assert.assertEquals(srcPlainText, plainText);
+    }
+
+    public static void main(String[] args){
+        System.out.println(Base64.getEncoder().encodeToString("698663d8d064266e2ead8d1d19cc5166".getBytes()));
     }
 
 }

@@ -65,22 +65,18 @@ import java.util.Base64;
  * @desc
  */
 public class CipherUtils {
-    static String AES_CBC = "AES/CBC/PKCS5Padding";
-    static String AES_EBC = "AES/ECB/PKCS5Padding";
     static String ivs = "0000000000000000";// CBC 需要向量
 
     static String CBC = "CBC";
 
     public static String encryptFor3DEs(String content, String seed) throws Exception{
-        String keyAlg = "DESede";
         String cipherAlg = "DESede/ECB/PKCS5Padding";
-        return doEncrypt(keyAlg, 168, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, null, content);
+        return doEncrypt(cipherAlg, 168, null,  Cipher.ENCRYPT_MODE, seed, null, content);
     }
 
     public static String decryptFor3DEs(String content, String seed) throws Exception{
-        String keyAlg = "DESede";
         String cipherAlg = "DESede/ECB/PKCS5Padding";
-        return doEncrypt(keyAlg, 168, null, cipherAlg, Cipher.DECRYPT_MODE, seed, null, content);
+        return doEncrypt(cipherAlg, 168, null,  Cipher.DECRYPT_MODE, seed, null, content);
     }
 
     /**
@@ -90,10 +86,9 @@ public class CipherUtils {
      * @throws Exception
      */
     public static String cipherAESForEncrypt(String content, String seed) throws Exception{
-        String keyAlg = "AES";
         String cipherAlg = "AES/CBC/PKCS5Padding";
 
-        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, ivs, content);
+        return doEncrypt(cipherAlg, 128, null,  Cipher.ENCRYPT_MODE, seed, ivs, content);
     }
 
     /**
@@ -106,7 +101,7 @@ public class CipherUtils {
         String keyAlg = "AES";
         String cipherAlg = "AES/CBC/PKCS5Padding";
 
-        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.DECRYPT_MODE, seed, ivs, content);
+        return doEncrypt(cipherAlg, 128, null,  Cipher.DECRYPT_MODE, seed, ivs, content);
 
     }
 
@@ -143,16 +138,14 @@ public class CipherUtils {
     }
 
     public static String cipherDESForEnc(String content, String seed) throws Exception{
-        String keyAlg = "DES";
         String cipherAlg = "DES";
-        return doEncrypt(keyAlg, 56, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, null, content);
+        return doEncrypt(cipherAlg, 56, null,  Cipher.ENCRYPT_MODE, seed, null, content);
 
     }
 
     public static String cipherDESForDec(String content, String seed) throws Exception{
-        String keyAlg = "DES";
         String cipherAlg = "DES";
-        return doEncrypt(keyAlg, 56, null, cipherAlg, Cipher.DECRYPT_MODE, seed, null, content);
+        return doEncrypt(cipherAlg,  56, null, Cipher.DECRYPT_MODE, seed, null, content);
 
     }
 
@@ -194,9 +187,8 @@ public class CipherUtils {
      * 3、加密
      * 4、base64编码
      *
-     * @param keyAlg 密钥生成算法
-     * @param keyLength 密钥长度
      * @param cipherAlg 加密算法  与密钥算法保持一致
+     * @param keyLength 密钥长度
      * @param content 待加密内容
      * @param seed 密钥生成种子
      * @param ivs 密钥生成种子
@@ -204,23 +196,27 @@ public class CipherUtils {
      * @return
      * @throws Exception
      */
-    private static String doEncrypt(String keyAlg,
+    private static String doEncrypt(String cipherAlg,
                     int keyLength,
                     String randomAlg,
-                    String cipherAlg,
                     int mode,
                     String seed,
                     String ivs,
                     String content) throws Exception{
         // 算法名称校验
-        if (StringCommonUtils.isEmpty(keyAlg) || !cipherAlg.startsWith(keyAlg)) {
-            throw new IllegalArgumentException("加密算法不一致");
+        // 算法名称校验
+        if (StringCommonUtils.isEmpty(cipherAlg) ) {
+            throw new IllegalArgumentException("算法名称不能为空不一致");
         }
-        if (cipherAlg.startsWith(CBC)) {
-            if (StringCommonUtils.isEmpty(ivs)) {
-                throw new IllegalArgumentException("CBC算法 ivs不能为空");
+        String[] cipherArr = cipherAlg.split("/");
+        if(cipherArr.length != 1){
+            if (CBC.equals(cipherArr[1])) {
+                if (StringCommonUtils.isEmpty(ivs)) {
+                    throw new IllegalArgumentException("CBC算法 ivs不能为空");
+                }
             }
         }
+        String keyAlg = cipherArr[0];
         KeyGenerator keyGenerator = KeyGenerator.getInstance(keyAlg);
 
         SecureRandom random = null;

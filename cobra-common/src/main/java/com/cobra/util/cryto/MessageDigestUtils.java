@@ -17,7 +17,12 @@ import java.security.MessageDigest;
  */
 public class MessageDigestUtils {
 
-    public static String messageDigest(String content) throws Exception {
+    public static String md5(String content) throws Exception {
+      return messageDigest(content,"MD5");
+
+    }
+
+    public static String messageDigest(String content,String alg) throws Exception {
         //参数可以是 MD5,MD2,MD5,SHA-1,SHA-224,SHA-256,SHA-384,SHA-512
         MessageDigest messageDigest = MessageDigest.getInstance("MD5");
         byte[] bytes = messageDigest.digest(content.getBytes());

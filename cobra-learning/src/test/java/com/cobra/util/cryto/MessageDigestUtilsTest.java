@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class MessageDigestUtilsTest {
     @Test
     public void messageDigest() throws Exception{
-        String value = MessageDigestUtils.messageDigest("value11");
+        String value = MessageDigestUtils.md5("value11");
 
         Assert.assertEquals("aa62d3c0d5a884bf8a627142641cfeff",value);
     }

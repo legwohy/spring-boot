@@ -2257,5 +2257,28 @@ public class StringCommonUtils extends org.apache.commons.lang3.StringUtils {
         return value;
     }
 
+    public static String takeFromStr(String content, String regex){
+        Matcher matcher = Pattern.compile(regex).matcher(content);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return "";
+    }
+
+    /**
+     * 提取数字
+     * @param content
+     * @return
+     */
+    public static Integer takeNumberFromStr(String content){
+        String regex = "\\D+(\\d+)";
+        String result = takeFromStr(content,regex);
+        if(isEmpty(result)){
+            return 0;
+        }
+        return Integer.valueOf(result);
+    }
+
+
 
 }
