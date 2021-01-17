@@ -17,8 +17,13 @@ import java.security.MessageDigest;
  */
 public class MessageDigestUtils {
     public final static String MD5 = "MD5";
-    public final static String SHA256 = "SHA256";
-    public final static String SHA512 = "SHA512";
+    public final static String SHA256 = "SHA-256";
+    public final static String SHA512 = "SHA-512";
+
+    public static void main(String[] args)throws Exception{
+        String src = "{\"privateKey\":\"私钥\",\"name\":\"小王\",\"signType\":\"SHA-256\"}";
+        System.out.println(SHA256(src));
+    }
 
     public static String md5(String content) throws Exception{
         return messageDigest(content, MD5);
@@ -37,7 +42,7 @@ public class MessageDigestUtils {
 
     public static String messageDigest(String content, String alg) throws Exception{
         //参数可以是 MD5,MD2,MD5,SHA-1,SHA-224,SHA-256,SHA-384,SHA-512
-        MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+        MessageDigest messageDigest = MessageDigest.getInstance(alg);
         byte[] bytes = messageDigest.digest(content.getBytes());
 
         //将二进制数组转成16进制字符串输出

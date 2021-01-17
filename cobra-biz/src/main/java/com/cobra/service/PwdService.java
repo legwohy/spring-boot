@@ -39,7 +39,7 @@ public class PwdService {
         // 1、验签
         String srcSign = sign(reqDTO);
         if (!reqDTO.getSign().equals(srcSign)) {
-            log.info("新签名 req:{},签名值:{}",reqDTO,srcSign);
+            log.info("签名失败 req:{},签名值:{}",reqDTO,srcSign);
             return new BaseResponse("201", "签名错误");
         }
         // 2、解密
@@ -89,7 +89,8 @@ public class PwdService {
                 plainText = CipherUtils.cipherRSAPrivate(cipherText, reqDTO.getPubKey());
                 break;
             default:
-                break;
+                throw new RuntimeException("不支持解密方式:"+encType);
+
         }
 
         return plainText;
@@ -125,7 +126,7 @@ public class PwdService {
                 cipherText =  CipherUtils.cipherRSAPublic(srcPlainText, reqDTO.getPubKey());
                 break;
             default:
-                break;
+                throw new RuntimeException("不支持加密方式:"+encType);
         }
         return cipherText;
     }
@@ -138,13 +139,14 @@ public class PwdService {
      */
     public String sign(PwdReqDTO reqDTO) throws Exception{
         Map<String, Object> jsonMap = new LinkedHashMap<>();
-        jsonMap.put("signType", reqDTO.getSignType());
         if (StringCommonUtils.isNotEmpty(reqDTO.getPrivateKey())) {
             jsonMap.put("privateKey", reqDTO.getPrivateKey());
         }
         jsonMap.put("name", reqDTO.getName());
+        jsonMap.put("signType", reqDTO.getSignType());
 
         String signType = reqDTO.getSignType().toUpperCase();
+        log.info("签名方式:"+signType);
         String sign = JSON.toJSONString(jsonMap);
         switch (signType) {
             case MessageDigestUtils.MD5:
@@ -158,10 +160,10 @@ public class PwdService {
                 break;
             case "RSA":
                 PrivateKey privateKey = (PrivateKey)SecretKeyUtils.transRSAKey(Boolean.FALSE, reqDTO.getPrivateKey());
-                SignatureUtils.signature(sign, privateKey);
+                sign = SignatureUtils.signature(sign, privateKey);
                 break;
             default:
-                break;
+                throw new RuntimeException("不支持签名方式:"+signType);
         }
         return sign;
 
