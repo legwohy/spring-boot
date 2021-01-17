@@ -44,5 +44,81 @@
 
     </dependencies>
 
+    <build>
+        <!-- 描述工程中资源的位置-->
+        <resources>
+            <resource>
+
+                <!-- 1、源文件的路径-->
+                <directory>src/main/resources/mapping</directory>
+
+                <!-- 2、打完包后文件的路径 这里设置与原mapper文件路径一致-->
+                <targetPath>./com/cobra/mapper</targetPath>
+
+                <!-- 3、需要打包的文件-->
+                <includes>
+                    <include>*.xml</include>
+                </includes>
+
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*.xml</include>
+                    <include>*.yml</include>
+                    <include>bean/*</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <!--单元测试文件-->
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>src/main/resources</directory>
+            </testResource>
+        </testResources>
+
+        <plugins>
+
+            <!-- 防止每次编译都变回1.5版本-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <!-- 1、打包插件-->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+
+                <!-- 2、打包的项目-->
+                <configuration>
+                    <mainClass>com.cobra.BizApplication</mainClass>
+                    <executable>true</executable>
+                </configuration>
+
+                <!-- 3、执行的命令-->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+        <!-- 打完包后最后的名字-->
+        <finalName>cobra-biz</finalName>
+    </build>
+
 
 </project>

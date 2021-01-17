@@ -10,6 +10,7 @@ import com.cobra.util.cryto.SmCipherUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -22,7 +23,7 @@ public class PwdService {
     final static String seed = "698663d8d064266e2ead8d1d19cc5166";
 
     public BaseResponse doService(PwdReqDTO reqDTO)throws Exception{
-        Map<String,Object> jsonMap = new HashMap<>();
+        Map<String,Object> jsonMap = new LinkedHashMap<>();
         jsonMap.put("id",reqDTO.getId());
         jsonMap.put("name",reqDTO.getName());
         String srcSign = MessageDigestUtils.md5(JSON.toJSONString(jsonMap));
@@ -38,8 +39,8 @@ public class PwdService {
         if(null == contentDTO){
             return new BaseResponse("203","内容错误");
         }
-        contentDTO.setK1("内容一\t"+contentDTO.getK1());
-        contentDTO.setK2("内容二\t"+contentDTO.getK2());
+        contentDTO.setK1("content1:"+contentDTO.getK1());
+        contentDTO.setK2("content2:"+contentDTO.getK2());
         String cipher = SmCipherUtils.sm4CbcEnc(JSON.toJSONString(contentDTO),seed);
 
         return new BaseResponse(cipher);
