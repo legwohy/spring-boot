@@ -29,10 +29,10 @@ public class PwdServiceTest extends BaseTest {
     @Test
     public void doService() throws Exception{
         PwdReqDTO reqDTO = new PwdReqDTO();
-        reqDTO.setId("1001");
+        reqDTO.setSign("MD5");
         reqDTO.setName("小王");
         Map<String,Object> signMap = new LinkedHashMap<>();
-        signMap.put("id",reqDTO.getId());
+        signMap.put("MD5",reqDTO.getSignType());
         signMap.put("name",reqDTO.getName());
         reqDTO.setSign(MessageDigestUtils.md5(JSON.toJSONString(signMap)));
 

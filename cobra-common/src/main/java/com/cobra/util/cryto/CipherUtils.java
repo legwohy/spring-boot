@@ -119,7 +119,7 @@ public class CipherUtils {
         String cipherAlg = "AES/CBC/PKCS5Padding";
         String iv = "Xadiapdfaxi0s91D";
 
-        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, iv, true, content);
+        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.DECRYPT_MODE, seed, iv, true, content);
 
     }
 
@@ -164,19 +164,26 @@ public class CipherUtils {
     public static String cipherRSAPublic(String content, String publicKey) throws Exception{
         Cipher cipher = Cipher.getInstance(RSA);
         //加密
-        cipher.init(Cipher.ENCRYPT_MODE, KeyUtils.transRSAKey(Boolean.TRUE, publicKey));
+        cipher.init(Cipher.ENCRYPT_MODE, SecretKeyUtils.transRSAKey(Boolean.TRUE, publicKey));
         byte[] bytes = cipher.doFinal(content.getBytes());
         final String encryptText = Base64.getEncoder().encodeToString(bytes);
         return encryptText;
 
     }
 
+    /**
+     * 私钥解密
+     * @param content
+     * @param privateKey
+     * @return
+     * @throws Exception
+     */
     public static String cipherRSAPrivate(String content, String privateKey) throws Exception{
         //获取cipher对象
         Cipher cipher = Cipher.getInstance(RSA);
 
         // 解密
-        cipher.init(Cipher.DECRYPT_MODE, KeyUtils.transRSAKey(Boolean.FALSE, privateKey));
+        cipher.init(Cipher.DECRYPT_MODE, SecretKeyUtils.transRSAKey(Boolean.FALSE, privateKey));
         byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(content));
         return new String(bytes);
     }

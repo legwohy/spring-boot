@@ -105,33 +105,7 @@ public class SmCipherUtils {
 
     }
 
-    /**
-     * 生成密钥对
-     * @return
-     * @throws Exception
-     */
-    public static Map<String, String> genSm2KeyPair() throws Exception{
-        // 构造曲线
-        X9ECParameters sm2ECParameters = GMNamedCurves.getByName(curveName);
-        ECDomainParameters domainParams = new ECDomainParameters(sm2ECParameters.getCurve(), sm2ECParameters.getG(), sm2ECParameters.getN());
-        ECKeyPairGenerator keyGen = new ECKeyPairGenerator();
-        keyGen.init(new ECKeyGenerationParameters(domainParams, SecureRandom.getInstance("SHA1PRNG")));
-        AsymmetricCipherKeyPair keyPair = keyGen.generateKeyPair();
 
-        ECPrivateKeyParameters priKey = (ECPrivateKeyParameters) keyPair.getPrivate();
-        ECPublicKeyParameters pubKey = (ECPublicKeyParameters) keyPair.getPublic();
-
-        // 私钥d值
-        String privateKeyHex = ByteUtils.toHexString(priKey.getD().toByteArray()).toUpperCase();
-
-        //公钥 q值 pubK 还有 x、y值
-        String publicKeyHex = ByteUtils.toHexString(pubKey.getQ().getEncoded(false)).toUpperCase();
-
-        Map<String, String> keyMap = new HashMap<>();
-        keyMap.put(PUBLIC_KEY, publicKeyHex);
-        keyMap.put(PRIVATE_KEY, privateKeyHex);
-        return keyMap;
-    }
 
     /**
      * 1、转换私钥

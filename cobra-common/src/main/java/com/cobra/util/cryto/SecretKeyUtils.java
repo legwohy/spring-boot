@@ -1,5 +1,15 @@
 package com.cobra.util.cryto;
 
+import org.bouncycastle.asn1.gm.GMNamedCurves;
+import org.bouncycastle.asn1.x9.X9ECParameters;
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+import org.bouncycastle.crypto.generators.ECKeyPairGenerator;
+import org.bouncycastle.crypto.params.ECDomainParameters;
+import org.bouncycastle.crypto.params.ECKeyGenerationParameters;
+import org.bouncycastle.crypto.params.ECPrivateKeyParameters;
+import org.bouncycastle.crypto.params.ECPublicKeyParameters;
+import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.IvParameterSpec;
@@ -39,10 +49,11 @@ import java.util.Map;
  * @date 2020/12/30 17:38
  * @desc
  */
-public class KeyUtils {
+public class SecretKeyUtils {
 
     static String PUBLIC_KEY = "PUBLIC_KEY";
     static String PRIVATE_KEY = "PRIVATE_KEY";
+    public static String curveName = "sm2p256v1";// wapip192v1
 
     public void writeKeyToFile(String filePath, String content) throws Exception{
         FileOutputStream fos = new FileOutputStream(filePath);
@@ -83,30 +94,6 @@ public class KeyUtils {
         return org.apache.commons.codec.binary.Base64.encodeBase64String(key.getEncoded());
     }
 
-    /**
-     * 生成密钥对
-     * @param alg
-     * @param seed
-     * @return
-     * @throws Exception
-     */
-    public static Map<String, String> genRSAKeyPair(String alg, String seed) throws Exception{
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(alg);
-        keyPairGenerator.initialize(1024, new SecureRandom(seed.getBytes()));
-        KeyPair keyPair = keyPairGenerator.generateKeyPair();
-
-        PublicKey publicKey = keyPair.getPublic();//公钥
-        PrivateKey privateKey = keyPair.getPrivate();//私钥
-
-        Map<String, String> keyMap = new HashMap<>();
-        // 公钥 byte X.509编码
-        keyMap.put(PUBLIC_KEY, org.apache.commons.codec.binary.Base64.encodeBase64String(publicKey.getEncoded()));
-        // 私钥 byte PCKS8
-        keyMap.put(PRIVATE_KEY, org.apache.commons.codec.binary.Base64.encodeBase64String(privateKey.getEncoded()));
-
-        return keyMap;
-
-    }
 
     public void testKeyGenerator() throws Exception{
         // 保存密钥
@@ -235,6 +222,59 @@ public class KeyUtils {
             return keyFactory.generatePrivate(pkcs8);
         }
 
+    }
+    /**
+     * 生成密钥RSA对
+     * @param alg
+     * @param seed
+     * @return
+     * @throws Exception
+     */
+    public static Map<String, String> genRSAKeyPair(String alg, String seed) throws Exception{
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(alg);
+        keyPairGenerator.initialize(1024, new SecureRandom(seed.getBytes()));
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+        PublicKey publicKey = keyPair.getPublic();//公钥
+        PrivateKey privateKey = keyPair.getPrivate();//私钥
+
+        Map<String, String> keyMap = new HashMap<>();
+        // 公钥 byte X.509编码
+        keyMap.put(PUBLIC_KEY, org.apache.commons.codec.binary.Base64.encodeBase64String(publicKey.getEncoded()));
+        // 私钥 byte PCKS8
+        keyMap.put(PRIVATE_KEY, org.apache.commons.codec.binary.Base64.encodeBase64String(privateKey.getEncoded()));
+
+        return keyMap;
+
+    }
+
+
+    /**
+     * 生成密钥SM2对
+     * @return
+     * @throws Exception
+     */
+    public static Map<String, String> genSm2KeyPair() throws Exception{
+        // 构造曲线
+        X9ECParameters sm2ECParameters = GMNamedCurves.getByName(curveName);
+        ECDomainParameters domainParams = new ECDomainParameters(sm2ECParameters.getCurve(), sm2ECParameters.getG(), sm2ECParameters.getN());
+        ECKeyPairGenerator keyGen = new ECKeyPairGenerator();
+        keyGen.init(new ECKeyGenerationParameters(domainParams, SecureRandom.getInstance("SHA1PRNG")));
+        AsymmetricCipherKeyPair keyPair = keyGen.generateKeyPair();
+
+        ECPrivateKeyParameters priKey = (ECPrivateKeyParameters) keyPair.getPrivate();
+        ECPublicKeyParameters pubKey = (ECPublicKeyParameters) keyPair.getPublic();
+
+        // 私钥d值
+        String privateKeyHex = ByteUtils.toHexString(priKey.getD().toByteArray()).toUpperCase();
+
+        //公钥 q值 pubK 还有 x、y值
+        String publicKeyHex = ByteUtils.toHexString(pubKey.getQ().getEncoded(false)).toUpperCase();
+
+        Map<String, String> keyMap = new HashMap<>();
+        keyMap.put(PUBLIC_KEY, publicKeyHex);
+        keyMap.put(PRIVATE_KEY, privateKeyHex);
+        return keyMap;
     }
 
 }
