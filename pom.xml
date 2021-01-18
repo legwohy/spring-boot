@@ -321,6 +321,11 @@
                 <groupId>bouncycastle</groupId>
                 <artifactId>bcprov-jdk14</artifactId>
             </dependency>
+            <dependency>
+                <groupId>com.ihome</groupId>
+                <artifactId>cobra-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
 
         </dependencies>

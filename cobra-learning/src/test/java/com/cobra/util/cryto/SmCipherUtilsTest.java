@@ -29,7 +29,7 @@ public class SmCipherUtilsTest {
 
     @Test
     public void tesSM2() throws Exception{
-        Map<String, String> keyPair = SmCipherUtils.genSm2KeyPair();
+        Map<String, String> keyPair = SecretKeyUtils.genSm2KeyPair();
         String pubKey = keyPair.get(SmCipherUtils.PUBLIC_KEY);
         String priKey = keyPair.get(SmCipherUtils.PRIVATE_KEY);
         System.out.println("公钥:\n" + pubKey);

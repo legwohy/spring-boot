@@ -6,11 +6,13 @@ import com.cobra.domain.PwdReqDTO;
 import com.cobra.param.BaseResponse;
 import com.cobra.service.PwdService;
 import com.cobra.util.cryto.SecretKeyUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -19,16 +21,28 @@ import java.util.Map;
  * @date 2021/1/14 15:22
  * @desc
  */
+@Slf4j
 @RestController
 @RequestMapping("/pwd")
 public class PwdController {
+
+    final Map<String,String> keyMap = new HashMap<>();
+
     @Autowired
     private PwdService pwdService;
 
-    @RequestMapping("/output")
-    public BaseResponse output(@RequestBody PwdReqDTO reqDTO) throws Exception{
-
-        return pwdService.doService(reqDTO);
+    @RequestMapping("/call")
+    public BaseResponse call(@RequestBody PwdReqDTO reqDTO) throws Exception{
+        try {
+            if("RSA".equals(reqDTO.getEncType()) || "SM2".equals(reqDTO.getEncType())){
+                reqDTO.setPrivateKey(keyMap.get(SecretKeyUtils.PRIVATE_KEY));
+                reqDTO.setPubKey(keyMap.get(SecretKeyUtils.PUBLIC_KEY));
+            }
+            return pwdService.doService(reqDTO);
+        } catch (Exception e) {
+            log.error("调用错误,errorMsg:{}", e);
+            return new BaseResponse("301", "调用异常");
+        }
     }
 
     @RequestMapping("/sign")
@@ -59,6 +73,21 @@ public class PwdController {
             return new BaseResponse(SecretKeyUtils.genRSAKeyPair("RSA", "123456"));
         }
     }
+
+    /**
+     * 上传key
+     * @param reqDTO
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/upload")
+    public BaseResponse upload(@RequestBody PwdReqDTO reqDTO) throws Exception{
+        keyMap.put(SecretKeyUtils.PUBLIC_KEY,reqDTO.getPubKey());
+        keyMap.put(SecretKeyUtils.PRIVATE_KEY,reqDTO.getPrivateKey());
+        return new BaseResponse(keyMap);
+
+    }
+
 
 }
 

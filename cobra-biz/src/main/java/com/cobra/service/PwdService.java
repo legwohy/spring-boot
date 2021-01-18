@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.security.PrivateKey;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -26,6 +27,9 @@ public class PwdService {
     final static String des_seed = "698663d8d06426ab不限长度";
     final static String three_des_seed = "asiainfo3Des";
 
+
+
+
     /**
      * 1、验签
      * 2、解密
@@ -37,13 +41,17 @@ public class PwdService {
      */
     public BaseResponse doService(PwdReqDTO reqDTO) throws Exception{
         // 1、验签
+        log.info("签名开始...... req:{}",reqDTO);
         String srcSign = sign(reqDTO);
         if (!reqDTO.getSign().equals(srcSign)) {
             log.info("签名失败 req:{},签名值:{}",reqDTO,srcSign);
             return new BaseResponse("201", "签名错误");
         }
+        log.info("签名成功 sign:{}",srcSign);
         // 2、解密
+        log.info("解密开始......");
         String result = decrypt(reqDTO);
+        log.info("解密结果 result:{}",result);
         if (StringCommonUtils.isEmpty(result)) {
             return new BaseResponse("202", "解密错误");
         }
@@ -54,7 +62,9 @@ public class PwdService {
 
         contentDTO.setK1("res_v-1:" + contentDTO.getK1());
         contentDTO.setK2("res_v-2:" + contentDTO.getK2());
+        log.info("加密开始......");
         String cipher = encrypt(JSON.toJSONString(contentDTO),reqDTO);
+        log.info("加密结果:{}",cipher);
 
         return new BaseResponse(cipher);
     }
@@ -86,7 +96,7 @@ public class PwdService {
                 plainText = CipherUtils.decryptFor3DEs(cipherText, three_des_seed);
                 break;
             case "RSA":
-                plainText = CipherUtils.cipherRSAPrivate(cipherText, reqDTO.getPubKey());
+                plainText = CipherUtils.cipherRSAPrivate(cipherText, reqDTO.getPrivateKey());
                 break;
             default:
                 throw new RuntimeException("不支持解密方式:"+encType);
@@ -139,9 +149,6 @@ public class PwdService {
      */
     public String sign(PwdReqDTO reqDTO) throws Exception{
         Map<String, Object> jsonMap = new LinkedHashMap<>();
-        if (StringCommonUtils.isNotEmpty(reqDTO.getPrivateKey())) {
-            jsonMap.put("privateKey", reqDTO.getPrivateKey());
-        }
         jsonMap.put("name", reqDTO.getName());
         jsonMap.put("signType", reqDTO.getSignType());
 
@@ -168,6 +175,5 @@ public class PwdService {
         return sign;
 
     }
-
 
 }

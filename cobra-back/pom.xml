@@ -15,7 +15,6 @@
         <dependency>
             <groupId>com.ihome</groupId>
             <artifactId>cobra-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
         <!--直接引用-->
         <dependency>

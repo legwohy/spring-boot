@@ -27,6 +27,18 @@ public class SignatureUtilsTest {
 
         publicKey = keyPair.getPublic();
         privateKey = keyPair.getPrivate();
+
+    }
+
+    /**
+     * 私钥签名
+     * @throws Exception
+     */
+    @Test
+    public void test() throws Exception{
+        String priKey = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJVP6ktzWeTP3PzTdI6YXjxswWfQZgXieDqfGPSiNR67gp40qSTD+d+6t5O0vvuP1GkyOq4nPMp05l8dG9DK4BtouhpIPW5Tjuek2IAvTlsthkShla8U5qv2A1sh6x5rwxfQN5idwDZOSveRSjwrpcGtn5NxXZDw0S+bVPnfos4bAgMBAAECgYAgiwZ5425YXKXBxSTGX5dKfDm7MsTJy46A2GRMDX6ecCgL61ZiWQSBKuUQIHjvw218cCIyCwNI7Sm42VNSsqUdfYHZc5OLfhyRKJMumXDsp+TmBGRq1rWTxjaIPz5ayjYlpdgSAhmR6z6GXbkuqjVp+RuN9NjbzB1Tssgbj7nwwQJBAOu0g363QykQXuRWjdp9xn7SyirZH2UuRrHRI33Y7MgRWjJ0aVyFy93NUWhvIlL9egNI0W98pnnDbyCw1BKYYYkCQQCiKxnO9F7lPfSxziqYf1Hs+HrxR8tY04Vi+x3NGh1pwMw9qz5FQBQu9aB94vrQ6d8rfo/RcDW4fDo0UXLegX2DAkEAt9uSKtjnEXQMoQ6HDmTH3gus2WmOHM3RJUle5v68DH/EnNDDkwFm+ff7RXxTCOtiLoexnsZb0WVKHPTyKCMnCQJAO0NhBR6M513C5I+hRWWR/PW5iB9ikq2KG2gFtgSLJzCL8yV3djs6pQaihh7C5kHxiqWPzUwida8AXko9nk7YHQJABdHSS9ryht2s+dCoPS/ePzFQr6hkjX0yE1bLvd9Gqjb6eNLUl8KlbaUItNi0rn64gJtY22+fk62r+DxEpwtTFg==";
+        PrivateKey privateKey = (PrivateKey)SecretKeyUtils.transRSAKey(false, priKey);
+        System.out.println(privateKey.getAlgorithm());
     }
 
     @Test

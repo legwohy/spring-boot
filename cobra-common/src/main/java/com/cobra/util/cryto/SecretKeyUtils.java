@@ -51,8 +51,8 @@ import java.util.Map;
  */
 public class SecretKeyUtils {
 
-    static String PUBLIC_KEY = "PUBLIC_KEY";
-    static String PRIVATE_KEY = "PRIVATE_KEY";
+    public static String PUBLIC_KEY = "PUBLIC_KEY";
+    public static String PRIVATE_KEY = "PRIVATE_KEY";
     public static String curveName = "sm2p256v1";// wapip192v1
 
     public void writeKeyToFile(String filePath, String content) throws Exception{
