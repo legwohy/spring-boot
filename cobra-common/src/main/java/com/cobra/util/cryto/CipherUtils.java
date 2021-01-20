@@ -8,7 +8,6 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.*;
 import java.security.spec.AlgorithmParameterSpec;
-import java.util.Base64;
 
 /**
  *
@@ -166,7 +165,7 @@ public class CipherUtils {
         //加密
         cipher.init(Cipher.ENCRYPT_MODE, SecretKeyUtils.transRSAKey(Boolean.TRUE, publicKey));
         byte[] bytes = cipher.doFinal(content.getBytes());
-        final String encryptText = Base64.getEncoder().encodeToString(bytes);
+        final String encryptText = org.apache.commons.codec.binary.Base64.encodeBase64String(bytes);
         return encryptText;
 
     }
@@ -184,7 +183,7 @@ public class CipherUtils {
 
         // 解密
         cipher.init(Cipher.DECRYPT_MODE, SecretKeyUtils.transRSAKey(Boolean.FALSE, privateKey));
-        byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(content));
+        byte[] bytes = cipher.doFinal(org.apache.commons.codec.binary.Base64.decodeBase64(content));
         return new String(bytes);
     }
 
@@ -250,10 +249,10 @@ public class CipherUtils {
         // BASE64编码
         if (Cipher.ENCRYPT_MODE == mode) {
             // 加密
-            return Base64.getEncoder().encodeToString(cipher.doFinal(content.getBytes()));
+            return org.apache.commons.codec.binary.Base64.encodeBase64String(cipher.doFinal(content.getBytes()));
         } else {
             // 解密
-            return new String(cipher.doFinal(Base64.getDecoder().decode(content)));
+            return new String(cipher.doFinal(org.apache.commons.codec.binary.Base64.decodeBase64(content)));
         }
 
     }
@@ -306,10 +305,10 @@ public class CipherUtils {
         // BASE64编码
         if (Cipher.ENCRYPT_MODE == mode) {
             // 加密
-            return Base64.getEncoder().encodeToString(cipher.doFinal(content.getBytes()));
+            return org.apache.commons.codec.binary.Base64.encodeBase64String(cipher.doFinal(content.getBytes()));
         } else {
             // 解密
-            return new String(cipher.doFinal(Base64.getDecoder().decode(content)));
+            return new String(cipher.doFinal(org.apache.commons.codec.binary.Base64.decodeBase64(content)));
         }
 
     }

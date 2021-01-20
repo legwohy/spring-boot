@@ -73,8 +73,9 @@ public class CipherUtilsTest {
     public void cipher3DES() throws Exception{
         //TODO EOP 3DES
         seed = "asiainfo3Des";
+        srcPlainText = "17717552884";
         String cipherText = CipherUtils.encryptFor3DEs(srcPlainText, seed);
-        Assert.assertEquals("C2RbfjNDQgg=", cipherText);
+        Assert.assertEquals("lqCXpCxTOAShMjm2AdKzdQ==", cipherText);
 
         String plainText = CipherUtils.decryptFor3DEs(cipherText, seed);
         Assert.assertEquals(srcPlainText, plainText);
