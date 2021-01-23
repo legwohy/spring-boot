@@ -1,5 +1,6 @@
 package com.cobra.util.cryto;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,24 +10,11 @@ import org.junit.Test;
  * @desc
  */
 public class SecretKeyUtilsTest {
-    SecretKeyUtils secretKeyUtils = null;
-    @Before
-    public void init(){
-         secretKeyUtils = new SecretKeyUtils();
-    }
-    @Test
-    public void testKeyGenerator() throws Exception{
-        secretKeyUtils.testKeyGenerator();
 
-    }
 
     @Test
-    public void testSaveKeyPair2() throws Exception{
-        secretKeyUtils.testSaveKeyPair2();
-    }
-
-    @Test
-    public void testSaveKeyPair() throws Exception{
+    public void generateKey() throws Exception{
+        Assert.assertEquals("MTIzNDU2",SecretKeyUtils.generateKey("AES","123456"));
     }
 
 }

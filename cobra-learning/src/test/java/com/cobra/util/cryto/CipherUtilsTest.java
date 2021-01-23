@@ -8,9 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.crypto.Cipher;
-import java.security.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author admin
@@ -29,15 +29,10 @@ public class CipherUtilsTest
     @Before
     public void init() throws Exception
     {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(AlgEnums.RSA.getCode());
-        keyPairGenerator.initialize(1024, new SecureRandom(seed.getBytes()));
-        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+        Map<String,String> keyMap = SecretKeyUtils.genRSAKeyPair();
 
-        PublicKey publicKey = keyPair.getPublic();//公钥
-        PrivateKey privateKey = keyPair.getPrivate();//私钥
-
-        pubKey = Base64.encodeBase64String(publicKey.getEncoded());
-        priKey = Base64.encodeBase64String(privateKey.getEncoded());
+        pubKey = keyMap.get(SecretKeyUtils.PUBLIC_KEY);
+        priKey = keyMap.get(SecretKeyUtils.PRIVATE_KEY);
     }
 
     @Test

@@ -70,7 +70,7 @@ public class PwdController {
         if ("SM2".equalsIgnoreCase(type)) {
             return new BaseResponse(SecretKeyUtils.genSm2KeyPair());
         } else {
-            return new BaseResponse(SecretKeyUtils.genRSAKeyPair("RSA", "123456"));
+            return new BaseResponse(SecretKeyUtils.genRSAKeyPair());
         }
     }
 
