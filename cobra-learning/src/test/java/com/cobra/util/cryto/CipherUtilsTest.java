@@ -1,6 +1,6 @@
 package com.cobra.util.cryto;
 
-import com.cobra.util.Base64Util;
+import com.cobra.util.cryto.enums.AlgEnums;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
@@ -29,7 +29,7 @@ public class CipherUtilsTest
     @Before
     public void init() throws Exception
     {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(AlgEnums.RSA.getCode());
         keyPairGenerator.initialize(1024, new SecureRandom(seed.getBytes()));
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
@@ -37,7 +37,7 @@ public class CipherUtilsTest
         PrivateKey privateKey = keyPair.getPrivate();//私钥
 
         pubKey = Base64.encodeBase64String(publicKey.getEncoded());
-        priKey = new String(Base64.decodeBase64(privateKey.getEncoded()));
+        priKey = Base64.encodeBase64String(privateKey.getEncoded());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class CipherUtilsTest
     {
 
         String cipherText = CipherUtils.cipherAESForEncrypt(srcPlainText, seed);
-        Assert.assertEquals("zc+k23lxO7VfwsdZPcJWFQ==", cipherText);
+        Assert.assertEquals("2xih40GBNCYAGQzIRopIGw==", cipherText);
 
         String plainText = CipherUtils.cipherAESForDecrypt(cipherText, seed);
         Assert.assertEquals(srcPlainText, plainText);
@@ -70,7 +70,7 @@ public class CipherUtilsTest
     {
 
         String cipherText = CipherUtils.cipherDESForEnc(srcPlainText, seed);
-        Assert.assertEquals("xai3aqsAWIM=", cipherText);
+        Assert.assertEquals("M9jXmOZPy9g=", cipherText);
 
         String plainText = CipherUtils.cipherDESForDec(cipherText, seed);
         Assert.assertEquals(srcPlainText, plainText);
@@ -89,11 +89,6 @@ public class CipherUtilsTest
         String plainText = CipherUtils.decryptFor3DEs(cipherText, seed);
         Assert.assertEquals(srcPlainText, plainText);
 
-    }
-
-    public static void main(String[] args)
-    {
-        System.out.println(Base64Util.encode("698663d8d064266e2ead8d1d19cc5166698663d8d064266e2ead8d1d"));
     }
 
     @Test

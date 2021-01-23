@@ -76,13 +76,13 @@ public class CipherUtils
     public static String encryptFor3DEs(String content, String seed) throws Exception
     {
         String cipherAlg = "DESede/ECB/PKCS5Padding";
-        return doEncryptDES(cipherAlg, Cipher.ENCRYPT_MODE, seed, null, SEED_IS_KEY, content);
+        return doEncryptDES(cipherAlg, Cipher.ENCRYPT_MODE, seed, null, GENERATE_KEY, content);
     }
 
     public static String decryptFor3DEs(String content, String seed) throws Exception
     {
         String cipherAlg = "DESede/ECB/PKCS5Padding";
-        return doEncryptDES(cipherAlg, Cipher.DECRYPT_MODE, seed, null, SEED_IS_KEY, content);
+        return doEncryptDES(cipherAlg, Cipher.DECRYPT_MODE, seed, null, GENERATE_KEY, content);
     }
 
     /**
@@ -273,10 +273,6 @@ public class CipherUtils
 
     }
 
-    public static void main(String[] args)
-    {
-        System.out.println("12345678".substring(0,8));
-    }
 
     /**
      * 1、密钥生成

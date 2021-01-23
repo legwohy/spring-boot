@@ -250,7 +250,7 @@ public class SecretKeyUtils {
      */
     public static Key transRSAKey(boolean isPub, String key) throws Exception{
         byte[] keyBytes = org.apache.commons.codec.binary.Base64.decodeBase64(key);
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        KeyFactory keyFactory = KeyFactory.getInstance(AlgEnums.RSA.getCode());
         if (isPub) {
             X509EncodedKeySpec x509 = new X509EncodedKeySpec(keyBytes);
             return keyFactory.generatePublic(x509);
