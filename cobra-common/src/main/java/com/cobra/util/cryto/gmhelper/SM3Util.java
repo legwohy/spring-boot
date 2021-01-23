@@ -1,4 +1,4 @@
-package com.cobra.util.gmhelper;
+package com.cobra.util.cryto.gmhelper;
 
 import org.bouncycastle.crypto.digests.SM3Digest;
 import org.bouncycastle.crypto.macs.HMac;

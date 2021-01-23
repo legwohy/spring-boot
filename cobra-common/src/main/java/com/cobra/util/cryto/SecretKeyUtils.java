@@ -1,5 +1,7 @@
 package com.cobra.util.cryto;
 
+import com.cobra.util.StringCommonUtils;
+import com.cobra.util.cryto.enums.AlgEnums;
 import org.bouncycastle.asn1.gm.GMNamedCurves;
 import org.bouncycastle.asn1.x9.X9ECParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -92,6 +94,41 @@ public class SecretKeyUtils {
 
         Key key = keyGenerator.generateKey();
         return org.apache.commons.codec.binary.Base64.encodeBase64String(key.getEncoded());
+    }
+    final static String SEED_IS_KEY = "1";
+
+    /**
+     * 组装key
+     * @see AlgEnums
+     * @param keyAlg 随机算法
+     * @param seed
+     * @param seedIsKey
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public static Key generateKey(String keyAlg, String randomAlgName, String seed, String seedIsKey) throws NoSuchAlgorithmException
+    {
+        Key key = null;
+        if(SEED_IS_KEY.equals(seedIsKey)){
+            key = new SecretKeySpec(seed.getBytes(), keyAlg);
+        }else {
+
+            KeyGenerator keyGenerator = KeyGenerator.getInstance(keyAlg);
+
+            SecureRandom random = null;
+            // 随机算法
+            if (StringCommonUtils.isNotEmpty(randomAlgName)) {
+                random = SecureRandom.getInstance(randomAlgName);
+                random.setSeed(seed.getBytes());
+            } else {
+                // TODO 坑 jdk高于8的默认不是 SHA1PRNG 算法 建议 指定算法
+                random = new SecureRandom(seed.getBytes());
+            }
+
+            keyGenerator.init(AlgEnums.getLength(keyAlg), random);
+            key = keyGenerator.generateKey();
+        }
+        return key;
     }
 
 

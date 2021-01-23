@@ -2,8 +2,7 @@ package com.cobra.service;
 
 import com.cobra.domain.EncryptBO;
 import com.cobra.enums.EncryptEnum;
-import com.cobra.util.HexUtil;
-import com.cobra.util.MD5Util;
+import com.cobra.util.cryto.HexUtil;
 import org.springframework.stereotype.Component;
 
 /**

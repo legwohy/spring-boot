@@ -1,4 +1,4 @@
-package com.cobra.util.gmhelper;
+package com.cobra.util.cryto.gmhelper;
 
 import org.bouncycastle.crypto.agreement.SM2KeyExchange;
 import org.bouncycastle.crypto.params.*;

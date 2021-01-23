@@ -1,4 +1,4 @@
-package com.cobra.util.gmhelper.cert.exception;
+package com.cobra.util.cryto.gmhelper.cert.exception;
 
 public class InvalidX500NameException extends Exception {
     private static final long serialVersionUID = 3192247087539921768L;

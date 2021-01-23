@@ -10,7 +10,7 @@ import com.cobra.domain.dto.QiyuMessageDto;
 import com.cobra.exception.CobraException;
 import com.cobra.param.BaseResponse;
 import com.cobra.util.*;
-import com.cobra.util.digest.MD5;
+import com.cobra.util.cryto.MessageDigestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class QiyuController
         long time = DateUtils.getUTCTime();
         String url = QiyuConstant.URL_APPLY_STAFF
                 .concat("appKey="+QiyuConstant.APP_KEY)
-                .concat("&time="+ time).concat("&checksum="+ QiyuPushCheckSum.encode(QiyuConstant.APP_SECRET, MD5.md5(content),time));
+                .concat("&time="+ time).concat("&checksum="+ QiyuPushCheckSum.encode(QiyuConstant.APP_SECRET, MessageDigestUtils.md5(content),time));
         String rs = OkHttpUtil.post(url,content);
 
         JSONObject jsonObject = JSON.parseObject(rs);
@@ -60,7 +60,7 @@ public class QiyuController
         String url = QiyuConstant.URL_SEND_MESSAGE
                 .concat("appKey="+ QiyuConstant.APP_KEY)
                 .concat("&time="+ time)
-                .concat("&checksum="+ QiyuPushCheckSum.encode(QiyuConstant.APP_SECRET, MD5.md5(content),time));
+                .concat("&checksum="+ QiyuPushCheckSum.encode(QiyuConstant.APP_SECRET, MessageDigestUtils.md5(content),time));
         String rs = OkHttpUtil.post(url,content);
         JSONObject jsonObject = JSON.parseObject(rs);
 
@@ -83,7 +83,7 @@ public class QiyuController
         String url = QiyuConstant.URL_EVALUATE
                 .concat("appKey="+ QiyuConstant.APP_KEY)
                 .concat("&time="+ time)
-                .concat("&checksum="+ QiyuPushCheckSum.encode(QiyuConstant.APP_SECRET, MD5.md5(content),time));
+                .concat("&checksum="+ QiyuPushCheckSum.encode(QiyuConstant.APP_SECRET, MessageDigestUtils.md5(content),time));
         String rs = OkHttpUtil.post(url,content);
         JSONObject jsonObject = JSON.parseObject(rs);
 

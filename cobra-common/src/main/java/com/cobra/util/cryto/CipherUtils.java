@@ -1,11 +1,10 @@
 package com.cobra.util.cryto;
 
 import com.cobra.util.StringCommonUtils;
+import com.cobra.util.cryto.enums.AlgEnums;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
 import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.security.*;
 import java.security.spec.AlgorithmParameterSpec;
 
@@ -14,12 +13,13 @@ import java.security.spec.AlgorithmParameterSpec;
  *  <p>
  *      Cipher提供如下参数:
  *
- *      AES/CBC/NoPadding (128)、AES/CBC/PKCS5Padding (128)、AES/ECB/NoPadding (128)、
- *      AES/ECB/PKCS5Padding (128)、DES/CBC/NoPadding (56)、DES/CBC/PKCS5Padding (56)、
- *      DES/ECB/NoPadding (56)、DES/ECB/PKCS5Padding (56)、DESede/CBC/NoPadding (168)、
- *      DESede/CBC/PKCS5Padding (168)、DESede/ECB/NoPadding (168)、DESede/ECB/PKCS5Padding (168)、
- *      RSA/ECB/PKCS1Padding (1024, 2048)、RSA/ECB/OAEPWithSHA-1AndMGF1Padding (1024, 2048)、
- *      RSA/ECB/OAEPWithSHA-256AndMGF1Padding (1024, 2048)
+ *      AES/CBC/NoPadding (128)、AES/CBC/PKCS5Padding (128)、AES/ECB/NoPadding (128)、AES/ECB/PKCS5Padding (128)
+ *
+ *      DES/CBC/NoPadding (56)、DES/CBC/PKCS5Padding (56)、DES/ECB/NoPadding (56)、DES/ECB/PKCS5Padding (56)、
+ *
+ *      DESede/CBC/NoPadding (168)、DESede/CBC/PKCS5Padding (168)、DESede/ECB/NoPadding (168)、DESede/ECB/PKCS5Padding (168)
+ *
+ *      RSA/ECB/PKCS1Padding (1024, 2048)、RSA/ECB/OAEPWithSHA-1AndMGF1Padding (1024, 2048)、RSA/ECB/OAEPWithSHA-256AndMGF1Padding (1024, 2048)
  *  </p>
  *
  * <a link=https://www.cnblogs.com/caizhaokai/p/10944667.html/>
@@ -63,19 +63,26 @@ import java.security.spec.AlgorithmParameterSpec;
  * @date 2020/12/30 17:34
  * @desc
  */
-public class CipherUtils {
-    static String ivs = "0000000000000000";// CBC 需要向量
+public class CipherUtils
+{
 
-    static String CBC = "CBC";
+    final static String CBC = "CBC";
+    final static String NO_PADDING = "NoPadding";
 
-    public static String encryptFor3DEs(String content, String seed) throws Exception{
+    final static String SEED_IS_KEY = "1";
+    final static String GENERATE_KEY = "0";
+    final static String SEPARATION = "/";
+
+    public static String encryptFor3DEs(String content, String seed) throws Exception
+    {
         String cipherAlg = "DESede/ECB/PKCS5Padding";
-        return doEncrypt(cipherAlg, 168, null,  Cipher.ENCRYPT_MODE, seed, null, content);
+        return doEncryptDES(cipherAlg, Cipher.ENCRYPT_MODE, seed, null, SEED_IS_KEY, content);
     }
 
-    public static String decryptFor3DEs(String content, String seed) throws Exception{
+    public static String decryptFor3DEs(String content, String seed) throws Exception
+    {
         String cipherAlg = "DESede/ECB/PKCS5Padding";
-        return doEncrypt(cipherAlg, 168, null,  Cipher.DECRYPT_MODE, seed, null, content);
+        return doEncryptDES(cipherAlg, Cipher.DECRYPT_MODE, seed, null, SEED_IS_KEY, content);
     }
 
     /**
@@ -84,10 +91,11 @@ public class CipherUtils {
      * 3、BASE64编码
      * @throws Exception
      */
-    public static String cipherAESForEncrypt(String content, String seed) throws Exception{
+    public static String cipherAESForEncrypt(String content, String seed) throws Exception
+    {
         String cipherAlg = "AES/CBC/PKCS5Padding";
-
-        return doEncrypt(cipherAlg, 128, null,  Cipher.ENCRYPT_MODE, seed, ivs, content);
+        String ivs = "0000000000000000";
+        return doEncryptForAES(cipherAlg, Cipher.ENCRYPT_MODE, seed, ivs, SEED_IS_KEY, content);
     }
 
     /**
@@ -96,59 +104,59 @@ public class CipherUtils {
      * 3、解密
      * @throws Exception
      */
-    public static String cipherAESForDecrypt(String content, String seed) throws Exception{
-        String keyAlg = "AES";
+    public static String cipherAESForDecrypt(String content, String seed) throws Exception
+    {
         String cipherAlg = "AES/CBC/PKCS5Padding";
+        String ivs = "0000000000000000";// CBC 需要向量
 
-        return doEncrypt(cipherAlg, 128, null,  Cipher.DECRYPT_MODE, seed, ivs, content);
+        return doEncryptForAES(cipherAlg, Cipher.DECRYPT_MODE, seed, ivs, SEED_IS_KEY, content);
 
     }
 
-    public static String cipherAESForEncCredit(String content, String seed) throws Exception{
-
-        String keyAlg = "AES";
+    public static String cipherAESForEncCredit(String content, String seed) throws Exception
+    {
         String cipherAlg = "AES/CBC/PKCS5Padding";
 
-        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, "Xadiapdfaxi0s91D", true, content);
+        return doEncryptForAES(cipherAlg, Cipher.ENCRYPT_MODE, seed, "Xadiapdfaxi0s91D", SEED_IS_KEY, content);
 
     }
 
-    public static String cipherAESForDecCredit(String content, String seed) throws Exception{
-        String keyAlg = "AES";
+    public static String cipherAESForDecCredit(String content, String seed) throws Exception
+    {
         String cipherAlg = "AES/CBC/PKCS5Padding";
         String iv = "Xadiapdfaxi0s91D";
 
-        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.DECRYPT_MODE, seed, iv, true, content);
+        return doEncryptForAES(cipherAlg, Cipher.DECRYPT_MODE, seed, iv, SEED_IS_KEY, content);
 
     }
 
-    public static String cipherAESForEncECB(String content, String seed) throws Exception{
-        String keyAlg = "AES";
+    public static String cipherAESForEncECB(String content, String seed) throws Exception
+    {
         String cipherAlg = "AES/ECB/PKCS5Padding";
-        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.ENCRYPT_MODE, seed, null, true, content);
+        return doEncryptForAES(cipherAlg, Cipher.ENCRYPT_MODE, seed, null, SEED_IS_KEY, content);
 
     }
 
-    public static String cipherAESForDecECB(String content, String seed) throws Exception{
-        String keyAlg = "AES";
+    public static String cipherAESForDecECB(String content, String seed) throws Exception
+    {
         String cipherAlg = "AES/ECB/PKCS5Padding";
-        return doEncrypt(keyAlg, 128, null, cipherAlg, Cipher.DECRYPT_MODE, seed, null, true, content);
+        return doEncryptForAES(cipherAlg, Cipher.DECRYPT_MODE, seed, null, SEED_IS_KEY, content);
 
     }
 
-    public static String cipherDESForEnc(String content, String seed) throws Exception{
+    public static String cipherDESForEnc(String content, String seed) throws Exception
+    {
         String cipherAlg = "DES";
-        return doEncrypt(cipherAlg, 56, null,  Cipher.ENCRYPT_MODE, seed, null, content);
+        return doEncryptDES(cipherAlg, Cipher.ENCRYPT_MODE, seed, null, SEED_IS_KEY, content);
 
     }
 
-    public static String cipherDESForDec(String content, String seed) throws Exception{
+    public static String cipherDESForDec(String content, String seed) throws Exception
+    {
         String cipherAlg = "DES";
-        return doEncrypt(cipherAlg,  56, null, Cipher.DECRYPT_MODE, seed, null, content);
+        return doEncryptDES(cipherAlg, Cipher.DECRYPT_MODE, seed, null, SEED_IS_KEY, content);
 
     }
-
-    static String RSA = "RSA";
 
     /**
      * X509EncodedKeySpec
@@ -160,8 +168,9 @@ public class CipherUtils {
      * @return
      * @throws Exception
      */
-    public static String cipherRSAPublic(String content, String publicKey) throws Exception{
-        Cipher cipher = Cipher.getInstance(RSA);
+    public static String cipherRSAPublic(String content, String publicKey) throws Exception
+    {
+        Cipher cipher = Cipher.getInstance(AlgEnums.RSA.getCode());
         //加密
         cipher.init(Cipher.ENCRYPT_MODE, SecretKeyUtils.transRSAKey(Boolean.TRUE, publicKey));
         byte[] bytes = cipher.doFinal(content.getBytes());
@@ -177,9 +186,10 @@ public class CipherUtils {
      * @return
      * @throws Exception
      */
-    public static String cipherRSAPrivate(String content, String privateKey) throws Exception{
+    public static String cipherRSAPrivate(String content, String privateKey) throws Exception
+    {
         //获取cipher对象
-        Cipher cipher = Cipher.getInstance(RSA);
+        Cipher cipher = Cipher.getInstance(AlgEnums.RSA.getCode());
 
         // 解密
         cipher.init(Cipher.DECRYPT_MODE, SecretKeyUtils.transRSAKey(Boolean.FALSE, privateKey));
@@ -188,13 +198,93 @@ public class CipherUtils {
     }
 
     /**
+     * des加密 包括 des和3des
+     * @param cipherAlg
+     * @param mode
+     * @param seed
+     * @param ivs
+     * @param seedIsKey
+     * @param content
+     * @return
+     * @throws Exception
+     */
+    public static String doEncryptDES(String cipherAlg,
+                    int mode,
+                    String seed,
+                    String ivs,String seedIsKey,
+                    String content)throws Exception
+    {
+
+        // CBC 向量长度8
+        if (cipherAlg.contains(CBC)) {
+            ivs = StringCommonUtils.sub(ivs,8);
+        }
+        if(cipherAlg.contains(NO_PADDING)){
+            // TODO 内容长度限制为8的整数倍
+            content = "12345678";
+        }
+        if(SEED_IS_KEY.equals(seedIsKey)){
+            String alg = cipherAlg.split(SEPARATION)[0];
+            if(AlgEnums.DESede.getCode().equalsIgnoreCase(alg)){
+                // 3DES 24位长度
+                seed = StringCommonUtils.sub(seed,24);
+            }else if(AlgEnums.DES.getCode().equalsIgnoreCase(alg)){
+                seed = StringCommonUtils.sub(seed,8);
+            }
+        }
+
+        return doEncrypt(cipherAlg, mode, seed, ivs, seedIsKey, content);
+
+    }
+
+    /**
+     * AES加密
+     * @param cipherAlg
+     * @param mode
+     * @param seed
+     * @param ivs
+     * @param seedIsKey
+     * @param content
+     * @return
+     * @throws Exception
+     */
+    public static String doEncryptForAES(String cipherAlg,
+                    int mode,
+                    String seed,
+                    String ivs,String seedIsKey,
+                    String content)throws Exception
+    {
+        // CBC 向量长度8
+        if (cipherAlg.contains(CBC)) {
+            ivs = StringCommonUtils.sub(ivs,16);
+        }
+        if(cipherAlg.contains(NO_PADDING)){
+            // TODO 内容长度限制为16的整数倍
+            content = "1234567812345678";
+            // seed 必须 16位
+            // data 必须是16的整数倍
+        }
+        if(SEED_IS_KEY.equals(seedIsKey)){
+            // AES 16位
+            seed = StringCommonUtils.sub(seed,16);
+        }
+
+        return doEncrypt(cipherAlg, mode, seed, ivs, seedIsKey, content);
+
+    }
+
+    public static void main(String[] args)
+    {
+        System.out.println("12345678".substring(0,8));
+    }
+
+    /**
      * 1、密钥生成
      * 2、随机算法
      * 3、加密
      * 4、base64编码
      *
-     * @param cipherAlg 加密算法  与密钥算法保持一致
-     * @param keyLength 密钥长度
+     * @param cipherAlg 加密算法
      * @param content 待加密内容
      * @param seed 密钥生成种子
      * @param ivs 密钥生成种子
@@ -203,115 +293,49 @@ public class CipherUtils {
      * @throws Exception
      */
     private static String doEncrypt(String cipherAlg,
-                    int keyLength,
-                    String randomAlg,
                     int mode,
                     String seed,
                     String ivs,
-                    String content) throws Exception{
+                    String seedIsKey,// 是否重写key生成方法
+                    String content) throws Exception
+    {
         // 算法名称校验
-        // 算法名称校验
-        if (StringCommonUtils.isEmpty(cipherAlg) ) {
-            throw new IllegalArgumentException("算法名称不能为空不一致");
+        if (StringCommonUtils.isEmpty(cipherAlg))
+        {
+            throw new IllegalArgumentException("加密算法不能为空");
         }
-        String[] cipherArr = cipherAlg.split("/");
-        if(cipherArr.length != 1){
-            if (CBC.equals(cipherArr[1])) {
-                if (StringCommonUtils.isEmpty(ivs)) {
-                    throw new IllegalArgumentException("CBC算法 ivs不能为空");
-                }
-            }
-        }
-        String keyAlg = cipherArr[0];
-        KeyGenerator keyGenerator = KeyGenerator.getInstance(keyAlg);
-
-        SecureRandom random = null;
-        // 随机算法
-        if (StringCommonUtils.isNotEmpty(randomAlg)) {
-            random = SecureRandom.getInstance(randomAlg);
-            random.setSeed(seed.getBytes());
-        } else {
-            // SHA1PRNG
-            random = new SecureRandom(seed.getBytes());
-        }
-        keyGenerator.init(keyLength, random);
-
-        Key key = keyGenerator.generateKey();
-        Cipher cipher = Cipher.getInstance(cipherAlg);
-
-        // CBC模式需要向量
-        if (cipherAlg.contains(CBC)) {
-            cipher.init(mode, key, new IvParameterSpec(ivs.getBytes()));
-        } else {
-            cipher.init(mode, key);
-        }
-
-        // BASE64编码
-        if (Cipher.ENCRYPT_MODE == mode) {
-            // 加密
-            return org.apache.commons.codec.binary.Base64.encodeBase64String(cipher.doFinal(content.getBytes()));
-        } else {
-            // 解密
-            return new String(cipher.doFinal(org.apache.commons.codec.binary.Base64.decodeBase64(content)));
-        }
-
-    }
-
-    private static String doEncrypt(String keyAlg,
-                    int keyLength,
-                    String randomAlgName,
-                    String cipherAlg,
-                    int mode,
-                    String seed,
-                    String ivs,
-                    boolean overrideKey,// 是否重写key生成方法
-                    String content) throws Exception{
-        // 算法名称校验
-        if (StringCommonUtils.isEmpty(keyAlg) || !cipherAlg.startsWith(keyAlg)) {
-            throw new IllegalArgumentException("加密算法不一致");
-        }
-        if (cipherAlg.startsWith(CBC)) {
-            if (StringCommonUtils.isEmpty(ivs)) {
+        if (cipherAlg.startsWith(CBC))
+        {
+            if (StringCommonUtils.isEmpty(ivs))
+            {
                 throw new IllegalArgumentException("CBC算法 ivs不能为空");
             }
         }
-        KeyGenerator keyGenerator = KeyGenerator.getInstance(keyAlg);
-
-        SecureRandom random = null;
-        // 随机算法
-        if (StringCommonUtils.isNotEmpty(randomAlgName)) {
-            random = SecureRandom.getInstance(randomAlgName);
-            random.setSeed(seed.getBytes());
-        } else {
-            // SHA1PRNG
-            random = new SecureRandom(seed.getBytes());
-        }
-        keyGenerator.init(keyLength, random);
-
-        Key key = keyGenerator.generateKey();
-        if (overrideKey) {
-            // 指定key
-            key = new SecretKeySpec(seed.getBytes(), keyAlg);
-        }
+        Key key = SecretKeyUtils.generateKey(cipherAlg.split(SEPARATION)[0], "SHA1PRNG", seed, seedIsKey);
         Cipher cipher = Cipher.getInstance(cipherAlg);
 
         // CBC模式需要向量
-        if (cipherAlg.contains(CBC)) {
+        if (cipherAlg.contains(CBC))
+        {
             cipher.init(mode, key, new IvParameterSpec(ivs.getBytes()));
-        } else {
+        }
+        else
+        {
             cipher.init(mode, key);
         }
 
         // BASE64编码
-        if (Cipher.ENCRYPT_MODE == mode) {
+        if (Cipher.ENCRYPT_MODE == mode)
+        {
             // 加密
             return org.apache.commons.codec.binary.Base64.encodeBase64String(cipher.doFinal(content.getBytes()));
-        } else {
+        }
+        else
+        {
             // 解密
             return new String(cipher.doFinal(org.apache.commons.codec.binary.Base64.decodeBase64(content)));
         }
 
     }
-
 
 }

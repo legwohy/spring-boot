@@ -1,4 +1,4 @@
-package com.cobra.util.gmhelper.cert;
+package com.cobra.util.cryto.gmhelper.cert;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;

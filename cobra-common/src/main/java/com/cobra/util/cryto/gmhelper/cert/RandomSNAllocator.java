@@ -4,7 +4,7 @@
  * https://github.com/xipki/xipki.
  */
 
-package com.cobra.util.gmhelper.cert;
+package com.cobra.util.cryto.gmhelper.cert;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;

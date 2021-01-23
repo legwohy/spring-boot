@@ -1,4 +1,4 @@
-package com.cobra.util.gmhelper;
+package com.cobra.util.cryto.gmhelper;
 
 import org.bouncycastle.asn1.*;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;

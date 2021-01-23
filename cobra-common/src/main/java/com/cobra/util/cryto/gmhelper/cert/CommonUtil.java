@@ -1,6 +1,6 @@
-package com.cobra.util.gmhelper.cert;
+package com.cobra.util.cryto.gmhelper.cert;
 
-import com.cobra.util.gmhelper.cert.exception.InvalidX500NameException;
+import com.cobra.util.cryto.gmhelper.cert.exception.InvalidX500NameException;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.X500NameBuilder;

@@ -1,7 +1,7 @@
-package com.cobra.util.gmhelper.cert;
+package com.cobra.util.cryto.gmhelper.cert;
 
-import com.cobra.util.gmhelper.BCECUtil;
-import com.cobra.util.gmhelper.SM2Util;
+import com.cobra.util.cryto.gmhelper.BCECUtil;
+import com.cobra.util.cryto.gmhelper.SM2Util;
 import org.bouncycastle.asn1.pkcs.ContentInfo;
 import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;

@@ -1,4 +1,4 @@
-package com.cobra.util.gmhelper.cert;
+package com.cobra.util.cryto.gmhelper.cert;
 
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.ASN1OctetString;

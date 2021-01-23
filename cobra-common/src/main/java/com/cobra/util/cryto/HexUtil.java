@@ -1,4 +1,4 @@
-package com.cobra.util;
+package com.cobra.util.cryto;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;

@@ -2,7 +2,7 @@ package com.cobra.service;
 
 import com.cobra.domain.EncryptBO;
 import com.cobra.enums.EncryptEnum;
-import com.cobra.util.MD5Util;
+import com.cobra.util.cryto.MessageDigestUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,7 +31,7 @@ public class Md5Filter implements PwdFilter {
 
     @Override
     public void handle(EncryptBO encryptBO){
-        encryptBO.setSrc(MD5Util.MD5(encryptBO.getSrc()));
+        encryptBO.setSrc(MessageDigestUtils.md5(encryptBO.getSrc()));
     }
 
     @Override

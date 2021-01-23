@@ -1,6 +1,7 @@
 package com.cobra.util;
 
-import com.cobra.util.digest.MD5;
+
+import com.cobra.util.cryto.MessageDigestUtils;
 
 import java.security.MessageDigest;
 
@@ -34,7 +35,7 @@ public class QiyuPushCheckSum
     public static void main(String[] args) {
         String appSecret = "DD0F1F5A3AD04EF49A06547C253F9357";
         String body = "{\"uid\":\"ob45dwaR1oVceP-AzkIMIfpYgXgE\",\"staffId\":17885,\"sessionId\":815518,\"staffName\":\"超级管理员\",\"staffType\":1,\"code\":200}";
-        String md5 = MD5.md5(body);
+        String md5 = MessageDigestUtils.md5(body);
         long time = 1463725840;
 
         System.out.println(encode(appSecret, md5, time));

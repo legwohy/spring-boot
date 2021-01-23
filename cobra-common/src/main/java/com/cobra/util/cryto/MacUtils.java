@@ -1,7 +1,5 @@
 package com.cobra.util.cryto;
 
-import com.cobra.util.HexUtil;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
