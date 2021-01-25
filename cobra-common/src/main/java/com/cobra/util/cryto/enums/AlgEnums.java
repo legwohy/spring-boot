@@ -34,7 +34,7 @@ public enum AlgEnums
     {
         for (AlgEnums algEnums : AlgEnums.values())
         {
-            if (algEnums.getCode().equals(code))
+            if (algEnums.getCode().equalsIgnoreCase(code))
             {
                 return algEnums.keyLength;
             }

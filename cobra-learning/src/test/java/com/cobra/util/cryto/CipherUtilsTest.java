@@ -122,7 +122,7 @@ public class CipherUtilsTest
         for (String alg : desAlgList) {
             try
             {
-                Assert.assertNotNull(CipherUtils.doEncryptDES(alg, Cipher.ENCRYPT_MODE, seed, ivs,"1", content));
+                Assert.assertNotNull(CipherUtils.doEncryptDES(alg, Cipher.ENCRYPT_MODE, seed, ivs,"0", content));
             }
             catch (Exception e)
             {

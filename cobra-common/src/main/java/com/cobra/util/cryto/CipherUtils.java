@@ -2,6 +2,7 @@ package com.cobra.util.cryto;
 
 import com.cobra.util.StringCommonUtils;
 import com.cobra.util.cryto.enums.AlgEnums;
+import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -72,6 +73,7 @@ public class CipherUtils
     final static String SEED_IS_KEY = "1";
     final static String GENERATE_KEY = "0";
     final static String SEPARATION = "/";
+    final static String DEFAULT_CHARSET = "UTF-8";
 
     public static String encryptFor3DEs(String content, String seed) throws Exception
     {
@@ -174,7 +176,7 @@ public class CipherUtils
         //加密
         cipher.init(Cipher.ENCRYPT_MODE, SecretKeyUtils.transRSAKey(Boolean.TRUE, publicKey));
         byte[] bytes = cipher.doFinal(content.getBytes());
-        final String encryptText = org.apache.commons.codec.binary.Base64.encodeBase64String(bytes);
+        final String encryptText = Base64.encodeBase64String(bytes);
         return encryptText;
 
     }
@@ -193,7 +195,7 @@ public class CipherUtils
 
         // 解密
         cipher.init(Cipher.DECRYPT_MODE, SecretKeyUtils.transRSAKey(Boolean.FALSE, privateKey));
-        byte[] bytes = cipher.doFinal(org.apache.commons.codec.binary.Base64.decodeBase64(content));
+        byte[] bytes = cipher.doFinal(Base64.decodeBase64(content));
         return new String(bytes);
     }
 
@@ -220,8 +222,7 @@ public class CipherUtils
             ivs = StringCommonUtils.sub(ivs,8);
         }
         if(cipherAlg.contains(NO_PADDING)){
-            // TODO 内容长度限制为8的整数倍
-            content = "12345678";
+            content = padding(content,8);
         }
         if(SEED_IS_KEY.equals(seedIsKey)){
             String alg = cipherAlg.split(SEPARATION)[0];
@@ -259,10 +260,7 @@ public class CipherUtils
             ivs = StringCommonUtils.sub(ivs,16);
         }
         if(cipherAlg.contains(NO_PADDING)){
-            // TODO 内容长度限制为16的整数倍
-            content = "1234567812345678";
-            // seed 必须 16位
-            // data 必须是16的整数倍
+            content = padding(content,16);
         }
         if(SEED_IS_KEY.equals(seedIsKey)){
             // AES 16位
@@ -278,7 +276,7 @@ public class CipherUtils
      * 1、密钥生成
      * 2、随机算法
      * 3、加密
-     * 4、base64编码
+     * 4、base64编码 去空格 主要末尾填充会存在空格
      *
      * @param cipherAlg 加密算法
      * @param content 待加密内容
@@ -324,14 +322,46 @@ public class CipherUtils
         if (Cipher.ENCRYPT_MODE == mode)
         {
             // 加密
-            return org.apache.commons.codec.binary.Base64.encodeBase64String(cipher.doFinal(content.getBytes()));
+            return Base64.encodeBase64String(cipher.doFinal(content.getBytes())).trim();
         }
         else
         {
             // 解密
-            return new String(cipher.doFinal(org.apache.commons.codec.binary.Base64.decodeBase64(content)));
+            return new String(cipher.doFinal(Base64.decodeBase64(content))).trim();
         }
 
+    }
+
+    /**
+     * 自定义填充
+     * @param sSrc
+     * @param blockSize
+     * @return
+     */
+    private static String padding(String sSrc, int blockSize){
+        byte[] dataBytes = sSrc.getBytes();
+        int plaintextLength = dataBytes.length;
+        if (plaintextLength % blockSize != 0)
+        {
+            plaintextLength = plaintextLength + (blockSize - (plaintextLength % blockSize));
+        }
+        byte[] plaintext = new byte[plaintextLength];
+        System.arraycopy(dataBytes, 0, plaintext, 0, dataBytes.length);
+
+        return new String(plaintext);
+    }
+    private static byte[] padding(String sSrc, Cipher cipher)throws Exception{
+        int blockSize = cipher.getBlockSize();
+        byte[] dataBytes = sSrc.getBytes(DEFAULT_CHARSET);
+        int plaintextLength = dataBytes.length;
+        if (plaintextLength % blockSize != 0)
+        {
+            plaintextLength = plaintextLength + (blockSize - (plaintextLength % blockSize));
+        }
+        byte[] plaintext = new byte[plaintextLength];
+        System.arraycopy(dataBytes, 0, plaintext, 0, dataBytes.length);
+
+        return plaintext;
     }
 
 }
