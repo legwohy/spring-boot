@@ -14,17 +14,21 @@ public class MapUtils {
 
     public static void main(String[] args){
 
-        // 测试
-        Map<String, Object> container = new HashMap<>();
-        getMapData().forEach((key, value) -> {
-            Map<String, Object> data = change(new HashMap<>(), key, value);
-            merge(container, data);
-        });
+                Map<String, Object> container = new HashMap<>();
+                getMapData().forEach((key, value) -> {
+                    Map<String, Object> data = change(new HashMap<>(), key, value);
+                    merge(container, data);
+                });
 
-        // 将toString方法覆盖,输出想要的json格式
+                // 将toString方法覆盖,输出想要的json格式
 
-        // String json = jsonStyleFormat(container);
-        System.out.println(JSON.toJSONString(container));
+                // String json = jsonStyleFormat(container);
+               // System.out.println(JSON.toJSONString(container));
+
+        String json = "";
+
+        updateValue(container, "credit.header.mobile", "test");
+        System.out.println(container);
 
     }
 
@@ -113,5 +117,64 @@ public class MapUtils {
         }
 
         return map;
+    }
+
+    public static void updateValue(String json,String keyIndex,Object value){
+        Map map = JSON.parseObject(json,Map.class);
+        updateValue(map,keyIndex,value);
+    }
+    private static void updateValue(Map srcMap, String keyIndex, Object value){
+        String[] keArr = keyIndex.split("\\.");
+        if (keArr.length == 1 || keArr.length == 0) {
+            srcMap.put(keyIndex, value);
+            return;
+        }
+        String key = keArr[0];
+        Map map = (Map)srcMap.get(key);
+        if(null == map){
+            throw new RuntimeException("参数异常");
+        }
+        keyIndex = keyIndex.substring(keyIndex.indexOf(separation) + 1, keyIndex.length());
+        updateValue(map, keyIndex, value);
+    }
+
+
+    /**
+     * 读取json中的值
+     * @param json
+     * @param keyIndex
+     * @return
+     */
+    public static Object readValue(String json, String keyIndex){
+        LinkedHashMap map = JSON.parseObject(json, LinkedHashMap.class);
+        return getValue(map, keyIndex);
+
+    }
+
+    /**
+     * 从map中解析key的值
+     * @param srcMap
+     * @param key credit.header.errorCode
+     * @return
+     */
+    private static Object getValue(Map<String, Object> srcMap, String key){
+        if (!key.contains(separation)) {
+            return srcMap.get(key);
+        }
+        String newKey = key.substring(0, key.indexOf(separation));
+        Object value = srcMap.get(newKey);
+        if (null == value) {
+            return "";
+        } else {
+
+            if (value instanceof Map) {
+                Map<String, Object> newMap = (Map<String, Object>)value;
+                newKey = key.substring(key.indexOf(separation) + 1, key.length());
+                return getValue(newMap, newKey);
+            } else {
+                return value.toString();
+            }
+        }
+
     }
 }
