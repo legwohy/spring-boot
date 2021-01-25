@@ -73,7 +73,6 @@ public class CipherUtils
     final static String SEED_IS_KEY = "1";
     final static String GENERATE_KEY = "0";
     final static String SEPARATION = "/";
-    final static String DEFAULT_CHARSET = "UTF-8";
 
     public static String encryptFor3DEs(String content, String seed) throws Exception
     {
@@ -222,7 +221,9 @@ public class CipherUtils
             ivs = StringCommonUtils.sub(ivs,8);
         }
         if(cipherAlg.contains(NO_PADDING)){
-            content = padding(content,8);
+            if(Cipher.ENCRYPT_MODE == mode){
+                content = StringCommonUtils.padding(content,8);
+            }
         }
         if(SEED_IS_KEY.equals(seedIsKey)){
             String alg = cipherAlg.split(SEPARATION)[0];
@@ -260,7 +261,10 @@ public class CipherUtils
             ivs = StringCommonUtils.sub(ivs,16);
         }
         if(cipherAlg.contains(NO_PADDING)){
-            content = padding(content,16);
+            if(Cipher.ENCRYPT_MODE == mode){
+                // 加密 填充
+                content = StringCommonUtils.padding(content,16);
+            }
         }
         if(SEED_IS_KEY.equals(seedIsKey)){
             // AES 16位
@@ -332,36 +336,5 @@ public class CipherUtils
 
     }
 
-    /**
-     * 自定义填充
-     * @param sSrc
-     * @param blockSize
-     * @return
-     */
-    private static String padding(String sSrc, int blockSize){
-        byte[] dataBytes = sSrc.getBytes();
-        int plaintextLength = dataBytes.length;
-        if (plaintextLength % blockSize != 0)
-        {
-            plaintextLength = plaintextLength + (blockSize - (plaintextLength % blockSize));
-        }
-        byte[] plaintext = new byte[plaintextLength];
-        System.arraycopy(dataBytes, 0, plaintext, 0, dataBytes.length);
-
-        return new String(plaintext);
-    }
-    private static byte[] padding(String sSrc, Cipher cipher)throws Exception{
-        int blockSize = cipher.getBlockSize();
-        byte[] dataBytes = sSrc.getBytes(DEFAULT_CHARSET);
-        int plaintextLength = dataBytes.length;
-        if (plaintextLength % blockSize != 0)
-        {
-            plaintextLength = plaintextLength + (blockSize - (plaintextLength % blockSize));
-        }
-        byte[] plaintext = new byte[plaintextLength];
-        System.arraycopy(dataBytes, 0, plaintext, 0, dataBytes.length);
-
-        return plaintext;
-    }
 
 }

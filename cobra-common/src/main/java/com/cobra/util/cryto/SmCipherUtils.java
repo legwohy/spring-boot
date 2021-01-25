@@ -36,6 +36,11 @@ import java.util.Map;
  </dependency>
  *
  * </p>
+ * <p>
+ *     SM4/CBC/PKCS5Padding
+        SM4/ECB/PKCS5Padding
+ *
+ * </p>
  * @author admin
  * @date 2021/1/7 10:56
  * @desc
@@ -47,11 +52,26 @@ public class SmCipherUtils {
 
     static String curveName = "sm2p256v1";// wapip192v1
 
+
+
     public static String sm4CbcEnc(String content, String seed) throws Exception{
         //String alg = "SM4/ECB/PKCS5Padding";
         String alg = "SM4/CBC/PKCS5Padding";
         String ivs = "1234567890123456";
-        return doSm4(Cipher.ENCRYPT_MODE, alg, seed, ivs, content);
+        return doSm4(Cipher.ENCRYPT_MODE, alg, seed,SecretKeyUtils.SEED_IS_KEY, ivs, content);
+
+    }
+    public static String doSm4(String alg, int mode,String seed,String seedIsKey,String ivs,String content) throws Exception{
+        if(alg.contains(CBC)){
+            // 16位向量
+            ivs = StringCommonUtils.sub(ivs,16);
+        }
+        // 自己构造密钥 必须是32位的
+        seed = StringCommonUtils.sub(seed,32);
+        if(Cipher.ENCRYPT_MODE == mode){
+            content = StringCommonUtils.padding(content,16);
+        }
+        return doSm4(mode, alg, seed,seedIsKey, ivs, content);
 
     }
 
@@ -59,15 +79,11 @@ public class SmCipherUtils {
         //String alg = "SM4/ECB/PKCS5Padding";
         String alg = "SM4/CBC/PKCS5Padding";// 16位向量
         String ivs = "1234567890123456";
-        return doSm4(Cipher.DECRYPT_MODE, alg, seed, ivs, content);
+        return doSm4(Cipher.DECRYPT_MODE, alg, seed, SecretKeyUtils.SEED_IS_KEY,ivs, content);
     }
 
-    private static String doSm4(int mode, String alg, String seed, String srcPlainText){
-        return doSm4(mode, alg, seed, null, srcPlainText);
 
-    }
-
-    private static String doSm4(int mode, String alg, String seed, String ivs, String srcPlainText){
+    private static String doSm4(int mode, String alg, String seed, String seedIsKey,String ivs, String srcPlainText){
         // BC
         try {
             Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
@@ -75,14 +91,12 @@ public class SmCipherUtils {
             String[] algArr = alg.split("/");
             String keyAlg = algArr[0];
 
-            Key key = new SecretKeySpec(ByteUtils.fromHexString(seed), keyAlg);// hexString 转 byte[]
-            String pad = algArr[1];
-            if (CBC.equals(pad)) {
+            Key key = SecretKeyUtils.generateKey(keyAlg,SecretKeyUtils.ALG_RANDOM,seed,seedIsKey);
+            if(alg.contains(CBC)){
                 if (StringCommonUtils.isEmpty(ivs)) {
                     throw new IllegalArgumentException("CBC算法 ivs不能为空");
                 }
                 cipher.init(mode, key, new IvParameterSpec(ivs.getBytes()));
-
             } else {
                 cipher.init(mode, key);
             }
@@ -95,7 +109,7 @@ public class SmCipherUtils {
             } else {
                 // 解密
                 byte[] bytes = cipher.doFinal(ByteUtils.fromHexString(srcPlainText));
-                return new String(bytes);
+                return new String(bytes).trim();
             }
 
         } catch (Exception e) {

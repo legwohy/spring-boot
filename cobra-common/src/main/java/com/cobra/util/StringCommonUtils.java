@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.crypto.Cipher;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
@@ -2703,6 +2704,40 @@ public class StringCommonUtils extends org.apache.commons.lang3.StringUtils
             return content.substring(0,length);
         }
     }
+
+    /**
+     * 自定义填充
+     * @param sSrc
+     * @param blockSize
+     * @return
+     */
+    public static String padding(String sSrc, int blockSize){
+        byte[] dataBytes = sSrc.getBytes();
+        int plaintextLength = dataBytes.length;
+        if (plaintextLength % blockSize != 0)
+        {
+            plaintextLength = plaintextLength + (blockSize - (plaintextLength % blockSize));
+        }
+        byte[] plaintext = new byte[plaintextLength];
+        System.arraycopy(dataBytes, 0, plaintext, 0, dataBytes.length);
+
+        return new String(plaintext);
+    }
+    public static byte[] padding(String sSrc, Cipher cipher)throws Exception{
+        int blockSize = cipher.getBlockSize();
+        byte[] dataBytes = sSrc.getBytes(CHARSET_NAME);
+        int plaintextLength = dataBytes.length;
+        if (plaintextLength % blockSize != 0)
+        {
+            plaintextLength = plaintextLength + (blockSize - (plaintextLength % blockSize));
+        }
+        byte[] plaintext = new byte[plaintextLength];
+        System.arraycopy(dataBytes, 0, plaintext, 0, dataBytes.length);
+
+        return plaintext;
+    }
+
+
 
     public static void main(String[] args)
     {

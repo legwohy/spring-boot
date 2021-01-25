@@ -4,7 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.crypto.Cipher;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,7 +21,6 @@ public class SmCipherUtilsTest {
 
     @Test
     public void tesSM4() throws Exception{
-
         String key = "698663d8d064266e2ead8d1d19cc5166";// 32
         String cipherText = SmCipherUtils.sm4CbcEnc(srcPlainText, key);
 
@@ -26,6 +28,40 @@ public class SmCipherUtilsTest {
         Assert.assertEquals(srcPlainText, plainText);
 
     }
+
+    @Test
+    public void tesDoSM4(){
+        List<String> algList = Arrays.asList("SM4", "SM4/CBC/PKCS5Padding", "SM4/ECB/PKCS5Padding", "SM4/ECB/NoPadding", "SM4/CBC/NoPadding");
+        String ivs = "aaivs";
+        String key = "abcdeff";// 32 698663d8d064266e2ead8d1d19cc5166
+        for (String alg : algList) {
+            try {
+                SmCipherUtils.doSm4(alg, Cipher.ENCRYPT_MODE, key, SecretKeyUtils.GENERATE_KEY, ivs, srcPlainText);
+            } catch (Exception e) {
+                System.err.println("算法错误:" + alg);
+                e.printStackTrace();
+                return;
+            }
+
+        }
+
+    }
+
+    @Test
+    public void tesDoSM4NoPadding() throws Exception{
+        String alg = "SM4/CBC/NoPadding";
+        String ivs = "aaivs";
+        String key = "abcdeff";// 32 698663d8d064266e2ead8d1d19cc5166
+        String cipherText = SmCipherUtils.doSm4(alg, Cipher.ENCRYPT_MODE, key, SecretKeyUtils.GENERATE_KEY, ivs, srcPlainText);
+
+        Assert.assertEquals("edcd7311714def1385e712cf7d87d20a",cipherText);
+
+        String plainText = SmCipherUtils.doSm4(alg, Cipher.DECRYPT_MODE, key, SecretKeyUtils.GENERATE_KEY, ivs, cipherText);
+
+        Assert.assertEquals(srcPlainText,plainText);
+
+
+}
 
     @Test
     public void tesSM2() throws Exception{

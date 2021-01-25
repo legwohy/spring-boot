@@ -14,11 +14,7 @@ import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
@@ -58,6 +54,9 @@ public class SecretKeyUtils {
     public final static String curveName = "sm2p256v1";// wapip192v1
     public final static String ALG_RANDOM = "SHA1PRNG";// 随机算法
     public final static String SEED_IS_KEY = "1";
+    public final static String GENERATE_KEY = "0";
+    public final static String PRODUCE_CN = "CN";
+    public final static String PRODUCE_USA = "USA";
 
 
     /**
@@ -67,8 +66,8 @@ public class SecretKeyUtils {
      * @return
      * @throws Exception
      */
-    public static String generateKey(String alg, String seed) throws Exception{
-        Key key = generateKey(alg,ALG_RANDOM,seed,SEED_IS_KEY);
+    public static String generateKey(String alg, String seed,String seedIsKey) throws Exception{
+        Key key = generateKey(alg,ALG_RANDOM,seed,seedIsKey);
         return org.apache.commons.codec.binary.Base64.encodeBase64String(key.getEncoded());
     }
 
@@ -83,9 +82,16 @@ public class SecretKeyUtils {
      */
     public static Key generateKey(String keyAlg, String randomAlgName, String seed, String seedIsKey) throws NoSuchAlgorithmException
     {
+        byte[] bytes;
+        if(PRODUCE_CN.equalsIgnoreCase(AlgEnums.getNation(keyAlg))){
+            // 国密
+            bytes = ByteUtils.fromHexString(seed);
+        }else {
+            bytes = seed.getBytes();
+        }
         Key key = null;
         if(SEED_IS_KEY.equals(seedIsKey)){
-            key = new SecretKeySpec(seed.getBytes(), keyAlg);
+            key = new SecretKeySpec(bytes, keyAlg);
         }else {
 
             KeyGenerator keyGenerator = KeyGenerator.getInstance(keyAlg);
@@ -94,7 +100,7 @@ public class SecretKeyUtils {
             // 随机算法
             if (StringCommonUtils.isNotEmpty(randomAlgName)) {
                 random = SecureRandom.getInstance(randomAlgName);
-                random.setSeed(seed.getBytes());
+                random.setSeed(bytes);
             } else {
                 // TODO 坑 jdk高于8的默认不是 SHA1PRNG 算法 建议 指定算法
                 random = new SecureRandom(seed.getBytes());
