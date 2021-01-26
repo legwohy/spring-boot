@@ -23,9 +23,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -141,13 +139,10 @@ public class SecretKeyUtils {
      */
     public static Map<String, String> genRSAKeyPair() throws Exception{
 
-        return genRSAKeyPair("123456");
+        return genRSAKeyPair(UUID.randomUUID().toString());
 
     }
     public static Map<String, String> genRSAKeyPair(String seed) throws Exception{
-        if(StringCommonUtils.isEmpty(seed)){
-            seed = "000000";
-        }
         SecureRandom secureRandom = SecureRandom.getInstance(ALG_RANDOM);
         secureRandom.setSeed(seed.getBytes());
 

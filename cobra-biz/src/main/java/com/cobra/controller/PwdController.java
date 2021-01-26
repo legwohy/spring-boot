@@ -66,7 +66,8 @@ public class PwdController {
     }
 
     @RequestMapping("/genKeyPair")
-    public BaseResponse genKeyPair(@RequestBody String type) throws Exception{
+    public BaseResponse genKeyPair(String type) throws Exception{
+        log.info("生成密钥 type:{}",type);
         if ("SM2".equalsIgnoreCase(type)) {
             return new BaseResponse(SecretKeyUtils.genSm2KeyPair());
         } else {
