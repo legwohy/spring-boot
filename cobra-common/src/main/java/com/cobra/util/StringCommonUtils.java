@@ -2706,7 +2706,7 @@ public class StringCommonUtils extends org.apache.commons.lang3.StringUtils
     }
 
     /**
-     * 自定义填充
+     * 自定义填充 填充空格
      * @param sSrc
      * @param blockSize
      * @return

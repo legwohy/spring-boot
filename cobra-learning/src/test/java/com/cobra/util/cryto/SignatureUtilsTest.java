@@ -1,5 +1,6 @@
 package com.cobra.util.cryto;
 
+import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +28,10 @@ public class SignatureUtilsTest {
 
         publicKey = keyPair.getPublic();
         privateKey = keyPair.getPrivate();
+        System.out.println("公钥");
+        System.out.println(Base64.encodeBase64String(publicKey.getEncoded()));
+        System.out.println("私钥");
+        System.out.println(Base64.encodeBase64String(privateKey.getEncoded()));
 
     }
 
