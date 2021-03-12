@@ -24,7 +24,7 @@ public class RuntimeFunction {
         try {
             String pythonFilePath = "D:\\code_repository\\cobra\\cobra-learning\\src\\main\\java\\com\\cobra\\script\\python\\Hello.py";
             System.out.println("-------begin------------");
-            proc = Runtime.getRuntime().exec(PYTHON_PATH+" "+pythonFilePath);
+            proc = Runtime.getRuntime().exec("python "+pythonFilePath);
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line = null;
             while ((line = in.readLine()) != null) {
