@@ -1,6 +1,6 @@
-package com.cobra.groove
+package com.cobra.script.groovy
 
-import com.cobra.groove.utils.CipherCommonUtils
+import com.cobra.script.jgroove.utils.CipherCommonUtils
 
 /**
  * @author admin

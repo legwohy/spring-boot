@@ -1,6 +1,6 @@
-package com.cobra.groove.utils;
+package com.cobra.script.jgroove.utils;
 
-import com.cobra.groove.pojo.ScriptDTO;
+import com.cobra.script.jgroove.pojo.ScriptDTO;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;

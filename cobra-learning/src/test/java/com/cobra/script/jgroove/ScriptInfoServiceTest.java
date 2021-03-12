@@ -1,9 +1,7 @@
-package com.cobra.groove;
+package com.cobra.script.jgroove;
 
-import com.cobra.groove.pojo.ScriptDTO;
+import com.cobra.script.jgroove.pojo.ScriptDTO;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * 脚本测试
@@ -16,7 +14,7 @@ public class ScriptInfoServiceTest {
     @Test
     public void runScript() throws Exception{
         String srcPlainText = "test";
-        String scriptContent = "import com.cobra.groove.utils.CipherCommonUtils;\n"
+        String scriptContent = "import CipherCommonUtils;\n"
                         + "\n"
                         + "def getChain() {\n"
                         + "\tString secretKey = \"1234567890123456\"\n"

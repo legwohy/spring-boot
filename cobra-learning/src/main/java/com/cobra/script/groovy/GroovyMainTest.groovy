@@ -1,4 +1,4 @@
-package com.cobra.groove
+package com.cobra.script.groovy
 
 /**
  * @author admin

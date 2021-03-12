@@ -1,6 +1,6 @@
-package com.cobra.groove;
+package com.cobra.script.jgroove;
 
-import com.cobra.groove.pojo.ScriptDTO;
+import com.cobra.script.jgroove.pojo.ScriptDTO;
 
 import javax.script.*;
 

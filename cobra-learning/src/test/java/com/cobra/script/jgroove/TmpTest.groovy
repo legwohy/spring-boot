@@ -1,4 +1,4 @@
-package com.cobra.groove
+package com.cobra.script.jgroove
 
 import com.cobra.BaseGroovyTest
 import org.junit.Test

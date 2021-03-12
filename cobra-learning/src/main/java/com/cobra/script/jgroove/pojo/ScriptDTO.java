@@ -1,4 +1,4 @@
-package com.cobra.groove.pojo;
+package com.cobra.script.jgroove.pojo;
 
 import lombok.Data;
 
