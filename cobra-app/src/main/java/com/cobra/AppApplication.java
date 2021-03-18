@@ -38,6 +38,6 @@ public class AppApplication implements CommandLineRunner{
         map.put("gender","female");
         map.put("age",18);
         BackConfigParam.backMap = map;
-        System.out.println("------------->先加载");
+        System.out.println("------------->CommandLineRunner 加载");
     }
 }

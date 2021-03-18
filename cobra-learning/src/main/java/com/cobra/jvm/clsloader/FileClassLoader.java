@@ -14,7 +14,7 @@ public class FileClassLoader extends ClassLoader {
     }
 
     /**
-     * 注意 这里是重写 findClass 方法 而不是 loadClass
+     * TODO 注意 这里是重写 findClass 方法 而不是 loadClass
      * findClass 查找二进制文件的位置并加载里面
      * @param name 全类名
      */
@@ -54,10 +54,15 @@ public class FileClassLoader extends ClassLoader {
     }
 
     public static void main(String[] args) throws Exception {
+        // 直接调用.clazz文件
+        callClazz();
+    }
+
+    private static void callClazz()throws Exception{
         String rootDir = FileClassLoader.class.getResource("/").getFile();
         FileClassLoader loader = new FileClassLoader(rootDir);
         String name = "com.cobra.jvm.clsloader.TestObj";
-        // 这里调用loadClass非findClass
+        //TODO 这里调用loadClass非findClass
         // loadClass 双亲模型加载
         Class clazz = loader.loadClass(name);
         Object obj = clazz.newInstance();
