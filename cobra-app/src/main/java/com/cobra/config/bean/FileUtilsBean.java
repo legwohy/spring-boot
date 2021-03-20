@@ -45,7 +45,7 @@ public class FileUtilsBean {
         File zipFile = null;
         ZipOutputStream zipOut = null;
         File localFile = null;
-        String rootPath = com.cobra.util.FileUtils.getRootPath();
+        String rootPath = com.cobra.util.file.FileUtils.getRootPath();
         String localFileName = FILEPATH +"/IMG"+  Uploader.getQuickPathnameNew(suffix);// 带后缀的全
 
         try {

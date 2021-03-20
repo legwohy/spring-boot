@@ -1,4 +1,4 @@
-package com.cobra.util.office;
+package com.cobra.util.file.office;
 
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.converter.WordToHtmlConverter;

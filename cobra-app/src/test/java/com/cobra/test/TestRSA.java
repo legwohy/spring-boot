@@ -1,6 +1,6 @@
 package com.cobra.test;
 
-import com.cobra.util.FileUtils;
+import com.cobra.util.file.FileUtils;
 import com.cobra.util.rsa.RSAEncrypt;
 import com.cobra.util.rsa.RSASignature;
 import org.junit.Assert;
