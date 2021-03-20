@@ -1,8 +1,7 @@
-package com.cobra.util;
+package com.cobra.util.web;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
-import com.google.common.net.MediaType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.*;

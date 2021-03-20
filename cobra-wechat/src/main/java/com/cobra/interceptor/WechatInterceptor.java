@@ -6,7 +6,7 @@ import com.cobra.constant.Wechat;
 import com.cobra.dao.WechatConfigDao;
 import com.cobra.pojo.UserInfo;
 import com.cobra.pojo.WechatConfig;
-import com.cobra.util.OkHttpUtil;
+import com.cobra.util.web.OkHttpUtil;
 import com.cobra.util.StringCommonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
