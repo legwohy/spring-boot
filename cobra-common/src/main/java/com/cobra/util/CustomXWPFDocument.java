@@ -1,4 +1,4 @@
-package com.cobra.util.file.office;
+package com.cobra.util;
 
 import java.io.InputStream;
 import java.io.IOException;
