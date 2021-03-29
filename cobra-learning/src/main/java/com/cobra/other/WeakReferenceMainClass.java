@@ -3,7 +3,7 @@ package com.cobra.other;
 import java.lang.ref.WeakReference;
 
 /**
- * @auther: leigang
+ * @auther: admin
  * @date: 2018/12/29 11:46
  * @description:而SoftReference
 

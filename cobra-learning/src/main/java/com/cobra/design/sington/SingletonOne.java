@@ -3,7 +3,7 @@ package com.cobra.design.sington;
 import java.util.UUID;
 
 /**
- * @auther: leigang
+ * @auther: admin
  * @date: 2018/12/28 16:02
  * @description:
  */

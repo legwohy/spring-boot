@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
+ * https://mp.weixin.qq.com/s/jWI5rLwDB2yZIC3tPn5Vog
  *  CountDownLatch最重要的方法是countDown()和await()，
  * 前者主要是倒数一次，后者是等待倒数到0，如果没有到达0，就只有阻塞等待了。
  * 倒数到0将会释放所有等待的线程

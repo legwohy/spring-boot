@@ -10,7 +10,7 @@ import java.util.Date;
  *  3、相当于注释
  *  4、不允许set方法修改参数(外部get 内部set)
  *
- * @auther: leigang
+ * @auther: admin
  * @date: 2019/1/22 11:59
  * @description:
  */

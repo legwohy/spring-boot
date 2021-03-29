@@ -6,7 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * @auther: leigang
+ * @auther: admin
  * @date: 2019/1/23 10:30
  * @description:
  */
