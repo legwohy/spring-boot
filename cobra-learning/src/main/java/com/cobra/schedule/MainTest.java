@@ -8,7 +8,7 @@ import java.util.UUID;
 import java.util.concurrent.*;
 
 /**
- * @auther: leigang
+ * @auther: admin
  * @date: 2019/1/30 14:05
  * @description:
  */

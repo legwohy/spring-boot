@@ -1,4 +1,4 @@
-package com.cobra.util;
+package com.cobra.util.web;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;

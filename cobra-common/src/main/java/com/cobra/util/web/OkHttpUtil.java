@@ -1,4 +1,4 @@
-package com.cobra.util;
+package com.cobra.util.web;
 
 import okhttp3.*;
 import org.slf4j.Logger;
@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 测试3

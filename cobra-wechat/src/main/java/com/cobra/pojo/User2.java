@@ -2,7 +2,7 @@ package com.cobra.pojo;
 
 /**
  * @className ${ClassName}
- * @auther: leigang
+ * @auther: admin
  * @date: 2018/11/20 14:08
  * @description:
  */

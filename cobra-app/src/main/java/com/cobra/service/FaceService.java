@@ -2,7 +2,7 @@ package com.cobra.service;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.cobra.util.HttpUtil;
+import com.cobra.util.web.HttpUtil;
 import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

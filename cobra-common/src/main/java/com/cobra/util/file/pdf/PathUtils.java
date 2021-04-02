@@ -1,4 +1,4 @@
-package com.cobra.util.pdf;
+package com.cobra.util.file.pdf;
 
 import java.io.File;
 

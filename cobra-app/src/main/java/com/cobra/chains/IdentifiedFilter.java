@@ -4,9 +4,6 @@ package com.cobra.chains;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.cobra.constants.Constant;
-import com.cobra.util.FileUtils;
-import com.cobra.util.rsa.RSAEncrypt;
-import com.cobra.util.rsa.RSASignature;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
@@ -83,16 +80,7 @@ public class IdentifiedFilter implements Filter
         // 验签
         try
         {
-           String signature = new String(Base64.decodeBase64(arr[2]));
-           String publicKey = RSAEncrypt.loadPublicKeyByFile(FileUtils.getRootPath()+"/keys");
-           boolean flag = RSASignature.doCheck(arr[0].concat(".").concat(arr[1]),signature,publicKey);
-           log.debug("----->flag="+flag);
-           if(flag){
-               filterChain.doFilter(request,response);
-               return;
-           }
-
-            write(response,"签名错误");
+           // 验签
 
         } catch (Exception e)
         {
