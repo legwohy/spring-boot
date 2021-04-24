@@ -31,9 +31,13 @@ import org.json.XML;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -155,7 +159,7 @@ public class HttpClientUtil
             resEntity = new UrlEncodedFormEntity(paraList, Consts.UTF_8);
         }else if(ContentType.APPLICATION_XML.equals(mediaType)){
             headers.add(new BasicHeader("Content-Type","application/xml"));
-            String xml = "<xml version=\"1.0\" encoding=\"UTF-8\"?>"+ XML.toString(bodyParam);
+            String xml = "<xml version=\"1.0\" encoding=\"UTF-8\"?>"+ org.json.XML.toString(bodyParam);
             resEntity = new StringEntity(xml,ContentType.create(ContentType.APPLICATION_XML.getMimeType()));
         }else {
             // 默认json
@@ -416,6 +420,141 @@ public class HttpClientUtil
     {
 
         return sendByGetEncode(url, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT, param, charset);
+    }
+
+
+    /**
+     * 上传图片
+     * @param urlStr
+     * @param textMap 表单参数<key,value>
+     * @param fileMap <文件名,文件地址>
+     * @param contentType 没有传入文件类型默认采用application/octet-stream
+     * contentType非空采用filename匹配默认的图片类型
+     * @return 返回response数据
+     */
+    @SuppressWarnings("rawtypes")
+    public static String uploadFile(String urlStr, Map<String, String> textMap, Map<String, String> fileMap, String contentType) {
+        String res = "";
+        HttpURLConnection conn = null;
+        // boundary就是request头和上传文件内容的分隔符
+        String BOUNDARY = "---------------------------123821742118716";
+        try {
+            URL url = new URL(urlStr);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(30000);
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setUseCaches(false);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; zh-CN; rv:1.9.2.6)");
+            conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
+            OutputStream out = new DataOutputStream(conn.getOutputStream());
+            // text
+            if (textMap != null) {
+                StringBuffer strBuf = new StringBuffer();
+                Iterator iter = textMap.entrySet().iterator();
+                while (iter.hasNext()) {
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    String inputName = (String) entry.getKey();
+                    String inputValue = (String) entry.getValue();
+                    if (inputValue == null) {
+                        continue;
+                    }
+                    strBuf.append("\r\n").append("--").append(BOUNDARY).append("\r\n");
+                    strBuf.append("Content-Disposition: form-data; name=\"" + inputName + "\"\r\n\r\n");
+                    strBuf.append(inputValue);
+                }
+                out.write(strBuf.toString().getBytes(CHARSET));
+            }
+            // file
+            if (fileMap != null) {
+                Iterator iter = fileMap.entrySet().iterator();
+                while (iter.hasNext()) {
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    String fileName = (String) entry.getKey();
+                    String filePath = (String) entry.getValue();
+                    if (filePath == null) {
+                        continue;
+                    }
+
+                    //没有传入文件类型，同时根据文件获取不到类型，默认采用application/octet-stream
+                    //contentType = new MimetypesFileTypeMap().getContentType(file);
+                    contentType=null;
+                    //contentType非空采用filename匹配默认的图片类型
+                    if (StringCommonUtils.isEmpty(contentType)) {
+                        contentType = "application/octet-stream";
+                    }else {
+                        if (filePath.endsWith(".png")) {
+                            contentType = "image/png";
+                        }else if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg") || filePath.endsWith(".jpe")) {
+                            contentType = "image/jpeg";
+                        }else if (filePath.endsWith(".gif")) {
+                            contentType = "image/gif";
+                        }else if (filePath.endsWith(".ico")) {
+                            contentType = "image/image/x-icon";
+                        }
+                    }
+
+                    StringBuffer strBuf = new StringBuffer();
+                    strBuf.append("\r\n").append("--").append(BOUNDARY).append("\r\n");
+                    strBuf.append("Content-Disposition: form-data; name=\"" + fileName + "\"; filename=\"" + filePath + "\"\r\n");
+                    strBuf.append("Content-Type:" + contentType + "\r\n\r\n");
+                    out.write(strBuf.toString().getBytes(CHARSET));
+
+                    // 写入文件
+                    URL ossurl = new URL(filePath);
+                    DataInputStream in = new DataInputStream(ossurl.openStream());
+                    int bytes = 0;
+                    byte[] bufferOut = new byte[1024];
+                    while ((bytes = in.read(bufferOut)) != -1) {
+                        out.write(bufferOut, 0, bytes);
+                    }
+                    in.close();
+                }
+            }
+            byte[] endData = ("\r\n--" + BOUNDARY + "--\r\n").getBytes();
+            out.write(endData);
+            out.flush();
+            out.close();
+            int responseCode = conn.getResponseCode();
+            // 成功
+            if (HttpStatus.SC_OK==responseCode) {
+                // 读取返回数据
+                StringBuffer strBuf = new StringBuffer();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),CHARSET));
+
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    strBuf.append(line).append("\n");
+                }
+                res = strBuf.toString();
+                reader.close();
+                reader = null;
+            }else{
+                StringBuffer error = new StringBuffer();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                                conn.getErrorStream(),CHARSET));
+                String line1 = null;
+                while ((line1=bufferedReader.readLine())!=null) {
+                    error.append(line1).append("\n");
+                }
+                res=error.toString();
+                bufferedReader.close();
+                bufferedReader=null;
+            }
+            log.info("返回请求参数:{},msg:{}", responseCode , res);
+        } catch (Exception e) {
+            log.error("上传文件错误:{}" , urlStr);
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+                conn = null;
+            }
+        }
+        return res;
     }
 
 
