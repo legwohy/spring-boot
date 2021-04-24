@@ -1,7 +1,9 @@
-package com.cobra.util.web;
+package com.cobra.util;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.*;
@@ -16,6 +18,7 @@ import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.conn.ssl.X509HostnameVerifier;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -23,6 +26,7 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.XML;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -44,9 +48,7 @@ public class HttpClientUtil
 {
     public final static String CHARSET = "UTF-8";
 
-    private HttpClientUtil()
-    {
-    }
+    private HttpClientUtil(){}
 
     public final static int DEFAULT_REQUEST_TIMEOUT = 6 * 1000;//默认的请求超时时间，6秒
     public final static int DEFAULT_RESPONSE_TIMEOUT = 6 * 1000;//默认的响应超时时间，6秒
@@ -63,21 +65,13 @@ public class HttpClientUtil
 
     static
     {//bean初始化
-        if (connectionManager == null)
-        {
+        if (connectionManager == null) {
             SSLContext sslContext = SSLContexts.createDefault();
 
-            X509TrustManager tm = new X509TrustManager()
-            {
-                public void checkClientTrusted(X509Certificate[] xcs,
-                                String string) throws CertificateException
-                {
-                }
+            X509TrustManager tm = new X509TrustManager() {
+                public void checkClientTrusted(X509Certificate[] xcs, String string) throws CertificateException{}
 
-                public void checkServerTrusted(X509Certificate[] xcs,
-                                String string) throws CertificateException
-                {
-                }
+                public void checkServerTrusted(X509Certificate[] xcs, String string) throws CertificateException{}
 
                 public X509Certificate[] getAcceptedIssuers()
                 {
@@ -137,59 +131,42 @@ public class HttpClientUtil
 
     }
 
-    public static String sendByPostForZtx(String url, int connTimeout, int reqTimeout, Map<String, String> param, List<Header> headers)
-    {
-        List<NameValuePair> paraList = Lists.newArrayList();
-        for (String key : param.keySet())
-        {
-            paraList.add(new BasicNameValuePair(key, param.get(key)));
-        }
-        HttpEntity resEntity =
-                        new UrlEncodedFormEntity(paraList, Consts.UTF_8);
-        return HttpClientUtil.sendByPost(url, connTimeout, reqTimeout, resEntity, headers);
-    }
-
-    public static String sendByPost(String url, Map<String, String> param)
-    {
-        return sendByPost(url, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT, param);
-    }
-
-    public static String sendByPost(String url, String content, String contentType)
-    {
-        return sendByPost(url, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT, content, contentType);
-    }
-
-    public static String sendByPost(String url, int connTimeout, int reqTimeout, String content, String contentType)
-    {
-        StringEntity resEntity = new StringEntity(content, Consts.UTF_8);
+    /**
+     * 公共方法
+     * @param url
+     * @param bodyParam
+     * @param mediaType
+     * @return
+     */
+    public static String sendByPost(String url,  Map<String, String> bodyParam, Map<String, String> headerParam,String mediaType){
+        HttpEntity resEntity = null;
         List<Header> headers = new ArrayList<>();
-        Header header = null;
-        if (StringUtils.isNotEmpty(contentType))
-        {
-            header = new BasicHeader("Content-type", contentType);
-            headers.add(header);
+        if(null != headerParam && !headerParam.isEmpty()){
+            for (Map.Entry<String,String> en:headerParam.entrySet()){
+                headers.add(new BasicHeader(en.getKey(),en.getValue()));
+            }
         }
-        return HttpClientUtil.sendByPost(url, connTimeout, reqTimeout, resEntity, headers);
+        if(ContentType.APPLICATION_FORM_URLENCODED.getMimeType().equals(mediaType)){
+            List<NameValuePair> paraList = Lists.newArrayList();
+            for (String key : bodyParam.keySet()) {
+                paraList.add(new BasicNameValuePair(key, bodyParam.get(key)));
+            }
+            headers.add(new BasicHeader("Content-Type","application/x-www-form-urlencoded"));
+            resEntity = new UrlEncodedFormEntity(paraList, Consts.UTF_8);
+        }else if(ContentType.APPLICATION_XML.equals(mediaType)){
+            headers.add(new BasicHeader("Content-Type","application/xml"));
+            String xml = "<xml version=\"1.0\" encoding=\"UTF-8\"?>"+ XML.toString(bodyParam);
+            resEntity = new StringEntity(xml,ContentType.create(ContentType.APPLICATION_XML.getMimeType()));
+        }else {
+            // 默认json
+            headers.add(new BasicHeader("Content-Type","application/json"));
+            resEntity = new StringEntity(JSON.toJSONString(bodyParam),ContentType.create(ContentType.APPLICATION_JSON.getMimeType()));
+        }
+
+        return HttpClientUtil.sendByPost(url, DEFAULT_CONNECT_REQUEST_TIMEOUT, DEFAULT_REQUEST_TIMEOUT, resEntity, headers);
     }
 
-    public static String sendByPost(String url, int connTimeout, int reqTimeout, String content,
-                    String contentType, String headerK, String headerV)
-    {
-        StringEntity resEntity = new StringEntity(content, Consts.UTF_8);
-        List<Header> headers = new ArrayList<>();
-        Header header = null;
-        if (StringUtils.isNotEmpty(contentType))
-        {
-            header = new BasicHeader("Content-type", contentType);
-            headers.add(header);
-        }
-        if (StringUtils.isNotEmpty(headerK) && StringUtils.isNotEmpty(headerV))
-        {
-            header = new BasicHeader(headerK, headerV);
-            headers.add(header);
-        }
-        return HttpClientUtil.sendByPost(url, connTimeout, reqTimeout, resEntity, headers);
-    }
+
 
     public static String sendByPostWithoutCheck(String url, int connTimeout, int reqTimeout, String content, String contentType)
     {
@@ -205,42 +182,9 @@ public class HttpClientUtil
 
     }
 
-    public static String sendByPostForZtx(String url, int connTimeout, int reqTimeout, Map<String, String> param, String contentType, String authorization)
-    {
 
-        List<Header> headers = new ArrayList<>();
-        if (StringUtils.isNotEmpty(contentType))
-        {
 
-            Header header1 = new BasicHeader("Content-Type", contentType);
-            Header header2 = new BasicHeader("Authorization", authorization);
-            Header header3 = new BasicHeader("connection", "Keep-Alive");
-            headers.add(header1);
-            headers.add(header2);
-            headers.add(header3);
-        }
 
-        return HttpClientUtil.sendByPostForZtx(url, connTimeout, reqTimeout, param, headers);
-
-    }
-
-    public static String sendByPost(String url, int connTimeout, int reqTimeout, String content)
-    {
-        StringEntity resEntity = new StringEntity(content, Consts.UTF_8);
-        return HttpClientUtil.sendByPost(url, connTimeout, reqTimeout, resEntity, null);
-    }
-
-    public static String sendByPost(String url, int connTimeout, int reqTimeout, Map<String, String> param)
-    {
-        List<NameValuePair> paraList = Lists.newArrayList();
-        for (String key : param.keySet())
-        {
-            paraList.add(new BasicNameValuePair(key, param.get(key)));
-        }
-        HttpEntity resEntity =
-                        new UrlEncodedFormEntity(paraList, Consts.UTF_8);
-        return HttpClientUtil.sendByPost(url, connTimeout, reqTimeout, resEntity, null);
-    }
 
     /**
      * @param url
@@ -328,8 +272,7 @@ public class HttpClientUtil
         return HttpClientUtil.sendRequest(httpGet, connTimeout, reqTimeout, null, headers, checkResponseStatus);
     }
 
-    public static String sendByGetEncode(String url, int connTimeout, int reqTimeout, Map<String, String> params, boolean checkResponseStatus, String charset) throws Exception
-    {
+    public static String sendByGetEncode(String url, int connTimeout, int reqTimeout, Map<String, String> params, boolean checkResponseStatus, String charset) throws Exception{
         HttpGet httpGet = null;
         if (params != null && !params.isEmpty())
         {
@@ -361,7 +304,9 @@ public class HttpClientUtil
      */
     private static String sendRequest(HttpRequestBase httpRequest, int connTimeout, int reqTimeout, HttpEntity entity, List<Header> headers, boolean checkResponseStatus)
     {
-        RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(DEFAULT_CONNECT_REQUEST_TIMEOUT).setConnectTimeout(connTimeout)
+        RequestConfig config = RequestConfig.custom()
+                        .setConnectionRequestTimeout(DEFAULT_CONNECT_REQUEST_TIMEOUT)
+                        .setConnectTimeout(connTimeout)
                         .setSocketTimeout(reqTimeout).build();
         httpRequest.setConfig(config);
         httpRequest.setHeader("User-Agent", "okHttp");
@@ -457,89 +402,7 @@ public class HttpClientUtil
         return closeableHttpClient;
     }
 
-    /**
-     * @param url
-     * @param connTimeout  单位是毫秒
-     * @param reqTimeout 单位是毫秒
-     * @param param
-     * @return
-     */
-    public static String sendByGet(String url, int connTimeout, int reqTimeout, Map<String, String> param, String interFace)
-    {
 
-        log.info("接口：{}请求数据源的超时时间为：{}，{}", interFace, connTimeout, reqTimeout);
-        return HttpClientUtil.sendByGet(url, connTimeout, reqTimeout, param, true);
-    }
-
-    /**
-     *
-     * @param url
-     * @param param
-     * @return
-     */
-    public static String sendByPost(String url, Map<String, String> param, String interFace)
-    {
-
-        log.info("接口：{}请求数据源的超时时间为：{}，{}", interFace, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT);
-        return sendByPost(url, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT, param);
-    }
-
-    /**
-     * @param url
-     * @param connTimeout
-     * @param reqTimeout
-     * @param content
-     * @param contentType
-     * @return
-     */
-    public static String sendByPost(String url, int connTimeout, int reqTimeout, String content, String contentType, String interFace)
-    {
-        StringEntity resEntity = new StringEntity(content, Consts.UTF_8);
-        List<Header> headers = new ArrayList<>();
-        Header header = null;
-        if (StringUtils.isNotEmpty(contentType))
-        {
-            header = new BasicHeader("Content-type", contentType);
-            headers.add(header);
-        }
-
-        log.info("接口：{}请求数据源的超时时间为：{}，{}", interFace, connTimeout, reqTimeout);
-        return HttpClientUtil.sendByPost(url, connTimeout, reqTimeout, resEntity, headers);
-    }
-
-    /**
-     *
-     * @param url
-     * @param content
-     * @param contentType
-     * @param interFace
-     * @return
-     */
-    public static String sendByPost(String url, String content, String contentType, String interFace)
-    {
-        log.info("接口：{}请求数据源的超时时间为：{}，{}", interFace, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT);
-        return sendByPost(url, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT, content, contentType);
-    }
-
-    /**
-     * 带有一个header的post请求
-     * @param url
-     * @param content
-     * @param contentType
-     * @param interFace
-     * @return
-     */
-    public static String sendByPost(String url, String content, String contentType, String headerK, String headerV, String interFace)
-    {
-        log.info("接口：{}请求数据源的超时时间为：{}，{}", interFace, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT);
-        return sendByPost(url, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT, content, contentType, headerK, headerV);
-    }
-
-    public static String sendByPostWithoutCheck(String url, String content, String contentType, String interFace)
-    {
-        log.info("接口：{}请求数据源的超时时间为：{}，{}", interFace, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT);
-        return sendByPostWithoutCheck(url, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT, content, contentType);
-    }
 
     /**
      * 请求参数进行编码处理
@@ -555,20 +418,5 @@ public class HttpClientUtil
         return sendByGetEncode(url, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT, param, charset);
     }
 
-    /**
-     * @param url  单位是毫秒
-     * @param param 单位是毫秒
-     * @return
-     */
-    public static String sendByQccGet(String url, Map<String, String> param, String interFace, List<Header> headers)
-    {
-        log.info("接口：{}请求数据源的超时时间为：{}，{}", interFace, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT);
-        return sendByQccGet(url, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT, param, headers);
-    }
 
-    public static String sendByGet(String url, Map<String, String> param, String interFace, boolean checkResponseStatus)
-    {
-        log.info("接口：{}请求数据源的超时时间为：{}，{}", interFace, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT);
-        return sendByGet(url, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RESPONSE_TIMEOUT, param, checkResponseStatus);
-    }
 }
