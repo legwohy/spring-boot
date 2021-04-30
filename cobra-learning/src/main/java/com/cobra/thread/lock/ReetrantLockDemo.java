@@ -1,4 +1,4 @@
-package com.cobra.lock;
+package com.cobra.thread.lock;
 
 import java.util.concurrent.locks.ReentrantLock;
 

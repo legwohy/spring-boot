@@ -4,6 +4,8 @@ import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Map;
 
@@ -73,6 +75,48 @@ public class OkHttpUtil {
             e.printStackTrace();
         }
         return result;
+
+    }
+
+    /**
+     * 上传文件
+     * @param url
+     * @param textMap
+     * @param fileMap
+     * @return
+     * @throws Exception
+     */
+    public String postForForm(String url,Map<String,String> textMap,Map<String,String> fileMap) throws Exception {
+
+        //--------------------okHttp------------
+        OkHttpClient client = new OkHttpClient();
+        File file = new File(fileMap.get("filePath"));
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM) // 表单
+                        .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("application/octet-stream"), file))
+                        .addFormDataPart("key1", textMap.get("key1"))
+                        .addFormDataPart("key2", textMap.get("key2"))
+                        .build();// 请求体
+
+        // 请求参数设置
+        Request request = new Request.Builder()
+                        .addHeader("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; zh-CN; rv:1.9.2.6)")
+                        .header("Connection", "Keep-Alive")
+                        .addHeader("Content-Type","Multipart/form-data")
+                        .post(requestBody)
+                        .url(url)
+                        .build();
+
+
+        // 回调或响应  本回调为异步，因此需要在主线程(不要在单元测试中启动)中开启
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        if(response.isSuccessful()){
+            return response.body().string();
+        }
+
+        return null;
 
     }
 

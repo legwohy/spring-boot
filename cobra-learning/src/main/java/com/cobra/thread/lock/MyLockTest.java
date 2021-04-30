@@ -1,4 +1,4 @@
-package com.cobra.lock;
+package com.cobra.thread.lock;
 
 /**
  * synchronized可重入锁验证
