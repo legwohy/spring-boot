@@ -1,4 +1,4 @@
-package com.cobra.util;
+package com.cobra.util.file;
 
 
 import java.io.ByteArrayInputStream;
@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.cobra.util.CustomXWPFDocument;
 import org.apache.poi.POIXMLDocument;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;

@@ -1,5 +1,6 @@
 package com.cobra.util;
 
+import com.cobra.util.file.OfficeUtil;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.converter.WordToHtmlConverter;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
