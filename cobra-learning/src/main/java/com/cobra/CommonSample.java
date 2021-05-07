@@ -17,7 +17,14 @@ import com.zhongan.xd.orion.gateway.scorpoin.signature.SignatureUtils;
 public class CommonSample {
 
     public static void main(String[] args) throws Exception {
-        test();
+       // test();
+        String content = "1234";
+
+        String pubKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCBImrOLkLteSSgbyr4kANAwvMnHNAbWefHVaA0uIRy9u+JnBFAyGAsFg40tLPmLYQJ9R/fkZvzcfrsfUMzY3s5kU/KE7siCBjPUA03dDdjSqktmI6+KWT8d+ATAY7KBCtuAGAzYkfEq2i8XQmszGvxopyb6RVpUtiqGzNJjzw/DQIDAQAB";
+        String priKey = "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAIEias4uQu15JKBvKviQA0DC8ycc0BtZ58dVoDS4hHL274mcEUDIYCwWDjS0s+YthAn1H9+Rm/Nx+ux9QzNjezmRT8oTuyIIGM9QDTd0N2NKqS2Yjr4pZPx34BMBjsoEK24AYDNiR8SraLxdCazMa/GinJvpFWlS2KobM0mPPD8NAgMBAAECgYB/2YhvC4Q9wwPNR2L+5u4hjyHXpoIvoiqEwzSzHcAcZnkv//Fg90GoREnaStIV4RhqF2NwIKSLOVzaCQageSzEn7Qe5bt0cHOap0hm/UO+wdWmU9areXNyAn66Z1Laryzy4DlLx40cVMcDLiwdYVH9uJLe251E3F0YeSf0JtH2TQJBAMazptSlqRnyVwVw4hNqxUgf74/iyQOerOXBEwqT+8O2ahYmroWLgbM/UjJXGv0OmsIiPc7K4UhNYbqSQ2WITFMCQQCmXz3Jua5WDaYRIRq9A2E/cLZ+gp6221SP34u0R+9hrNrcp9dnyv2KuMTA3ymoEgtc4iKMXHs2SZBrlHHd0NsfAkBlL8t/crVAj1adYLTgKnk4l3rJjTXMcBugDMiDlISbT+OKUDyDqV1tSIu1MwJ9Z9iLkCBllI9Q4IcqGZ3UsKodAkAfU4ea2C+PXHqMdyNFu8Ev5NU39PhVje7aOElh5LmaNqXvLltM29fpqujBOEPrtZoWHy5KJ4+7pRZga08VaSIZAkA8y1rd9v/p6QX4a0DpV96SIFn9BJtGlj26+D3kE3uhaoXJ8A6vmVobFq8WjsEsFpOqUY5T580QtYm5WSAdLeQm";
+
+        String cipherText =SignatureUtils.rsaEncrypt(content, pubKey,"utf-8");
+        System.out.println(content.equals(CipherCommonUtils.doRSAPrivateDecrypt(cipherText,priKey)));
 
     }
 

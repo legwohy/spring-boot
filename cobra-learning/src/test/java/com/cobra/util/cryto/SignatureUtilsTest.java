@@ -57,4 +57,16 @@ public class SignatureUtilsTest {
         Assert.assertTrue(SignatureUtils.verify(content, sign, publicKey));
     }
 
+    @Test
+    public void testCert()throws Exception{
+        String srcPlainText = "123456ABC";
+        String sign = SignatureUtils.signatureByKeyStore(srcPlainText);
+        Assert.assertNotNull(sign);
+        Boolean certResult = SignatureUtils.verifySignByCertPath("/kft/key.cert",srcPlainText,sign);
+        Boolean storeResult = SignatureUtils.verifySignByKeyStore(srcPlainText,sign);
+
+        Assert.assertTrue(certResult);
+        Assert.assertTrue(storeResult);
+    }
+
 }

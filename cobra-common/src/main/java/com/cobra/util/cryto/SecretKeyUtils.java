@@ -2,6 +2,7 @@ package com.cobra.util.cryto;
 
 import com.cobra.util.StringCommonUtils;
 import com.cobra.util.cryto.enums.AlgEnums;
+import org.apache.commons.io.IOUtils;
 import org.bouncycastle.asn1.gm.GMNamedCurves;
 import org.bouncycastle.asn1.x9.X9ECParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -15,8 +16,11 @@ import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.*;
+import java.security.Certificate;
+import java.security.cert.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -191,6 +195,121 @@ public class SecretKeyUtils {
         keyMap.put(PRIVATE_KEY, privateKeyHex);
         return keyMap;
     }
+
+
+
+    /**
+     * <p>
+     * 从证书文件读取证书.'.crt'和'.cer'文件都可以读取 .cer是IE导出的公钥证书（der格式）
+     * </p>
+     *
+     * @param certificatePath
+     *            证书文件路径:可以直接加载指定的文件,例如"file:C:/kft.cer"
+     * @throws Exception
+     */
+    public static java.security.cert.Certificate getCertificateFromPath(String certificatePath) throws Exception{
+        InputStream inputStream = null;
+        try {
+            inputStream = SecretKeyUtils.class.getResourceAsStream(certificatePath);
+            // 实例化证书工厂
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+            java.security.cert.Certificate cert = cf.generateCertificate(inputStream);
+            return cert;
+        }
+        finally {
+            IOUtils.closeQuietly(inputStream);
+        }
+    }
+
+    /**
+     * <p> KeyStore提取证书 </p>
+     *
+     * @param keystoreType keystore的类型 ."JKS"或"PKCS12"等.默认是JKS ,如果为NULL,则默认使用
+     *            java.security.KeyStore.getDefaultType()
+     *
+     * @param keyStorePath
+     *            keystore文件路径:可以直接加载指定的文件,例如"file:C:/KFTCIPKeystore.keystore",也可以从classpath下加载,例如
+     *            "classpath:/KFTCIPKeystore.keystore" 支持ANT语法 注意:从classpath下加载时,优先使用 thread context
+     *            ClassLoader,没有找到的情况下,使用当前类加载器
+     * @param keyStorePassword 访问密钥库的密码
+     * @param alias 证书条目(包含公钥,私钥和数字证书)的别名.当keystore中只有一个条目时,此参数可以为null;如果有多个时,不能为null
+     * @return
+     * @throws Exception
+     */
+    public static java.security.cert.Certificate getCertificateFromKeyStore(String keystoreType,
+                    String keyStorePath,
+                    char[] keyStorePassword,
+                    String alias) throws Exception{
+        KeyStore ks = loadKeyStore(keyStorePath, keyStorePassword, keystoreType);
+        if (alias == null)
+        {
+            List<String> aliases = Collections.list(ks.aliases());
+            if (aliases.size() == 1) {
+                alias = aliases.get(0);
+            }
+            else
+            {
+                throw new IllegalArgumentException("[Assertion failed] - this String argument[alias] must have text; it must not be null, empty, or blank");
+            }
+        }
+        return ks.getCertificate(alias);
+    }
+
+    /**
+     * <p> KeyStore提取私钥 </p>
+     *
+     * @param keystoreType keystore的类型 ."JKS"或"PKCS12"等.默认是JKS ,如果为NULL,则默认使用
+     *            java.security.KeyStore.getDefaultType()
+     * @param keyStorePath keystore文件路径:可以直接加载指定的文件,例如"file:C:/KFTCIPKeystore.keystore"
+     * @param keyStorePassword 访问密钥库的密码
+     * @param alias 证书条目(包含公钥,私钥和数字证书)的别名.当keystore中只有一个条目时,此参数可以为null;如果有多个时,不能为null
+     * @param keyPassword 私钥条目对应的密码
+     * @return
+     * @throws Exception
+     */
+    public static PrivateKey getPrivateKeyFromKeyStore(String keystoreType,
+                    String keyStorePath,
+                    char[] keyStorePassword,
+                    String alias,
+                    char[] keyPassword) throws Exception
+    {
+        KeyStore ks = loadKeyStore(keyStorePath, keyStorePassword, keystoreType);
+        if (alias == null) {
+            List<String> aliases = Collections.list(ks.aliases());
+            if (aliases.size() == 1) {
+                alias = aliases.get(0);
+            }
+            else
+            {
+                throw new IllegalArgumentException("[Assertion failed] - this String argument[alias] must have text; it must not be null, empty, or blank");
+            }
+        }
+        PrivateKey key = (PrivateKey)ks.getKey(alias, keyPassword);
+        return key;
+    }
+
+    /**
+     * <p> 加载KeyStore </p>
+     *
+     * @param keyStorePath resource下的文件路径
+     * @param password 访问密钥库的密码
+     * @param keystoreType keystore的类型,如果为NULL,则默认使用KeyStore.getDefaultType()
+     * @return
+     * @throws Exception
+     */
+    public static KeyStore loadKeyStore(String keyStorePath, char[] password, String keystoreType) throws Exception{
+        KeyStore ks = KeyStore.getInstance(keystoreType == null ? KeyStore.getDefaultType() : keystoreType);
+
+        InputStream inputStream = SecretKeyUtils.class.getResourceAsStream(keyStorePath);
+        try {
+            ks.load(inputStream, password);
+            return ks;
+        }
+        finally {
+            IOUtils.closeQuietly(inputStream);
+        }
+    }
+
 
     /**
      * 可以使用公钥加密、私钥解密 也可以以 私钥加密公钥解密

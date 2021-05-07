@@ -166,8 +166,7 @@ public class PwdService {
                 sign = MessageDigestUtils.SHA512(sign);
                 break;
             case "RSA":
-                PrivateKey privateKey = (PrivateKey)SecretKeyUtils.transRSAKey(Boolean.FALSE, reqDTO.getPrivateKey());
-                sign = SignatureUtils.signature(sign, privateKey);
+                sign = SignatureUtils.signature(sign, reqDTO.getPrivateKey());
                 break;
             default:
                 throw new RuntimeException("不支持签名方式:"+signType);
