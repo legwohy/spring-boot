@@ -289,7 +289,7 @@ public class SecretKeyUtils {
     }
 
     /**
-     * <p> 加载KeyStore </p>
+     * <p> 加载KeyStore 密钥库（包含私钥和证书）</p>
      *
      * @param keyStorePath resource下的文件路径
      * @param password 访问密钥库的密码

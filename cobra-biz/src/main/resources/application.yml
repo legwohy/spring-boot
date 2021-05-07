@@ -3,8 +3,11 @@ server:
   tomcat:
       max-threads: 1000
       min-spare-threads: 30
-  port: 8069
-
+  port: 443
+  ssl:
+    key-store: server.keystore
+    key-store-type: JKS
+    key-store-password: 123456
 # 日志
 
 #com.mycompany.mavenspringboot.controller 日志 WARN级别输出
