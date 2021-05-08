@@ -200,8 +200,21 @@ public class SecretKeyUtils {
 
     /**
      * <p>
-     * 从证书文件读取证书.'.crt'和'.cer'文件都可以读取 .cer是IE导出的公钥证书（der格式）
+     *      从证书文件读取证书.'.crt'和'.cer'文件都可以读取 .cer是IE导出的公钥证书（der格式）
      * </p>
+     * <>
+     *     X.509证书,可能有不同的编码格式,目前有以下两种编码格式 PEM(文本 begin开头 end结尾，内容是base64编码)和DER(二进制)
+     *     其它扩展名:
+     *     CRT 证书 可能是 pem编码，也可能是der编码,大部分是pem编码，常见*nix
+     *     CER 证书 可能是 pem编码，也可能是der编码,大部分是der编码 常见window
+     *     CSR 证书签名请求，非证书，核心是公钥
+     *     key 通常存放公钥或私钥，非X.509证书
+     *     PFX/P12
+     *
+     *      查看KEY的办法:openssl rsa -in mykey.key -text -noout
+     *      查看DER的办法:openssl rsa -in mykey.key -text -noout -inform der
+     *
+     * </>
      *
      * @param certificatePath
      *            证书文件路径:可以直接加载指定的文件,例如"file:C:/kft.cer"
@@ -224,8 +237,10 @@ public class SecretKeyUtils {
     /**
      * <p> KeyStore提取证书 </p>
      *
-     * @param keystoreType keystore的类型 ."JKS"或"PKCS12"等.默认是JKS ,如果为NULL,则默认使用
-     *            java.security.KeyStore.getDefaultType()
+     * @param keystoreType  JKS(java keyStore java密钥库)
+     *                      PKCS12(公钥加密标准)
+     *                     如果为NULL, 先从Security.getProperty("keystore.type") 取值，不存在 jks
+     *
      *
      * @param keyStorePath
      *            keystore文件路径:可以直接加载指定的文件,例如"file:C:/KFTCIPKeystore.keystore",也可以从classpath下加载,例如

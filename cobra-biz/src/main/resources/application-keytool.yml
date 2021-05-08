@@ -6,7 +6,7 @@ server:
   port: 443
   ssl:
     key-store: keytool_local_server.keystore
-    key-store-type: JKS
+    key-store-type: JKS  #java密钥库
     key-store-password: 123456
 # 日志
 

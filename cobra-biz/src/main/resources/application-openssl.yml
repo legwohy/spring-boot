@@ -6,7 +6,7 @@ server:
   port: 443
   ssl:
     key-store: openssl_local_p12.p12
-    key-store-type: PKCS12
+    key-store-type: PKCS12  #公钥加密标准
     key-store-password: 123456
     enabled: true # 端口冲突
 
