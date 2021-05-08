@@ -3,6 +3,12 @@ server:
   tomcat:
       max-threads: 1000
       min-spare-threads: 30
+  port: 443
+  ssl:
+    key-store: openssl_local_p12.p12
+    key-store-type: PKCS12
+    key-store-password: 123456
+    enabled: true # 端口冲突
 
 
 #com.mycompany.mavenspringboot.controller 日志 WARN级别输出

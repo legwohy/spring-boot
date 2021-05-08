@@ -73,12 +73,19 @@ public class HttpClientUtil
             SSLContext sslContext = SSLContexts.createDefault();
 
             X509TrustManager tm = new X509TrustManager() {
-                public void checkClientTrusted(X509Certificate[] xcs, String string) throws CertificateException{}
 
-                public void checkServerTrusted(X509Certificate[] xcs, String string) throws CertificateException{}
+                public void checkClientTrusted(X509Certificate[] xcs, String string) throws CertificateException{
+                    System.out.println("验证客户端证书 证书个数:"+xcs.length);
 
-                public X509Certificate[] getAcceptedIssuers()
-                {
+                }
+
+                public void checkServerTrusted(X509Certificate[] xcs, String string) throws CertificateException{
+                    System.out.println("验证服务端证书 证书个数:"+xcs.length);
+
+                }
+
+                public X509Certificate[] getAcceptedIssuers(){
+                    System.out.println("获取可信任的证书");
                     return null;
                 }
             };
@@ -327,6 +334,7 @@ public class HttpClientUtil
                 httpRequest.addHeader(header);
             }
         }
+        // 获取连接
         CloseableHttpClient httpClient = getClient();
 
         CloseableHttpResponse response = null;
