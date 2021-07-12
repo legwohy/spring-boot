@@ -6,6 +6,8 @@ import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.security.*;
 import java.security.spec.AlgorithmParameterSpec;
 
@@ -73,6 +75,27 @@ public class CipherUtils
     final static String SEED_IS_KEY = "1";
     final static String GENERATE_KEY = "0";
     final static String SEPARATION = "/";
+
+    /**
+     * https://www.cnblogs.com/rinack/p/13648157.html
+     * 若要支持256为AES加解密 需要放开策略文件
+     * 本实例通过反射方式修改jdk代码
+     */
+    static {
+        //break JCE crypto policy limit
+        try {
+            Class<?> clazz = Class.forName("javax.crypto.JceSecurity");
+            Field nameField = clazz.getDeclaredField("isRestricted");
+            Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(nameField, nameField.getModifiers() & ~Modifier.FINAL);
+
+            nameField.setAccessible(true);
+            nameField.set(null, java.lang.Boolean.FALSE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
     public static String encryptFor3DEs(String content, String seed) throws Exception
     {
